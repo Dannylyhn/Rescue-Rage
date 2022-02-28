@@ -1,5 +1,5 @@
 # Rescue Rage
-#To run this game:
+**To run this game:**
 - In intelliJ open build.gradle file in the project
 - Run DesktopLauncher
 
