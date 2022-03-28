@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Common/Common.iml" filepath="$PROJECT_DIR$/Common/Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Core/Core.iml" filepath="$PROJECT_DIR$/Core/Core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/application/RescueRage-app.iml" filepath="$PROJECT_DIR$/application/RescueRage-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/branding/RescueRage-branding.iml" filepath="$PROJECT_DIR$/branding/RescueRage-branding.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RescueRage-parent.iml" filepath="$PROJECT_DIR$/RescueRage-parent.iml" />
+    </modules>
+  </component>
+</project>
