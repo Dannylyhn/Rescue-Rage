@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.common.util;
+package dk.sdu.mmmi.sem.common.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

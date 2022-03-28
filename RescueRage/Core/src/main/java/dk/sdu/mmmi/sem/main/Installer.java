@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.main;
+package dk.sdu.mmmi.sem.main;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
