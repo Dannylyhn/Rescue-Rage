@@ -61,8 +61,8 @@
     <modules>
         <module>branding</module>
         <module>application</module>
-        <module>../Common</module>
-        <module>../Core</module>
+        <module>Core</module>
+        <module>Common</module>
     </modules>
 
     <properties>

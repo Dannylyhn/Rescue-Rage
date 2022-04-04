@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="dk.sdu.mmmi.sem.Common">
-    <module_version install_time="1648490468882" last="true" origin="installer" specification_version="1.0">
-        <file crc="4007690861" name="config/Modules/dk-sdu-mmmi-sem-Common.xml"/>
-        <file crc="1318836926" name="modules/dk-sdu-mmmi-sem-Common.jar"/>
-    </module_version>
-</module>
