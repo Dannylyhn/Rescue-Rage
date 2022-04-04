@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>dk.sdu.mmmi.sem</groupId>
+        <groupId>rescuerage</groupId>
         <artifactId>RescueRage-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -16,14 +16,6 @@
                 <groupId>org.apache.netbeans.utilities</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
                 <extensions>true</extensions>
-                <configuration>
-                    <publicPackages>
-                        <publicPackage>dk.sdu.mmmi.cbse.common.data</publicPackage>
-                        <publicPackage>dk.sdu.mmmi.cbse.common.data.entityparts</publicPackage>
-                        <publicPackage>dk.sdu.mmmi.cbse.common.events</publicPackage>
-                        <publicPackage>dk.sdu.mmmi.cbse.common.services</publicPackage>
-                    </publicPackages>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -32,6 +24,19 @@
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>nbm-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <publicPackages>
+                        <publicPackage>rescuerage.common.data</publicPackage>
+                        <publicPackage>rescuerage.common.data.entityparts</publicPackage>
+                        <publicPackage>rescuerage.common.events</publicPackage>
+                        <publicPackage>rescuerage.common.services</publicPackage>
+                    </publicPackages>
                 </configuration>
             </plugin>
         </plugins>
