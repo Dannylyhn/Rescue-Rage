@@ -11,7 +11,27 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author jcs
  */
 public class World {
+    //String with weapon needs to be changed with inventory    
+    private String[] weapons = new String[3];
+    public String[] getWeapons() {
+        return weapons;
+    }
+    public void setWeapons(String[] weapons) {
+        this.weapons = weapons;
+    }
+    
+    public String weapon;
 
+    public String getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(String weapon) {
+        this.weapon = weapon;
+    }
+    
+    
+    
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
 
     public String addEntity(Entity entity) {
