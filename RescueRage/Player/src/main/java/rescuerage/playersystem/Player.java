@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dk.sdu.mmmi.cbse.playersystem;
+package rescuerage.playersystem;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
+import rescuerage.common.data.Entity;
 
 /**
  *

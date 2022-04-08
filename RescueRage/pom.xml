@@ -68,6 +68,7 @@
         <module>Weapon</module>
         <module>CommonWeapon</module>
         <module>Player</module>
+        <module>Map</module>
     </modules>
 
     <properties>

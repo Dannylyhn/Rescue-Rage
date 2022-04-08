@@ -1,14 +1,13 @@
-package dk.sdu.mmmi.cbse.playersystem;
+package rescuerage.playersystem;
 
-import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.GameKeys;
-import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
-import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
-import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
-import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import rescuerage.common.data.Entity;
+import rescuerage.common.data.GameData;
+import rescuerage.common.data.GameKeys;
+import rescuerage.common.data.World;
+import rescuerage.common.data.entityparts.LifePart;
+import rescuerage.common.data.entityparts.MovingPart;
+import rescuerage.common.data.entityparts.PositionPart;
+import rescuerage.common.services.IEntityProcessingService;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -29,17 +28,18 @@ public class PlayerControlSystem implements IEntityProcessingService {
             movingPart.setRight(gameData.getKeys().isDown(GameKeys.RIGHT));
             movingPart.setUp(gameData.getKeys().isDown(GameKeys.UP));
 
-            if (gameData.getKeys().isDown(GameKeys.SPACE)) {
-                Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(player, gameData);
-                world.addEntity(bullet);
-            }
-
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
             lifePart.process(gameData, player);
 
             updateShape(player);
-
+            
+           
+            //This should be inventory instead
+            Entity weapon = world.getEntity(world.getWeapon());
+            PositionPart weaponPos = weapon.getPart(PositionPart.class);
+            weaponPos.setPosition(positionPart.getX(), positionPart.getY());
+            weaponPos.setRadians(positionPart.getRadians());
         }
     }
 

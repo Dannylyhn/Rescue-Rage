@@ -18,16 +18,13 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
-
-
 /**
  *
  * @author dan
  */
 @ServiceProviders(value = {
-        @ServiceProvider(service = IEntityProcessingService.class),
-        @ServiceProvider(service = WeaponSPI.class)})
-public class WeaponControlSystem implements IEntityProcessingService, WeaponSPI {
+        @ServiceProvider(service = IEntityProcessingService.class)})
+public class WeaponControlSystem implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
         
@@ -89,15 +86,5 @@ public class WeaponControlSystem implements IEntityProcessingService, WeaponSPI 
 
         entity.setShapeX(shapex);
         entity.setShapeY(shapey);
-    }
-
-    //Method so the player can hold the weapon.
-    @Override
-    public void holdWeapon(Entity player, Entity weapon) {
-        PositionPart playerPosition = player.getPart(PositionPart.class);
-        PositionPart weaponPosition = weapon.getPart(PositionPart.class);
-        
-        weaponPosition.setPosition(playerPosition.getX(), playerPosition.getY());
-        weaponPosition.setRadians(playerPosition.getRadians());
     }
 }

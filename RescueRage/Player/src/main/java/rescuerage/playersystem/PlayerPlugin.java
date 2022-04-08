@@ -1,12 +1,12 @@
-package dk.sdu.mmmi.cbse.playersystem;
+package rescuerage.playersystem;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
-import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
-import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
-import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import rescuerage.common.data.Entity;
+import rescuerage.common.data.GameData;
+import rescuerage.common.data.World;
+import rescuerage.common.data.entityparts.LifePart;
+import rescuerage.common.data.entityparts.MovingPart;
+import rescuerage.common.data.entityparts.PositionPart;
+import rescuerage.common.services.IGamePluginService;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 

@@ -12,9 +12,6 @@ import rescuerage.common.data.World;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.PositionPart;
 
-
-
-
 /**
  *
  * @author dan
@@ -25,11 +22,11 @@ public class WeaponPlugin implements IGamePluginService {
     
     private Entity weapon;
 
-
     @Override
     public void start(GameData gameData, World world) {
         weapon = createWeapon(gameData);
         world.addEntity(weapon);
+        world.setWeapon(weapon.getID());
     }
     
     private Entity createWeapon(GameData gameData)
@@ -42,6 +39,7 @@ public class WeaponPlugin implements IGamePluginService {
         weapon.setRadius(8);
         
         float[] sprayPattern = {-6,6,6};
+        //Bullets per shot, ammo, spray pattern
         weapon.add(new GunPart(3,100, sprayPattern));
         weapon.add(new PositionPart(x,y,radians));
         

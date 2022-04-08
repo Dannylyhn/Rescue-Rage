@@ -9,7 +9,4 @@ import rescuerage.common.data.Entity;
  * @author dan
  */
 public interface WeaponSPI {
-    void holdWeapon(Entity player, Entity weapon);
-    
-    
 }
