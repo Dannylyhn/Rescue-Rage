@@ -24,12 +24,21 @@ public class WeaponPlugin implements IGamePluginService {
 
     @Override
     public void start(GameData gameData, World world) {
-        weapon = createWeapon(gameData);
+        //Gunpart = Bulletspershot, ammo, spraypattern
+        weapon = createWeapon(gameData, new GunPart(1,10000, new float[]{0}));
         world.addEntity(weapon);
-        world.setWeapon(weapon.getID());
+        world.getWeapons()[0] = weapon.getID();
+        
+        weapon = createWeapon(gameData, new GunPart(3,10000, new float[]{-6,6,6}));
+        world.addEntity(weapon);
+        world.getWeapons()[1] = weapon.getID();
+        
+        weapon = createWeapon(gameData, new GunPart(6,10000, new float[]{-9,9,9,9,9,9}));
+        world.addEntity(weapon);
+        world.getWeapons()[2] = weapon.getID();
     }
     
-    private Entity createWeapon(GameData gameData)
+    private Entity createWeapon(GameData gameData, GunPart gunPart)
     { 
         float x = gameData.getDisplayWidth() / 2;
         float y = gameData.getDisplayHeight() / 2;
@@ -38,9 +47,7 @@ public class WeaponPlugin implements IGamePluginService {
         Entity weapon = new Weapon();
         weapon.setRadius(8);
         
-        float[] sprayPattern = {-6,6,6};
-        //Bullets per shot, ammo, spray pattern
-        weapon.add(new GunPart(3,100, sprayPattern));
+        weapon.add(gunPart);
         weapon.add(new PositionPart(x,y,radians));
         
         return weapon;
