@@ -24,7 +24,7 @@ public class EnemyPlugin implements IGamePluginService {
 
     @Override
     public void start(GameData gameData, World world) {
-        int amountOfEnemies = 5;
+        int amountOfEnemies = 50;
         // Add entities to the world
         
         for(int i  = 0; i<amountOfEnemies;i++){
@@ -71,7 +71,6 @@ public class EnemyPlugin implements IGamePluginService {
         enemyShip.setRadius(8);
         enemyShip.add(new MovingPart(maxSpeed));
         enemyShip.add(new PositionPart(x, y, radians));
-        Texture enemyImage = new Texture("");
      
 
         return enemyShip;
