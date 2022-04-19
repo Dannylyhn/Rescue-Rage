@@ -7,6 +7,7 @@ import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
 import rescuerage.common.data.entityparts.PositionPart;
+import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.services.IPostEntityProcessingService;
 import org.openide.util.lookup.ServiceProvider;
 //import rescuerage.map
@@ -27,41 +28,66 @@ public class CollisionHandler implements IPostEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
-        world.getEntities().forEach(e1 -> world.getEntities().forEach(e2 -> {
-            if (isIgnoredEntity(e1,e2) || isSameEntityType(e1, e2) || !isCollision(e1, e2)) {
+        world.getCollisionEntities().forEach(e1 -> world.getCollisionEntities().forEach(e2 -> {
+            if(ignoreWalkableTiles(e1,e2)){
                 return;
             }
+            if(!e1.getClass().getSimpleName().equals("Map") || !e2.getClass().getSimpleName().equals("Map")){
+                if (isIgnoredEntity(e1,e2) || isSameEntityType(e1, e2) || !isCollision(e1, e2)) {
+                    return;
+                }
+
+                if(e1.getClass().getSimpleName().equals("Map")){
+                    TilePart tile = e1.getPart(TilePart.class);
+                    if(tile.getType().equals("door")){
+                        System.out.println("Colliding with door");
+                    }
+                }
+                System.out.println("Collision detected");
+                System.out.println("Entity 1: " + e1.getID() + " (" + e1.getClass().getSimpleName() + ")");
+                System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");
 
 
-            System.out.println("Collision detected");
-            System.out.println("Entity 1: " + e1.getID() + " (" + e1.getClass().getSimpleName() + ")");
-            System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");
-            
-            
-            if (e1.getClass().getSimpleName().equals("Map")) {
-                if (e2.getClass().getSimpleName().equals("Player")) {
-                    unWalkable(e1,e2);
-                }
-                //world.removeEntity(e1);
-                return;
-            }
-            if (e2.getClass().getSimpleName().equals("Map")) {
-                if (e1.getClass().getSimpleName().equals("Player")) {
-                    unWalkable(e2,e1);
-                }
-                //world.removeEntity(e1);
-                return;
-            }
-            
-            if (e1.getClass().getSimpleName().equals("Bullet")) {
-                if (e2.getClass().getSimpleName().equals("Player")) {
-                    
-                }
-                else{
+                if (e1.getClass().getSimpleName().equals("Map")) {
+                    if (e2.getClass().getSimpleName().equals("Player")) {
+                        TilePart tile = e1.getPart(TilePart.class);
+                        if(tile.getType().equals("box")){
+                            unWalkable(e2,e1);
+                        }
+                        else{
+                            unWalkable(e1,e2);
+                        }
+                    }
                     //world.removeEntity(e1);
                     //return;
                 }
+                if (e2.getClass().getSimpleName().equals("Map")) {
+                    if (e1.getClass().getSimpleName().equals("Player")) {
+                        //unWalkable(e2,e1);
+                        TilePart tile = e2.getPart(TilePart.class);
+                        if(tile.getType().equals("box")){
+                            unWalkable(e1,e2);
+                        }
+                        else{
+                            unWalkable(e2,e1);
+                        }
+                    }
+                    //world.removeEntity(e1);
+                    //return;
+                }
+
+                if (e1.getClass().getSimpleName().equals("Bullet")) {
+                    if (e2.getClass().getSimpleName().equals("Player")) {
+
+                    }
+                    else{
+                        world.removeEntity(e1);
+                        //return;
+                    }
+                }
+                
             }
+           
             
         }));
     }
@@ -100,7 +126,31 @@ public class CollisionHandler implements IPostEntityProcessingService {
             }
         }
     }
-
+    private boolean ignoreWalkableTiles(Entity e1, Entity e2){
+        if (e1.getClass().getSimpleName().equals("Map")) {
+            TilePart tile1 = e1.getPart(TilePart.class);
+            switch(tile1.getType()){
+                case "wall":
+                    return false;
+                case "door":
+                    return !tile1.locked;
+                case "floor":
+                    return true;
+            }
+        }
+        if (e2.getClass().getSimpleName().equals("Map")) {
+            TilePart tile2 = e2.getPart(TilePart.class);
+            switch(tile2.getType()){
+                case "wall":
+                    return false;
+                case "door":
+                    return !tile2.locked;
+                case "floor":
+                    return true;
+            }
+        }
+        return false;
+    }
     private boolean isIgnoredEntity(Entity e1, Entity e2) {
         return
             ignoredEntities.contains(e1.getClass().getSimpleName()) ||

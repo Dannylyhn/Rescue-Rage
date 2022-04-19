@@ -10,6 +10,7 @@ import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
 import rescuerage.common.data.entityparts.PositionPart;
+import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.services.IGamePluginService;
 
 /**
@@ -63,6 +64,8 @@ public class MapPlugin implements  IGamePluginService{
     }
     
     private void createRoom(int k, int l){
+        createTile(60, 60, tileSize/2, "box");
+        
         // set tiles from left to right
         for(int i = tileSize/2; i < WIDTH; i+=tileSize){
             // set tiles from top to bottom
@@ -79,53 +82,57 @@ public class MapPlugin implements  IGamePluginService{
                     }
                     // if the tile is not at the center of a wall
                     else if((i!=WIDTH/2 && j!=HEIGHT/2)){
-                        createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2);
+                        createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "wall");
                     }
+                    else{
+                        // door
+                        createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "door");
+                    }
+                    
                     // if a room is at the edge of the house (no doors at the edges)
-                    else if( (k == houseH-1 || k == 0) || (l == houseW-1 || l == 1) ){
+                    if( (k == houseH-1 || k == 0) || (l == houseW-1 || l == 1) ){
                         // if the room is at the bottom and the tile is at the bottom 
                         if((j==tileSize/2 && k == 0))
-                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2);
+                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "wall");
                         // if the room is at the top and the tile is at the top
                         else if((j==HEIGHT-tileSize/2 && k == houseH-1))
-                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2);
+                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "wall");
                         // if the room is at the left and the tile is at the left
                         else if((i==tileSize/2 && l == 1)){
                             if(k!=0) // enter house
-                                createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2);
+                                createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "wall");
                         }
                         // close of the starting area, but not the house door
                         else if(l==0 && i!=WIDTH-tileSize/2){
-                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2);
+                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "wall");
                         }
                         // if the room is at the right and the tile is at the right
                         else if((i == WIDTH-tileSize/2 && l == houseW-1)){
                             if(k!=0) // enter boos
-                                createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2);
+                                createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "wall");
                         }
                         // close of the boss area, but not the boss door
                         else if(l==houseW && i != tileSize/2){
-                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2);
+                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "wall");
                         }
-                    }
-                    else{
-                        // door
                     }
                     
                 }
                 else{
                     // floor
+                    createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "floor");
                 }
             }
         }
     }
     
-    private Entity createTile(float x, float y, float size){
+    private Entity createTile(float x, float y, float size, String type){
         Entity map = new Map();
         
         map.setRadius(size);
         
         map.add(new PositionPart(x,y,0));
+        map.add(new TilePart(type));
         world.addEntity(map);
         return map;
     }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import rescuerage.common.data.entityparts.TilePart;
 
 /**
  *
@@ -33,22 +34,41 @@ public class World {
     
     
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
+    private final Map<String, Entity> collisionMap = new ConcurrentHashMap<>();
 
     public String addEntity(Entity entity) {
         entityMap.put(entity.getID(), entity);
+        if(ignoreWalkableTiles(entity)){
+            collisionMap.put(entity.getID(), entity);
+        }
         return entity.getID();
+    }
+    private boolean ignoreWalkableTiles(Entity e1){
+        if (e1.getClass().getSimpleName().equals("Map")) {
+            TilePart tile1 = e1.getPart(TilePart.class);
+            if(tile1.getType().equals("floor")){
+                return false;
+            }
+            return true;
+        }
+        return true;
     }
 
     public void removeEntity(String entityID) {
         entityMap.remove(entityID);
+        collisionMap.remove(entityID);
     }
 
     public void removeEntity(Entity entity) {
         entityMap.remove(entity.getID());
+        collisionMap.remove(entity.getID());
     }
 
     public Collection<Entity> getEntities() {
         return entityMap.values();
+    }
+    public Collection<Entity> getCollisionEntities() {
+        return collisionMap.values();
     }
 
     public <E extends Entity> List<Entity> getEntities(Class<E>... entityTypes) {
@@ -65,6 +85,9 @@ public class World {
 
     public Entity getEntity(String ID) {
         return entityMap.get(ID);
+    }
+    public Entity getCollisionEntity(String ID) {
+        return collisionMap.get(ID);
     }
 
 }

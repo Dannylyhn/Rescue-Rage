@@ -18,6 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import rescuerage.common.data.entityparts.TilePart;
 
 public class Game implements ApplicationListener {
 
@@ -64,6 +65,7 @@ public class Game implements ApplicationListener {
 
         update();
         draw();
+        postUpdate();
     }
 
     private void update() {
@@ -73,14 +75,32 @@ public class Game implements ApplicationListener {
         }
 
         // Post Update
+        /*for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+            postEntityProcessorService.process(gameData, world);
+        }*/
+    }
+    private void postUpdate(){
+        // Post Update
         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
         }
     }
 
     private void draw() {
-        for (Entity entity : world.getEntities()) {
-            sr.setColor(1, 1, 1, 1);
+        for (Entity entity : world.getCollisionEntities()) {
+            if(entity.getClass().getSimpleName().equals("Map")){
+                TilePart tile = entity.getPart(TilePart.class);
+                if(tile.getType().equals("door")){
+                    //System.out.println("Colliding with door");
+                    sr.setColor(0, 1, 0, 0);
+                }
+                else{
+                    sr.setColor(0, 0, 1, 0);
+                }
+            }
+            else{
+                sr.setColor(1, 1, 1, 1);
+            }
 
             sr.begin(ShapeRenderer.ShapeType.Line);
 

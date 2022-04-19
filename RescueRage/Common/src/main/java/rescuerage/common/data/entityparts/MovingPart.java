@@ -93,10 +93,10 @@ public class MovingPart
 
         // accelerating            
         if (up) {
-            x += cos(radians) * acceleration * dt;
-            y += sin(radians) * acceleration * dt;
+            dx += cos(radians) * acceleration * dt;
+            dy += sin(radians) * acceleration * dt;
         }
-/*
+
         // deccelerating
         float vec = (float) sqrt(dx * dx + dy * dy);
         if (vec > 0) {
@@ -107,16 +107,16 @@ public class MovingPart
             dx = (dx / vec) * maxSpeed;
             dy = (dy / vec) * maxSpeed;
         }
-*/
+
         // set position
-        //x += dx * dt;
+        x += dx * dt;
         if (x > gameData.getDisplayWidth()) {
             x = 0;
         } else if (x < 0) {
             x = gameData.getDisplayWidth();
         }
 
-        //y += dy * dt;
+        y += dy * dt;
         if (y > gameData.getDisplayHeight()) {
             y = 0;
         } else if (y < 0) {
