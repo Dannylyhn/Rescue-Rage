@@ -22,11 +22,19 @@ public class MapProcessor implements IEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
+        for(java.util.Map<String, Entity> entityMap : world.getRooms()){
+            //System.out.println("draw 2");
+            for (Entity entity : entityMap.values()) {
+                setShape(entity);
+            }
+        }
+        /*
         for (Entity map : world.getEntities(Map.class)) {
             //PositionPart positionPart = map.getPart(PositionPart.class);
             
             setShape(map);
         }
+        */
     }
     
     private void setShape(Entity entity) {
