@@ -13,6 +13,7 @@ import rescuerage.common.data.GameData;
  */
 public class GunPart implements EntityPart{
     
+    public boolean equipped = false;
     public int bulletsPerShot;
     public int ammo;
     public float[] sprayPattern;
@@ -22,6 +23,8 @@ public class GunPart implements EntityPart{
         this.ammo = ammo;
         this.sprayPattern = sprayPattern;
     }
+    
+    
     
     public int getBulletsPerShot() {
         return bulletsPerShot;
@@ -50,6 +53,15 @@ public class GunPart implements EntityPart{
     public void setSprayPattern(float[] sprayPattern) {
         this.sprayPattern = sprayPattern;
     }
+
+    public boolean isEquipped() {
+        return equipped;
+    }
+
+    public void setEquipped(boolean equipped) {
+        this.equipped = equipped;
+    }
+    
 
     @Override
     public void process(GameData gameData, Entity entity) {
