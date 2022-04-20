@@ -67,7 +67,7 @@ public class Game implements ApplicationListener {
 
         update();
         draw();
-        postUpdate();
+        //postUpdate();
     }
 
     private void update() {
@@ -77,9 +77,9 @@ public class Game implements ApplicationListener {
         }
 
         // Post Update
-        /*for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
-        }*/
+        }
     }
     private void postUpdate(){
         // Post Update
@@ -91,7 +91,7 @@ public class Game implements ApplicationListener {
     private void draw() {
         //System.out.println("draw 1");
         //for(Map<String, Entity> entityMap : world.getRooms()){
-        for(int ii = 0; ii < world.getRooms().size()/2; ii++){
+        for(int ii = 0; ii < world.getRooms().size(); ii++){
             //System.out.println("draw 2");
             for (Entity entity : world.getRooms().get(ii).values()) {
                 //System.out.println("draw 3");
@@ -133,8 +133,8 @@ public class Game implements ApplicationListener {
                 sr.end();
             }
         }
-        /*
-            for (Entity entity : world.getCollisionEntities()) {
+        
+        for (Entity entity : world.getCollisionEntities()) {
             if(entity.getClass().getSimpleName().equals("Map")){
                 TilePart tile = entity.getPart(TilePart.class);
                 if(tile.getType().equals("door")){
@@ -167,7 +167,7 @@ public class Game implements ApplicationListener {
             }
 
             sr.end();
-        }*/
+        }
     }
 
     @Override

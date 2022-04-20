@@ -167,23 +167,19 @@ public class MapPlugin implements  IGamePluginService{
         Entity map = new Map();
         
         map.setRadius(size);
-        System.out.println("x: " + x);
-        System.out.println("y: " + y);
+        //System.out.println("x: " + x);
+        //System.out.println("y: " + y);
         map.add(new PositionPart(x,y,0));
         map.add(new TilePart(type));
         if(type.equals("box")){
-            map.add(new LifePart(10));
+            map.add(new LifePart(1));
         }
+        world.addEntity(map);
         addEntity(map, roomEntityMap);
         return map;
     }
     
     public String addEntity(Entity entity, java.util.Map<String, Entity> roomEntityMap) {
-        
-        float[] shapex = entity.getShapeX();
-        float[] shapey = entity.getShapeY();
-        System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[0] +" "+ shapey[0] +" "+ shapex[1] +" "+ shapey[1]);
-                
         roomEntityMap.put(entity.getID(), entity);
         /*if(ignoreWalkableTiles(entity)){
             collisionMap.put(entity.getID(), entity);

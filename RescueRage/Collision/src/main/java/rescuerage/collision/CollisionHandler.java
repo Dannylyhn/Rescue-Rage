@@ -17,6 +17,7 @@ import org.openide.util.lookup.ServiceProvider;
  */
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import rescuerage.common.data.entityparts.LifePart;
 
 @ServiceProvider(service = IPostEntityProcessingService.class)
@@ -44,9 +45,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         System.out.println("Colliding with door");
                     }
                 }
-                /*System.out.println("Collision detected");
+                System.out.println("Collision detected");
                 System.out.println("Entity 1: " + e1.getID() + " (" + e1.getClass().getSimpleName() + ")");
-                System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");*/
+                System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");
 
 
                 if (e1.getClass().getSimpleName().equals("Map")) {
@@ -84,6 +85,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     else if(e2.getClass().getSimpleName().equals("Map")){
                         TilePart tp = e2.getPart(TilePart.class);
                         if(tp.type.equals("box")){
+                            System.out.println("\nhere\n\nhere\n\nhere\n");
                             LifePart l = e2.getPart(LifePart.class);
                             System.out.println("pre hit: life int: " + l.getLife() + " | dead: " + l.isDead());
                             l.hit(1);
