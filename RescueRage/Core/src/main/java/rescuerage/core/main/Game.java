@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
@@ -18,14 +19,22 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import rescuerage.common.data.entityparts.PositionPart;
 
 public class Game implements ApplicationListener {
 
-    private static OrthographicCamera cam;
+    public static OrthographicCamera cam;
     private ShapeRenderer sr;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = new World();
+    
+    private Entity player;
+    private PositionPart positionPart;
+    private float radians;
+
+
+    
     private List<IGamePluginService> gamePlugins = new CopyOnWriteArrayList<>();
     private Lookup.Result<IGamePluginService> result;
 
@@ -35,12 +44,14 @@ public class Game implements ApplicationListener {
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
 
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
+//        cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
+
         cam.update();
 
         sr = new ShapeRenderer();
 
         Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
+        
 
         result = lookup.lookupResult(IGamePluginService.class);
         result.addLookupListener(lookupListener);
@@ -50,6 +61,9 @@ public class Game implements ApplicationListener {
             plugin.start(gameData, world);
             gamePlugins.add(plugin);
         }
+        
+        player = world.getEntity(world.getPlayerID());
+        positionPart = player.getPart(PositionPart.class);
     }
 
     @Override
@@ -61,7 +75,18 @@ public class Game implements ApplicationListener {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
         
-
+//        System.out.println("X: " + positionPart.getX() + " Y:" + positionPart.getY());
+        cam.position.x = positionPart.getX();
+        cam.position.y = positionPart.getY();
+        cam.update();
+        System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
+        System.out.println(cam.position);
+        
+        Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
+        radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
+        positionPart.setRadians(radians);
+        
         update();
         draw();
     }
@@ -73,13 +98,15 @@ public class Game implements ApplicationListener {
         }
 
         // Post Update
-        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-            postEntityProcessorService.process(gameData, world);
-        }
+//        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+//            postEntityProcessorService.process(gameData, world);
+//        }
     }
 
     private void draw() {
         for (Entity entity : world.getEntities()) {
+            sr.setProjectionMatrix(cam.combined);
+            
             sr.setColor(1, 1, 1, 1);
 
             sr.begin(ShapeRenderer.ShapeType.Line);

@@ -27,9 +27,9 @@ public class PlayerControlSystem implements IEntityProcessingService {
             LifePart lifePart = player.getPart(LifePart.class);
             LoadoutPart loadoutPart = player.getPart(LoadoutPart.class);
 
-            movingPart.setLeft(gameData.getKeys().isDown(GameKeys.LEFT));
-            movingPart.setRight(gameData.getKeys().isDown(GameKeys.RIGHT));
-            movingPart.setUp(gameData.getKeys().isDown(GameKeys.UP));
+            movingPart.setLeft(gameData.getKeys().isDown(GameKeys.A));
+            movingPart.setRight(gameData.getKeys().isDown(GameKeys.D));
+            movingPart.setUp(gameData.getKeys().isDown(GameKeys.W));
             
             loadoutPart.setQ(gameData.getKeys().isDown(GameKeys.Q));
             loadoutPart.setE(gameData.getKeys().isDown(GameKeys.E));
@@ -49,46 +49,10 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 weaponPos.setRadians(positionPart.getRadians()); 
             }
             
-//            if(gameData.getKeys().isDown(GameKeys.Q))
-//            {
-//                //Current weapon set to false.
-//                Entity currentWeapon = loadoutPart.currentWeapon;
-//                GunPart gunPart = currentWeapon.getPart(GunPart.class);
-//                gunPart.setEquipped(false);
-//                int indexOfCurrentWeapon = loadoutPart.getWeapons().indexOf(currentWeapon);
-//
-//                
-//                //Get the previous weapon, set it to true and to new current weapon. 
-//                int indexOfPreviousWeapon = indexOfCurrentWeapon-1;
-//                if(indexOfPreviousWeapon < 0)
-//                {
-//                    indexOfPreviousWeapon = 2;
-//                }
-//                
-//                Entity previousWeapon = loadoutPart.getWeapons().get(indexOfPreviousWeapon);
-//                gunPart = previousWeapon.getPart(GunPart.class);
-//                gunPart.setEquipped(true);
-//                loadoutPart.setCurrentWeapon(previousWeapon);
-//            }
-//            
-//            if(gameData.getKeys().isDown(GameKeys.E))
-//            {
-//                //Current weapon set to false.
-//                Entity currentWeapon = loadoutPart.currentWeapon;
-//                GunPart gunPart = currentWeapon.getPart(GunPart.class);
-//                gunPart.setEquipped(false);
-//                int indexOfCurrentWeapon = loadoutPart.getWeapons().indexOf(currentWeapon);
-//                int lengthOfLoadout = loadoutPart.getWeapons().size();
-//
-//                
-//                //Get the next weapon, set it to true and to new current weapon. 
-//                Entity previousWeapon = loadoutPart.getWeapons().get((indexOfCurrentWeapon+1)%lengthOfLoadout);
-//                gunPart = previousWeapon.getPart(GunPart.class);
-//                gunPart.setEquipped(true);
-//                loadoutPart.setCurrentWeapon(previousWeapon);
-//            }
         }
+        
     }
+    
     
     private void updateShape(Entity entity) {
         float[] shapex = new float[4];
