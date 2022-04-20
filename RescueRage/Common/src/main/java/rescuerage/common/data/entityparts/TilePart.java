@@ -19,7 +19,8 @@ public class TilePart implements EntityPart{
     public TilePart(String type) {
         this.type = type;
         // if door then lock
-        locked = type.equals("door");
+        //locked = type.equals("door");
+        locked = false;
     }
     
     public String getType() {

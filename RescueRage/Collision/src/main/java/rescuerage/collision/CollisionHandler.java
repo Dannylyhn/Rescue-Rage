@@ -17,6 +17,7 @@ import org.openide.util.lookup.ServiceProvider;
  */
 
 import java.util.*;
+import rescuerage.common.data.entityparts.LifePart;
 
 @ServiceProvider(service = IPostEntityProcessingService.class)
 public class CollisionHandler implements IPostEntityProcessingService {
@@ -43,9 +44,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         System.out.println("Colliding with door");
                     }
                 }
-                System.out.println("Collision detected");
+                /*System.out.println("Collision detected");
                 System.out.println("Entity 1: " + e1.getID() + " (" + e1.getClass().getSimpleName() + ")");
-                System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");
+                System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");*/
 
 
                 if (e1.getClass().getSimpleName().equals("Map")) {
@@ -79,6 +80,19 @@ public class CollisionHandler implements IPostEntityProcessingService {
                 if (e1.getClass().getSimpleName().equals("Bullet")) {
                     if (e2.getClass().getSimpleName().equals("Player")) {
 
+                    }
+                    else if(e2.getClass().getSimpleName().equals("Map")){
+                        TilePart tp = e2.getPart(TilePart.class);
+                        if(tp.type.equals("box")){
+                            LifePart l = e2.getPart(LifePart.class);
+                            System.out.println("pre hit: life int: " + l.getLife() + " | dead: " + l.isDead());
+                            l.hit(1);
+                            System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
+                            if(l.isDead()){
+                                world.removeEntity(e2);
+                            }
+                        }
+                        world.removeEntity(e1);
                     }
                     else{
                         world.removeEntity(e1);

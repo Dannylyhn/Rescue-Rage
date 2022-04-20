@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import java.util.ArrayList;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
@@ -14,6 +15,7 @@ import rescuerage.common.services.IPostEntityProcessingService;
 import rescuerage.core.managers.GameInputProcessor;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -87,12 +89,62 @@ public class Game implements ApplicationListener {
     }
 
     private void draw() {
-        for (Entity entity : world.getCollisionEntities()) {
+        //System.out.println("draw 1");
+        //for(Map<String, Entity> entityMap : world.getRooms()){
+        for(int ii = 0; ii < world.getRooms().size()/2; ii++){
+            //System.out.println("draw 2");
+            for (Entity entity : world.getRooms().get(ii).values()) {
+                //System.out.println("draw 3");
+                if(entity.getClass().getSimpleName().equals("Map")){
+                    //System.out.println("draw 4");
+                    TilePart tile = entity.getPart(TilePart.class);
+                    if(tile.getType().equals("door")){
+                        //System.out.println("draw door");
+                        //System.out.println("Colliding with door");
+                        if(tile.locked){
+                            sr.setColor(1, 0, 0, 0);
+                        }
+                        else{
+                            //System.out.println("draw wall");
+                            sr.setColor(0, 1, 0, 0);
+                        }
+                    }
+                    else{
+                        sr.setColor(0, 0, 1, 0);
+                    }
+                }
+                else{
+                    sr.setColor(1, 1, 1, 1);
+                }
+
+                sr.begin(ShapeRenderer.ShapeType.Line);
+
+                float[] shapex = entity.getShapeX();
+                float[] shapey = entity.getShapeY();
+
+                for (int i = 0, j = shapex.length - 1;
+                        i < shapex.length;
+                        j = i++) {
+                    //System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[i] +" "+ shapey[i] +" "+ shapex[j] +" "+ shapey[j]);
+
+                    sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+                }
+
+                sr.end();
+            }
+        }
+        /*
+            for (Entity entity : world.getCollisionEntities()) {
             if(entity.getClass().getSimpleName().equals("Map")){
                 TilePart tile = entity.getPart(TilePart.class);
                 if(tile.getType().equals("door")){
                     //System.out.println("Colliding with door");
-                    sr.setColor(0, 1, 0, 0);
+                    if(tile.locked){
+                        sr.setColor(1, 0, 0, 0);
+                    }
+                    else{
+                        sr.setColor(0, 1, 0, 0);
+                    }
                 }
                 else{
                     sr.setColor(0, 0, 1, 0);
@@ -115,7 +167,7 @@ public class Game implements ApplicationListener {
             }
 
             sr.end();
-        }
+        }*/
     }
 
     @Override

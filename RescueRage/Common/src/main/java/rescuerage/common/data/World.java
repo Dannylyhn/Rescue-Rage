@@ -31,11 +31,34 @@ public class World {
         this.weapon = weapon;
     }
     
+    public int level = 1;
     
+    public int houseH = 3;
+    public int houseW = 2;
+    public int roomH = 9; // must be uneven number, because the doors are being set at the center of the wall
+    public int roomW = 11; // must be uneven number, because the doors are being set at the center of the wall
+    public int tileSize = 16; // must be even number, because the top and right rows are depending on it
+    public int WIDTH = roomW * tileSize;
+    public int HEIGHT = roomH * tileSize;
+    
+    
+    private final ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
     
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
     private final Map<String, Entity> collisionMap = new ConcurrentHashMap<>();
 
+    public void nextLevel(){
+        level = level + 1;
+        houseW = houseW + 1;
+        houseH = houseH + 1;
+    }
+    public void addRoom(Map<String, Entity> room){
+        roomMap.add(room);
+    }
+    public ArrayList<Map<String, Entity>> getRooms() {
+        return roomMap;
+    }
+    
     public String addEntity(Entity entity) {
         entityMap.put(entity.getID(), entity);
         if(ignoreWalkableTiles(entity)){
