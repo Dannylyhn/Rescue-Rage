@@ -5,7 +5,6 @@
 package rescuerage.weapon;
 
 import rescuerage.commonbullet.BulletSPI;
-import rescuerage.commonweapon.WeaponSPI;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
@@ -32,8 +31,9 @@ public class WeaponControlSystem implements IEntityProcessingService {
         {
             PositionPart positionPart = weapon.getPart(PositionPart.class);
             GunPart gunPart = weapon.getPart(GunPart.class);
-                        
-            if(gameData.getKeys().isDown(GameKeys.LEFTCLICK) && gunPart.getAmmo() != 0)
+            
+            //Needs to be equipped and have ammo before it can shoot. 
+            if(gunPart.equipped == true && gameData.getKeys().isDown(GameKeys.LEFTCLICK) && gunPart.getAmmo() != 0)
             {
                 shoot(weapon, gameData, world);
                 gunPart.minusAmmo();
