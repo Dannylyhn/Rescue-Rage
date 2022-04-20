@@ -5,7 +5,7 @@ public class GameKeys {
     private static boolean[] keys;
     private static boolean[] pkeys;
 
-    private static final int NUM_KEYS = 8;
+    private static final int NUM_KEYS = 11;
     public static final int UP = 0;
     public static final int LEFT = 1;
     public static final int DOWN = 2;
@@ -14,6 +14,9 @@ public class GameKeys {
     public static final int ESCAPE = 5;
     public static final int SPACE = 6;
     public static final int SHIFT = 7;
+    public static final int LEFTCLICK  = 8;
+    public static final int Q = 9;
+    public static final int E = 10;
 
     public GameKeys() {
         keys = new boolean[NUM_KEYS];
@@ -21,6 +24,7 @@ public class GameKeys {
 
     }
 
+ 
     public void update() {
         for (int i = 0; i < NUM_KEYS; i++) {
             pkeys[i] = keys[i];

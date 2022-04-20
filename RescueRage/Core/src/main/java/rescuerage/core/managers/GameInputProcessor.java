@@ -2,17 +2,42 @@ package rescuerage.core.managers;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Gdx; 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.GameKeys;
 
-public class GameInputProcessor extends InputAdapter {
+public class GameInputProcessor extends InputAdapter implements InputProcessor {
 
     private final GameData gameData;
 
     public GameInputProcessor(GameData gameData) {
         this.gameData = gameData;
     }
-
+    
+    @Override
+    public boolean touchDown(int x, int y, int pointer, int button)
+    {
+        if(button == Input.Buttons.LEFT)
+        {
+            gameData.getKeys().setKey(GameKeys.LEFTCLICK, true);
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean touchUp(int x, int y, int pointer, int button)
+    {
+        if(button == Input.Buttons.LEFT)
+        {
+            gameData.getKeys().setKey(GameKeys.LEFTCLICK, false);
+            return true;
+        }
+        return false;
+    }
+   
     public boolean keyDown(int k) {
         if (k == Keys.UP) {
             gameData.getKeys().setKey(GameKeys.UP, true);
@@ -37,6 +62,12 @@ public class GameInputProcessor extends InputAdapter {
         }
         if (k == Keys.SHIFT_LEFT || k == Keys.SHIFT_RIGHT) {
             gameData.getKeys().setKey(GameKeys.SHIFT, true);
+        }
+        if (k == Keys.Q) {
+            gameData.getKeys().setKey(GameKeys.Q, true);
+        }
+        if (k == Keys.E) {
+            gameData.getKeys().setKey(GameKeys.E, true);
         }
         return true;
     }
@@ -65,6 +96,12 @@ public class GameInputProcessor extends InputAdapter {
         }
         if (k == Keys.SHIFT_LEFT || k == Keys.SHIFT_RIGHT) {
             gameData.getKeys().setKey(GameKeys.SHIFT, false);
+        }
+        if (k == Keys.Q) {
+            gameData.getKeys().setKey(GameKeys.Q, false);
+        }
+        if (k == Keys.E) {
+            gameData.getKeys().setKey(GameKeys.E, false);
         }
         return true;
     }

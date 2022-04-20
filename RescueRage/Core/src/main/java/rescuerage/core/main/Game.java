@@ -60,6 +60,7 @@ public class Game implements ApplicationListener {
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
+        
 
         update();
         draw();
