@@ -92,6 +92,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
                             if(l.isDead()){
                                 world.removeEntity(e2);
+                                //world.
                             }
                         }
                         world.removeEntity(e1);

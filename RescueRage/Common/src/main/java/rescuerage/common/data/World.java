@@ -85,6 +85,14 @@ public class World {
     public void removeEntity(Entity entity) {
         entityMap.remove(entity.getID());
         collisionMap.remove(entity.getID());
+        
+        for(Map<String, Entity> entityMap : getRooms()){
+            System.out.println("1");
+            if(entityMap.containsValue(entity)){
+                System.out.println("2");
+                entityMap.remove(entity.getID());
+            }
+        }
     }
 
     public Collection<Entity> getEntities() {

@@ -36,11 +36,11 @@ public class Game implements ApplicationListener {
     public void create() {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
-
+/*
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
+        cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
-
+*/
         sr = new ShapeRenderer();
 
         Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
@@ -91,7 +91,7 @@ public class Game implements ApplicationListener {
     private void draw() {
         //System.out.println("draw 1");
         //for(Map<String, Entity> entityMap : world.getRooms()){
-        for(int ii = 0; ii < world.getRooms().size(); ii++){
+        for(int ii = 0; ii < world.getRooms().size()/2; ii++){
             //System.out.println("draw 2");
             for (Entity entity : world.getRooms().get(ii).values()) {
                 //System.out.println("draw 3");
@@ -135,8 +135,8 @@ public class Game implements ApplicationListener {
         }
         
         for (Entity entity : world.getCollisionEntities()) {
-            if(entity.getClass().getSimpleName().equals("Map")){
-                TilePart tile = entity.getPart(TilePart.class);
+            if(!entity.getClass().getSimpleName().equals("Map")){
+                /*TilePart tile = entity.getPart(TilePart.class);
                 if(tile.getType().equals("door")){
                     //System.out.println("Colliding with door");
                     if(tile.locked){
@@ -148,25 +148,24 @@ public class Game implements ApplicationListener {
                 }
                 else{
                     sr.setColor(0, 0, 1, 0);
-                }
-            }
-            else{
+                }*/
                 sr.setColor(1, 1, 1, 1);
+
+
+                sr.begin(ShapeRenderer.ShapeType.Line);
+
+                float[] shapex = entity.getShapeX();
+                float[] shapey = entity.getShapeY();
+
+                for (int i = 0, j = shapex.length - 1;
+                        i < shapex.length;
+                        j = i++) {
+
+                    sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+                }
+
+                sr.end();
             }
-
-            sr.begin(ShapeRenderer.ShapeType.Line);
-
-            float[] shapex = entity.getShapeX();
-            float[] shapey = entity.getShapeY();
-
-            for (int i = 0, j = shapex.length - 1;
-                    i < shapex.length;
-                    j = i++) {
-
-                sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
-            }
-
-            sr.end();
         }
     }
 
