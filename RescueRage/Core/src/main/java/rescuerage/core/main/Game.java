@@ -91,46 +91,82 @@ public class Game implements ApplicationListener {
     private void draw() {
         //System.out.println("draw 1");
         //for(Map<String, Entity> entityMap : world.getRooms()){
-        for(int ii = 0; ii < world.getRooms().size()/2; ii++){
+        //System.out.println("rooms: " + world.getHouseRooms().size());
+        int justOne = -1;
+        for(Entity e : world.getLevel().get(world.currentRoom).values()){
+            if(e.getClass().getSimpleName().equals("Map")){
+                    TilePart tile = e.getPart(TilePart.class);
+                    if(tile.getType().equals("roomInfo")){
+                        if(tile.getState().equals("unexplored"))
+                            justOne = world.currentRoom;
+                    }
+                }
+        }
+        for(int ii = 0; ii < world.getLevel().size(); ii++){
+            
+        //for(int ii = 0; ii < world.getHouseRooms().size(); ii++){
+            //if(ii==3){ii++;}
+        //for(int ii = 0; ii < 7; ii++){
             //System.out.println("draw 2");
-            for (Entity entity : world.getRooms().get(ii).values()) {
-                //System.out.println("draw 3");
+            boolean skip = false;
+            for (Entity entity : world.getLevel().get(ii).values()) {
                 if(entity.getClass().getSimpleName().equals("Map")){
-                    //System.out.println("draw 4");
                     TilePart tile = entity.getPart(TilePart.class);
-                    if(tile.getType().equals("door")){
-                        //System.out.println("draw door");
-                        //System.out.println("Colliding with door");
-                        if(tile.locked){
-                            sr.setColor(1, 0, 0, 0);
+                    if(tile.getType().equals("roomInfo")){
+                        if(tile.getState().equals("unexplored")){
+                            skip = true;
+                        }
+                    }
+                }
+            }
+            if(justOne!=-1){
+                ii = justOne;
+            }
+            
+            if(!skip){
+                for (Entity entity : world.getLevel().get(ii).values()) {
+                    //System.out.println("ii: " + ii);
+                    //System.out.println("draw 3");
+                    if(entity.getClass().getSimpleName().equals("Map")){
+                        //System.out.println("draw 4");
+                        TilePart tile = entity.getPart(TilePart.class);
+                        if(tile.getType().equals("door")){
+                            //System.out.println("draw door");
+                            //System.out.println("Colliding with door");
+                            if(tile.locked){
+                                sr.setColor(1, 0, 0, 0);
+                            }
+                            else{
+                                //System.out.println("draw wall");
+                                sr.setColor(0, 1, 0, 0);
+                            }
                         }
                         else{
-                            //System.out.println("draw wall");
-                            sr.setColor(0, 1, 0, 0);
+                            sr.setColor(0, 0, 1, 0);
                         }
                     }
                     else{
-                        sr.setColor(0, 0, 1, 0);
+                        sr.setColor(1, 1, 1, 1);
+                    }
+
+                    sr.begin(ShapeRenderer.ShapeType.Line);
+
+                    float[] shapex = entity.getShapeX();
+                    float[] shapey = entity.getShapeY();
+
+                    for (int i = 0, j = shapex.length - 1;
+                            i < shapex.length;
+                            j = i++) {
+                        //System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[i] +" "+ shapey[i] +" "+ shapex[j] +" "+ shapey[j]);
+
+                        sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+                    }
+
+                    sr.end();
+                    if(justOne!=-1){
+                        ii = world.getLevel().size();
                     }
                 }
-                else{
-                    sr.setColor(1, 1, 1, 1);
-                }
-
-                sr.begin(ShapeRenderer.ShapeType.Line);
-
-                float[] shapex = entity.getShapeX();
-                float[] shapey = entity.getShapeY();
-
-                for (int i = 0, j = shapex.length - 1;
-                        i < shapex.length;
-                        j = i++) {
-                    //System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[i] +" "+ shapey[i] +" "+ shapex[j] +" "+ shapey[j]);
-
-                    sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
-                }
-
-                sr.end();
             }
         }
         

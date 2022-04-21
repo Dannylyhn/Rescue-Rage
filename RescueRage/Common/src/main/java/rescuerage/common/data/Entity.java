@@ -13,6 +13,8 @@ public class Entity implements Serializable {
     private float[] shapeX = new float[4];
     private float[] shapeY = new float[4];
     private float radius;
+    private float sizeX;
+    private float sizeY;
     private Map<Class, EntityPart> parts;
 
     public Entity() {
@@ -37,6 +39,20 @@ public class Entity implements Serializable {
 
     public float getRadius() {
         return radius;
+    }
+    public void setSizeX(float r) {
+        this.sizeX = r;
+    }
+
+    public float getSizeX() {
+        return sizeX;
+    }
+    public void setSizeY(float r) {
+        this.sizeY = r;
+    }
+
+    public float getSizeY() {
+        return sizeY;
     }
 
     public String getID() {
