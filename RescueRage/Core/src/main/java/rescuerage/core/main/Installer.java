@@ -6,12 +6,14 @@ import org.openide.modules.ModuleInstall;
 
 public class Installer extends ModuleInstall {
 
-    private static Game g;
+    private static StartGame g;
+    private static GameScreen gm;
 
     @Override
     public void restored() {
 
-        g = new Game();
+        g = new StartGame();
+       
 
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "RescueRage";

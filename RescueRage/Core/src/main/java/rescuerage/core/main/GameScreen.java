@@ -1,7 +1,9 @@
 package rescuerage.core.main;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -24,7 +26,7 @@ import org.openide.util.LookupListener;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.TilePart;
 
-public class Game implements ApplicationListener {
+public class GameScreen extends Game implements Screen {
 
     public static OrthographicCamera cam;
     private ShapeRenderer sr;
@@ -35,11 +37,17 @@ public class Game implements ApplicationListener {
     private Entity player;
     private PositionPart positionPart;
     private float radians;
+    private Game game;
 
 
+
+    public GameScreen(Game game){
+        this.game = game;
+    }
     
     private List<IGamePluginService> gamePlugins = new CopyOnWriteArrayList<>();
     private Lookup.Result<IGamePluginService> result;
+
 
     @Override
     public void create() {
@@ -247,4 +255,39 @@ public class Game implements ApplicationListener {
             }
         }
     };
+
+    @Override
+    public void show() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void render(float f) {
+          // clear screen to black
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        gameData.setDelta(Gdx.graphics.getDeltaTime());
+        gameData.getKeys().update();
+        
+//        System.out.println("X: " + positionPart.getX() + " Y:" + positionPart.getY());
+        cam.position.x = positionPart.getX();
+        cam.position.y = positionPart.getY();
+        cam.update();
+        System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
+        System.out.println(cam.position);
+        
+        Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
+        radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
+        positionPart.setRadians(radians);
+        
+        update();
+        draw();
+    }
+
+    @Override
+    public void hide() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

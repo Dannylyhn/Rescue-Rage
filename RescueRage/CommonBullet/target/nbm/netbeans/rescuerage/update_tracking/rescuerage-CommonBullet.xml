@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.CommonBullet">
-    <module_version install_time="1650622935364" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1650634549608" last="true" origin="installer" specification_version="1.0">
         <file crc="438028628" name="config/Modules/rescuerage-CommonBullet.xml"/>
-        <file crc="79755854" name="modules/rescuerage-CommonBullet.jar"/>
+        <file crc="1394747605" name="modules/rescuerage-CommonBullet.jar"/>
     </module_version>
 </module>
