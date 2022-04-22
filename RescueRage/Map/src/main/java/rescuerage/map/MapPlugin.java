@@ -39,7 +39,7 @@ public class MapPlugin implements  IGamePluginService{
     @Override
     public void start(GameData gameData, World world) {
         this.world = world;
-        this.level = 1;
+        this.level = 0;
         createLevel();
     }
     private void initLevel(){

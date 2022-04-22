@@ -60,7 +60,7 @@ public class World {
         
         houseW = houseW + 1;
         houseH = houseH + 1;
-        roomMap.clear();
+        //roomMap.clear();
         level = level + 1;
         
     }
