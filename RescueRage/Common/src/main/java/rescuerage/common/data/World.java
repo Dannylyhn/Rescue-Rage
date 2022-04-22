@@ -12,6 +12,16 @@ import rescuerage.common.data.entityparts.TilePart;
  * @author jcs
  */
 public class World {
+    //Player set id
+    private String playerID;
+
+    public String getPlayerID() {
+        return playerID;
+    }
+    public void setPlayerID(String playerID) {
+        this.playerID = playerID;
+    }
+    
     //String with weapon needs to be changed with inventory    
     private String[] weapons = new String[3];
     public String[] getWeapons() {

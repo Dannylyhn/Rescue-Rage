@@ -7,9 +7,9 @@ package rescuerage.common.data.entityparts;
 
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
-import static rescuerage.common.data.GameKeys.LEFT;
-import static rescuerage.common.data.GameKeys.RIGHT;
-import static rescuerage.common.data.GameKeys.UP;
+import static rescuerage.common.data.GameKeys.A;
+import static rescuerage.common.data.GameKeys.D;
+import static rescuerage.common.data.GameKeys.W;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;

@@ -2,9 +2,9 @@ package rescuerage.common.data.entityparts;
 
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
-import static rescuerage.common.data.GameKeys.LEFT;
-import static rescuerage.common.data.GameKeys.RIGHT;
-import static rescuerage.common.data.GameKeys.UP;
+import static rescuerage.common.data.GameKeys.A;
+import static rescuerage.common.data.GameKeys.D;
+import static rescuerage.common.data.GameKeys.W;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
@@ -70,21 +70,21 @@ public class PlayerMovingPart
         float dt = gameData.getDelta();
 
         // Movement
-        if (gameData.getKeys().isDown(GameKeys.LEFT)) {
+        if (gameData.getKeys().isDown(GameKeys.A)) {
             x += -maxSpeed*dt;
         
         }
 
-        if (gameData.getKeys().isDown(GameKeys.RIGHT)) {
+        if (gameData.getKeys().isDown(GameKeys.D)) {
             x += maxSpeed*dt;
             
         }
           
-        if (gameData.getKeys().isDown(GameKeys.UP)) {
+        if (gameData.getKeys().isDown(GameKeys.W)) {
             y += maxSpeed*dt;
         }
         
-        if (gameData.getKeys().isDown(GameKeys.DOWN)){
+        if (gameData.getKeys().isDown(GameKeys.S)){
             y += -maxSpeed*dt;
         }
         
