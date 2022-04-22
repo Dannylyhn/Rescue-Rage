@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import java.util.ArrayList;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
@@ -15,11 +16,13 @@ import rescuerage.common.services.IPostEntityProcessingService;
 import rescuerage.core.managers.GameInputProcessor;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import rescuerage.common.data.entityparts.PositionPart;
+import rescuerage.common.data.entityparts.TilePart;
 
 public class Game implements ApplicationListener {
 
@@ -89,6 +92,7 @@ public class Game implements ApplicationListener {
         
         update();
         draw();
+        //postUpdate();
     }
 
     private void update() {
@@ -102,12 +106,82 @@ public class Game implements ApplicationListener {
 //            postEntityProcessorService.process(gameData, world);
 //        }
     }
+    private void postUpdate(){
+        // Post Update
+        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+            postEntityProcessorService.process(gameData, world);
+        }
+    }
 
     private void draw() {
-        for (Entity entity : world.getEntities()) {
-            sr.setProjectionMatrix(cam.combined);
+        sr.setProjectionMatrix(cam.combined);
             
-            sr.setColor(1, 1, 1, 1);
+        //System.out.println("draw 1");
+        //for(Map<String, Entity> entityMap : world.getRooms()){
+        for(int ii = 0; ii < world.getRooms().size(); ii++){
+
+            //System.out.println("draw 2");
+            for (Entity entity : world.getRooms().get(ii).values()) {
+                //System.out.println("draw 3");
+                if(entity.getClass().getSimpleName().equals("Map")){
+                    //System.out.println("draw 4");
+                    TilePart tile = entity.getPart(TilePart.class);
+                    if(tile.getType().equals("door")){
+                        //System.out.println("draw door");
+                        //System.out.println("Colliding with door");
+                        if(tile.locked){
+                            sr.setColor(1, 0, 0, 0);
+                        }
+                        else{
+                            //System.out.println("draw wall");
+                            sr.setColor(0, 1, 0, 0);
+                        }
+                    }
+                    else{
+                        sr.setColor(0, 0, 1, 0);
+                    }
+                }
+                else{
+                    sr.setColor(1, 1, 1, 1);
+                }
+
+                sr.begin(ShapeRenderer.ShapeType.Line);
+
+                float[] shapex = entity.getShapeX();
+                float[] shapey = entity.getShapeY();
+
+                for (int i = 0, j = shapex.length - 1;
+                        i < shapex.length;
+                        j = i++) {
+                    //System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[i] +" "+ shapey[i] +" "+ shapex[j] +" "+ shapey[j]);
+
+                    sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+                }
+
+                sr.end();
+            }
+        }
+        
+        
+        for (Entity entity : world.getCollisionEntities()) {
+            if(entity.getClass().getSimpleName().equals("Map")){
+                TilePart tile = entity.getPart(TilePart.class);
+                if(tile.getType().equals("door")){
+                    //System.out.println("Colliding with door");
+                    if(tile.locked){
+                        sr.setColor(1, 0, 0, 0);
+                    }
+                    else{
+                        sr.setColor(0, 1, 0, 0);
+                    }
+                }
+                else{
+                    sr.setColor(0, 0, 1, 0);
+                }
+            }
+            else{
+                sr.setColor(1, 1, 1, 1);
+            }
 
             sr.begin(ShapeRenderer.ShapeType.Line);
 
@@ -124,6 +198,7 @@ public class Game implements ApplicationListener {
             sr.end();
         }
     }
+    
 
     @Override
     public void resize(int width, int height) {

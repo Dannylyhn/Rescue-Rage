@@ -58,5 +58,15 @@ public class Entity implements Serializable {
     public void setShapeY(float[] shapeY) {
         this.shapeY = shapeY;
     }
+    
+    public boolean contains(float x, float y){
+        boolean b = false;
+        for(int i = 0, j = this.shapeX.length -1; i < this.shapeX.length; j = i++){
+            if((this.shapeY[i] > y) != (this.shapeY[j] > y) && (x < (this.shapeX[j] - this.shapeX[i]) * (y - this.shapeY[i]) / (this.shapeY[j] - this.shapeY[i]) + this.shapeX[i])){
+                b = !b;
+            }
+        }
+        return b;
+    }
 
 }

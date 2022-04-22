@@ -11,6 +11,7 @@ import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.LoadoutPart;
+import rescuerage.common.data.entityparts.PlayerMovingPart;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IGamePluginService.class),})
@@ -50,17 +51,15 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayerShip(GameData gameData) {
 
-        float deacceleration = 10;
-        float acceleration = 200;
-        float maxSpeed = 300;
+        float maxSpeed = 50;
         float rotationSpeed = 5;
-        float x = gameData.getDisplayWidth() / 2;
-        float y = gameData.getDisplayHeight() / 2;
+        float x = gameData.getDisplayWidth() / 20;
+        float y = gameData.getDisplayHeight() / 20;
         float radians = 3.1415f / 2;
 
         Entity playerShip = new Player();
         playerShip.setRadius(8);
-        playerShip.add(new MovingPart(deacceleration, acceleration, maxSpeed, rotationSpeed));
+        playerShip.add(new PlayerMovingPart(maxSpeed));
         playerShip.add(new PositionPart(x, y, radians));
         playerShip.add(new LifePart(1));
         playerShip.add(new LoadoutPart());

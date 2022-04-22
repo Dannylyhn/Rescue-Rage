@@ -5,7 +5,6 @@ import rescuerage.common.data.GameData;
 import rescuerage.common.data.GameKeys;
 import rescuerage.common.data.World;
 import rescuerage.common.data.entityparts.LifePart;
-import rescuerage.common.data.entityparts.MovingPart;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.services.IEntityProcessingService;
 import org.openide.util.Lookup;
@@ -13,6 +12,7 @@ import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.LoadoutPart;
+import rescuerage.common.data.entityparts.PlayerMovingPart;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IEntityProcessingService.class),})
@@ -23,13 +23,42 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
         for (Entity player : world.getEntities(Player.class)) {
             PositionPart positionPart = player.getPart(PositionPart.class);
-            MovingPart movingPart = player.getPart(MovingPart.class);
+            PlayerMovingPart movingPart = player.getPart(PlayerMovingPart.class);
             LifePart lifePart = player.getPart(LifePart.class);
             LoadoutPart loadoutPart = player.getPart(LoadoutPart.class);
 
-            movingPart.setLeft(gameData.getKeys().isDown(GameKeys.A));
-            movingPart.setRight(gameData.getKeys().isDown(GameKeys.D));
-            movingPart.setUp(gameData.getKeys().isDown(GameKeys.W));
+            if(gameData.getKeys().isDown(GameKeys.A)){
+                movingPart.setLeft(true);
+                movingPart.setRight(false);
+                movingPart.setUp(false);
+                movingPart.setDown(false);
+                
+            }
+            
+            if(gameData.getKeys().isDown(GameKeys.D)){
+                movingPart.setRight(true);
+                movingPart.setLeft(false);
+                movingPart.setUp(false);
+                movingPart.setDown(false);
+            }
+            
+            
+            if(gameData.getKeys().isDown(GameKeys.S)){
+                movingPart.setDown(true);
+                movingPart.setRight(false);
+                movingPart.setUp(false);
+                movingPart.setLeft(false);
+            }
+            
+            
+            if(gameData.getKeys().isDown(GameKeys.W)){
+                movingPart.setUp(true);
+                movingPart.setRight(false);
+                movingPart.setLeft(false);
+                movingPart.setDown(false);
+            }
+            
+           
             
             loadoutPart.setQ(gameData.getKeys().isDown(GameKeys.Q));
             loadoutPart.setE(gameData.getKeys().isDown(GameKeys.E));
