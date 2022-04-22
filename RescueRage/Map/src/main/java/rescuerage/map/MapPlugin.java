@@ -57,10 +57,11 @@ public class MapPlugin implements  IGamePluginService{
     }
     
     public void createLevel(){
-        if (level != world.level){
+        /*if (level != world.level){
             level = world.level;
-            initLevel();
-        }
+        }*/
+        world.clearRoomMap();
+        initLevel();
         //initLevel();
         // starting area
         

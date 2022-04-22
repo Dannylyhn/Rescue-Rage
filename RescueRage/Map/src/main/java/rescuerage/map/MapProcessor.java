@@ -4,6 +4,7 @@
  */
 package rescuerage.map;
 
+import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.Entity;
@@ -19,14 +20,18 @@ import rescuerage.common.services.IEntityProcessingService;
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class MapProcessor implements IEntityProcessingService {
-
+    private int level = 1;
     @Override
     public void process(GameData gameData, World world) {
         //MapPlugin.start(gameData, world);
-        /*int level = 1;
+        //int level = 1;
         if(level!=world.level){
-            MapPlugin.createLevel();
-        }*/
+            //MapPlugin.createLevel();
+            //world.clearRoomMap();
+            Lookup.getDefault().lookup(MapPlugin.class).createLevel();
+            //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
+            level = world.level;
+        }
         for(java.util.Map<String, Entity> entityMap : world.getLevel()){
             //System.out.println("draw 2");
             for (Entity entity : entityMap.values()) {

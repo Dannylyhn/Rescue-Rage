@@ -15,6 +15,9 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
+                    <publicPackages>
+                        <publicPackage>rescuerage.map</publicPackage>
+                    </publicPackages>
                     <useOSGiDependencies>true</useOSGiDependencies>
                 </configuration>
             </plugin>

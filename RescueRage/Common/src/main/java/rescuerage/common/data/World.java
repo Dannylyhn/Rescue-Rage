@@ -5,8 +5,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.openide.util.Lookup;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.TilePart;
+//import rescuerage.map.BulletSPI;
 
 /**
  *
@@ -62,7 +64,34 @@ public class World {
         houseH = houseH + 1;
         //roomMap.clear();
         level = level + 1;
+        //Lookup.getDefault().lookup(MapSPI.class).createLevel();
+        //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
         
+    }
+    public void clearRoomMap(){
+        roomMap.clear();
+        for(Entity e : collisionMap.values()){
+            if(e.getClass().getSimpleName().equals("Player")){
+                
+            }
+            else if(e.getClass().getSimpleName().equals("Weapon")){
+                
+            }
+            else{
+                collisionMap.remove(e.getID());
+            }
+        }
+        for(Entity e : entityMap.values()){
+            if(e.getClass().getSimpleName().equals("Player")){
+                
+            }
+            else if(e.getClass().getSimpleName().equals("Weapon")){
+                
+            }
+            else{
+                entityMap.remove(e.getID());
+            }
+        }
     }
     public void addRoom(Map<String, Entity> room){
         roomMap.add(room);
