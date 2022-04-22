@@ -18,19 +18,15 @@ import rescuerage.common.data.entityparts.PlayerMovingPart;
 public class PlayerPlugin implements IGamePluginService {
 
     private Entity player;
-    private String playerID;
 
     public PlayerPlugin() {
     }
 
     @Override
     public void start(GameData gameData, World world) {
-        
 
         // Add entity to the world
         player = createPlayerShip(gameData);
-        playerID = player.getID();
-        world.setPlayerID(playerID);
         
         // Hardcoding weapons for now until we add collision.
         LoadoutPart lp = player.getPart(LoadoutPart.class);
