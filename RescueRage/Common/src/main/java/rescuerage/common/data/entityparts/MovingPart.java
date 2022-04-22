@@ -7,9 +7,6 @@ package rescuerage.common.data.entityparts;
 
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
-import static rescuerage.common.data.GameKeys.LEFT;
-import static rescuerage.common.data.GameKeys.RIGHT;
-import static rescuerage.common.data.GameKeys.UP;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
@@ -110,18 +107,20 @@ public class MovingPart
 
         // set position
         x += dx * dt;
-        if (x > gameData.getDisplayWidth()) {
-            x = 0;
-        } else if (x < 0) {
-            x = gameData.getDisplayWidth();
-        }
+        //Wrap
+//        if (x > gameData.getDisplayWidth()) {
+//            x = 0;
+//        } else if (x < 0) {
+//            x = gameData.getDisplayWidth();
+//        }
 
         y += dy * dt;
-        if (y > gameData.getDisplayHeight()) {
-            y = 0;
-        } else if (y < 0) {
-            y = gameData.getDisplayHeight();
-        }
+        //Wrap
+//        if (y > gameData.getDisplayHeight()) {
+//            y = 0;
+//        } else if (y < 0) {
+//            y = gameData.getDisplayHeight();
+//        }
 
         positionPart.setX(x);
         positionPart.setY(y);
