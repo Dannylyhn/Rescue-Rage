@@ -43,11 +43,11 @@ public class Game implements ApplicationListener {
     public void create() {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
-/*
+
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
-*/
+
         sr = new ShapeRenderer();
 
         Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
