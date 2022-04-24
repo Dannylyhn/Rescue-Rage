@@ -27,6 +27,7 @@ public class PlayerPlugin implements IGamePluginService {
 
         // Add entity to the world
         player = createPlayerShip(gameData);
+        world.setPlayerID(player.getID());
         
         // Hardcoding weapons for now until we add collision.
         LoadoutPart lp = player.getPart(LoadoutPart.class);

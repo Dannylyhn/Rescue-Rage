@@ -27,7 +27,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
             LifePart lifePart = player.getPart(LifePart.class);
             LoadoutPart loadoutPart = player.getPart(LoadoutPart.class);
 
-            if(gameData.getKeys().isDown(GameKeys.LEFT)){
+            if(gameData.getKeys().isDown(GameKeys.A)){
                 movingPart.setLeft(true);
                 movingPart.setRight(false);
                 movingPart.setUp(false);
@@ -35,7 +35,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 
             }
             
-            if(gameData.getKeys().isDown(GameKeys.RIGHT)){
+            if(gameData.getKeys().isDown(GameKeys.D)){
                 movingPart.setRight(true);
                 movingPart.setLeft(false);
                 movingPart.setUp(false);
@@ -43,7 +43,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
             }
             
             
-            if(gameData.getKeys().isDown(GameKeys.DOWN)){
+            if(gameData.getKeys().isDown(GameKeys.S)){
                 movingPart.setDown(true);
                 movingPart.setRight(false);
                 movingPart.setUp(false);
@@ -51,7 +51,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
             }
             
             
-            if(gameData.getKeys().isDown(GameKeys.UP)){
+            if(gameData.getKeys().isDown(GameKeys.W)){
                 movingPart.setUp(true);
                 movingPart.setRight(false);
                 movingPart.setLeft(false);
