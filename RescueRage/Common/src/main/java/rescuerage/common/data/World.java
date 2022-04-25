@@ -187,13 +187,18 @@ public class World {
         int counter = 0;
         for(Map<String, Entity> room : getHouseRooms()){
             for(Entity e : room.values()){
-                TilePart tp = e.getPart(TilePart.class);
-                if(tp.getType().equals("roomInfo")){
-                    System.out.println("room check unlocking");
-                    if(tp.getState().equals("unexplored")){
-                        counter++;
-                        System.out.println("counter: " + counter);
+                if(e.getClass().getSimpleName().equals("Map")){
+                    TilePart tp = e.getPart(TilePart.class);
+                    if(tp.getType().equals("roomInfo")){
+                        System.out.println("room check unlocking");
+                        if(tp.getState().equals("unexplored")){
+                            counter++;
+                            System.out.println("counter: " + counter);
+                        }
                     }
+                }
+                else{
+                    counter++;
                 }
             }
         }
