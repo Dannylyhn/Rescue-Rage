@@ -45,19 +45,24 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         System.out.println("Colliding with door");
                     }
                 }
-                System.out.println("Collision detected");
+                /*System.out.println("Collision detected");
                 System.out.println("Entity 1: " + e1.getID() + " (" + e1.getClass().getSimpleName() + ")");
-                System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");
+                System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");*/
 
 
                 if (e1.getClass().getSimpleName().equals("Map")) {
                     if (e2.getClass().getSimpleName().equals("Player")) {
                         TilePart tile = e1.getPart(TilePart.class);
-                        if(tile.getType().equals("box")){
-                            unWalkable(e2,e1);
-                        }
-                        else{
-                            unWalkable(e1,e2);
+                        switch (tile.getType()) {
+                            case "box":
+                                unWalkable(e2,e1);
+                                break;
+                            case "roomInfo":
+                                //System.out.println("in room: " + tile.getRoom());
+                                break;
+                            default:
+                                unWalkable(e1,e2);
+                                break;
                         }
                     }
                     //world.removeEntity(e1);
@@ -67,11 +72,19 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     if (e1.getClass().getSimpleName().equals("Player")) {
                         //unWalkable(e2,e1);
                         TilePart tile = e2.getPart(TilePart.class);
-                        if(tile.getType().equals("box")){
-                            unWalkable(e1,e2);
-                        }
-                        else{
-                            unWalkable(e2,e1);
+                        switch (tile.getType()) {
+                            case "box":
+                                unWalkable(e1,e2);
+                                break;
+                            case "roomInfo":
+                                //System.out.println("in room: " + tile.getRoom());
+                                world.currentRoom = tile.getRoom();
+                                if(tile.getState().equals("unexplored")){
+                                    world.lockDoors();
+                                }   break;
+                            default:
+                                unWalkable(e2,e1);
+                                break;
                         }
                     }
                     //world.removeEntity(e1);
@@ -85,14 +98,18 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     else if(e2.getClass().getSimpleName().equals("Map")){
                         TilePart tp = e2.getPart(TilePart.class);
                         if(tp.type.equals("box")){
-                            System.out.println("\nhere\n\nhere\n\nhere\n");
+                            //System.out.println("\nhere\n\nhere\n\nhere\n");
                             LifePart l = e2.getPart(LifePart.class);
-                            System.out.println("pre hit: life int: " + l.getLife() + " | dead: " + l.isDead());
+                            //System.out.println("pre hit: life int: " + l.getLife() + " | dead: " + l.isDead());
                             l.hit(1);
-                            System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
+                            //System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
                             if(l.isDead()){
                                 world.removeEntity(e2);
+                                //world.
                             }
+                        }
+                        else if(tp.type.equals("roomInfo")){
+                            return;
                         }
                         world.removeEntity(e1);
                     }
@@ -130,7 +147,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
             if(player.getX() > wall.getX()){
                 player.setX(wall.getX()+(wall1.getRadius())+player1.getRadius());
             }
-            else if(player.getY() < wall.getY()){
+            else if(player.getX() < wall.getX()){
                 player.setX(wall.getX()-(wall1.getRadius())-player1.getRadius());
             }
         }else{

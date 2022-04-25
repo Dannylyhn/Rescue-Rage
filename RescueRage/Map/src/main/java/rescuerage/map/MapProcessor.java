@@ -4,6 +4,7 @@
  */
 package rescuerage.map;
 
+import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.Entity;
@@ -19,10 +20,19 @@ import rescuerage.common.services.IEntityProcessingService;
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class MapProcessor implements IEntityProcessingService {
-
+    private int level = 1;
     @Override
     public void process(GameData gameData, World world) {
-        for(java.util.Map<String, Entity> entityMap : world.getRooms()){
+        //MapPlugin.start(gameData, world);
+        //int level = 1;
+        if(level!=world.level){
+            //MapPlugin.createLevel();
+            //world.clearRoomMap();
+            Lookup.getDefault().lookup(MapPlugin.class).createLevel();
+            //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
+            level = world.level;
+        }
+        for(java.util.Map<String, Entity> entityMap : world.getLevel()){
             //System.out.println("draw 2");
             for (Entity entity : entityMap.values()) {
                 setShape(entity);
@@ -44,19 +54,21 @@ public class MapProcessor implements IEntityProcessingService {
         PositionPart positionPart = entity.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
-        float radius = entity.getRadius();
+        //float radius = entity.getRadius();
+        float sizeX = entity.getSizeX();
+        float sizeY = entity.getSizeY();
         
-        shapex[0] = x + radius;
-        shapey[0] = y + radius;
+        shapex[0] = x + sizeX;
+        shapey[0] = y + sizeY;
         
-        shapex[1] = x + radius;
-        shapey[1] = y - radius;
+        shapex[1] = x + sizeX;
+        shapey[1] = y - sizeY;
         
-        shapex[2] = x - radius;
-        shapey[2] = y - radius;
+        shapex[2] = x - sizeX;
+        shapey[2] = y - sizeY;
         
-        shapex[3] = x - radius;
-        shapey[3] = y + radius;
+        shapex[3] = x - sizeX;
+        shapey[3] = y + sizeY;
         
         entity.setShapeX(shapex);
         entity.setShapeY(shapey);

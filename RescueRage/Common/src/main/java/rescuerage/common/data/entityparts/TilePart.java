@@ -15,12 +15,32 @@ public class TilePart implements EntityPart{
     
     public String type;
     public boolean locked;
+    public int room;
+    public String state;
 
     public TilePart(String type) {
         this.type = type;
         // if door then lock
         //locked = type.equals("door");
-        locked = false;
+        this.locked = false;
+        this.room = -1;
+        this.state = "";
+    }
+    
+    public void setRoom(int i){
+        this.room = i;
+    }
+    
+    public int getRoom(){
+        return room;
+    }
+    
+    public void setState(String s){
+        this.state = s;
+    }
+    
+    public String getState(){
+        return state;
     }
     
     public String getType() {
