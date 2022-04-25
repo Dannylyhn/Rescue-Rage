@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import org.openide.util.Lookup;
 import rescuerage.common.data.entityparts.PositionPart;
@@ -216,8 +217,41 @@ public class World {
         }
         return entity.getID();
     }
+    private void roomCollisionCheck(Map<String, Entity> room, Entity entity){
+        Random rand = new Random();
+        int min = tileSize;
+        int maxW = roomW*tileSize;
+        int maxH = roomH*tileSize-tileSize;
+        int randomX = rand.nextInt((maxW - min) + 1) + min;
+        int randomY = rand.nextInt((maxH - min) + 1) + min;
+        entity.add(new PositionPart(randomX,randomY,0));
+        for(Entity e : room.values()){
+            float[] sx = e.getShapeX();
+            float[] sy = e.getShapeY();
+            for(int i = 0; i < sx.length; i++){
+                if(entity.contains(sx[i], sy[i])){
+                    roomCollisionCheck(room, entity);
+                }
+            }
+            //return false;
+        }
+    }
     public void addEntityInRoom(Entity entity, int roomIndex){
         Map<String, Entity> room = getHouseRooms().get(roomIndex);
+        //PositionPart p = entity.getPart(PositionPart.class);
+        
+        //loop if coliding
+        /*
+        Random rand = new Random();
+        int min = tileSize;
+        int maxW = roomW*tileSize;
+        int maxH = roomH*tileSize-tileSize;
+        int randomX = rand.nextInt((maxW - min) + 1) + min;
+        int randomY = rand.nextInt((maxH - min) + 1) + min;
+        entity.add(new PositionPart(randomX,randomY,0));
+        */
+        roomCollisionCheck(room, entity);
+        //post colide loop
         PositionPart p = entity.getPart(PositionPart.class);
         int shiftY = 0;
         int shiftX = roomIndex+1;
@@ -227,12 +261,15 @@ public class World {
         }
         //System.out.println("shiftX: " + shiftX + " | shiftY: " + shiftY);
         p.setPosition((shiftX*roomW*tileSize)+p.getX(), (shiftY*roomH*tileSize)+p.getY());
+        
         //p.setPosition(p.getX(), p.getY());
         
         room.put(entity.getID(), entity);
     }
     public void addEntityInBossArea(Entity entity){
         Map<String, Entity> room = getBossArea();
+        //PositionPart p = entity.getPart(PositionPart.class);
+        roomCollisionCheck(room, entity);
         PositionPart p = entity.getPart(PositionPart.class);
         p.setPosition(((houseW+1)*roomW*tileSize)+p.getX(), p.getY());
         room.put(entity.getID(), entity);

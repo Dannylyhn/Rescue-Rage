@@ -2,14 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package rescuerage.map;
-
+package rescuerage.enemysystem;
+import rescuerage.common.data.entityparts.EnemyMovingPart;
 import rescuerage.common.data.Entity;
+
 
 /**
  *
- * @author ander
+ * @author danny
  */
-public class Map extends Entity{
+public class Enemy extends Entity{
     
 }

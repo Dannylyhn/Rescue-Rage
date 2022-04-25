@@ -75,10 +75,10 @@ public class MapPlugin implements  IGamePluginService{
         
     }
     private void createBoxInRoomIndex(int index){
-        world.addEntityInRoom(createBox(60,60), index);
+        world.addEntityInRoom(createBox(), index);
     }
     private void createBoxInRoomBossArea(){
-        world.addEntityInBossArea(createBox(60,60));
+        world.addEntityInBossArea(createBox());
     }
     
     private void createHouse(){
@@ -245,7 +245,7 @@ public class MapPlugin implements  IGamePluginService{
         addEntity(map, roomEntityMap);
         return map;
     }
-    private Entity createBox(float x, float y){
+    private Entity createBox(){
         Entity map = new Map();
         
         map.setRadius(tileSize/2);
@@ -253,9 +253,9 @@ public class MapPlugin implements  IGamePluginService{
         map.setSizeY(tileSize/2);
         //System.out.println("x: " + x);
         //System.out.println("y: " + y);
-        map.add(new PositionPart(x,y,0));
+        //map.add(new PositionPart(x,y,0));
         map.add(new TilePart("box"));
-        map.add(new LifePart(1));
+        map.add(new LifePart(10));
         
         world.addEntity(map);
         //addEntity(map, roomEntityMap);
