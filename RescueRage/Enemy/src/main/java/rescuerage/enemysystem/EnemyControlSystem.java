@@ -7,14 +7,22 @@ import rescuerage.common.data.entityparts.EnemyMovingPart;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.services.IEntityProcessingService;
 import java.util.Random;
+import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = IEntityProcessingService.class)
 public class EnemyControlSystem implements IEntityProcessingService {
 
-
+    private int level = 1;
     @Override
     public void process(GameData gameData, World world) {
+        if(level!=world.level){
+            //MapPlugin.createLevel();
+            //world.clearRoomMap();
+            Lookup.getDefault().lookup(EnemyPlugin.class).createEnemiesInLevel();
+            //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
+            level = world.level;
+        }
 
         for (Entity enemy : world.getEntities(Enemy.class)) {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
