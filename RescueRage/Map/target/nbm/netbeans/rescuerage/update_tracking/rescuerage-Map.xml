@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Map">
+    <module_version install_time="1650634551064" last="true" origin="installer" specification_version="1.0">
+        <file crc="3242984812" name="config/Modules/rescuerage-Map.xml"/>
+        <file crc="3902883462" name="modules/rescuerage-Map.jar"/>
+    </module_version>
+</module>

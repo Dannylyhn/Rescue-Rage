@@ -18,7 +18,7 @@ import static java.lang.Math.sqrt;
  *
  * @author Alexander
  */
-public class MovingPart
+public class EnemyMovingPart
         implements EntityPart {
 
     private float dx, dy;
@@ -26,7 +26,7 @@ public class MovingPart
     private float maxSpeed, rotationSpeed;
     private boolean left, right, up, down;
 
-    public MovingPart(float maxSpeed) {
+    public EnemyMovingPart(float maxSpeed) {
        
         this.maxSpeed = maxSpeed;
        

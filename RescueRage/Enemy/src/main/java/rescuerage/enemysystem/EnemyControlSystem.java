@@ -3,7 +3,7 @@ package rescuerage.enemysystem;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
-import rescuerage.common.data.entityparts.MovingPart;
+import rescuerage.common.data.entityparts.EnemyMovingPart;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.services.IEntityProcessingService;
 import java.util.Random;
@@ -18,7 +18,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
         for (Entity enemy : world.getEntities(Enemy.class)) {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
-            MovingPart movingPart = enemy.getPart(MovingPart.class);
+            EnemyMovingPart movingPart = enemy.getPart(EnemyMovingPart.class);
             
 
             Random rand = new Random();

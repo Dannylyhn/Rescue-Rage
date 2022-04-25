@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Weapon">
+    <module_version install_time="1650634550185" last="true" origin="installer" specification_version="1.0">
+        <file crc="2515553057" name="config/Modules/rescuerage-Weapon.xml"/>
+        <file crc="2050710613" name="modules/rescuerage-Weapon.jar"/>
+    </module_version>
+</module>

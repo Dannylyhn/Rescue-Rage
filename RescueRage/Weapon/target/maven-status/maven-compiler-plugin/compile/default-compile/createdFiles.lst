@@ -1,0 +1,5 @@
+META-INF/services/rescuerage.common.services.IEntityProcessingService
+rescuerage/weapon/WeaponPlugin.class
+rescuerage/weapon/WeaponControlSystem.class
+META-INF/services/rescuerage.common.services.IGamePluginService
+rescuerage/weapon/Weapon.class

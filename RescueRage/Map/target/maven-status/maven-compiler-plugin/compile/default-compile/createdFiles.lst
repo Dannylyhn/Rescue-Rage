@@ -1,0 +1,6 @@
+rescuerage/Room.class
+META-INF/services/rescuerage.common.services.IEntityProcessingService
+rescuerage/map/Map.class
+rescuerage/map/MapPlugin.class
+META-INF/services/rescuerage.common.services.IGamePluginService
+rescuerage/map/MapProcessor.class

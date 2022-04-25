@@ -6,7 +6,7 @@ import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
 import rescuerage.common.data.entityparts.LifePart;
-import rescuerage.common.data.entityparts.MovingPart;
+import rescuerage.common.data.entityparts.EnemyMovingPart;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.services.IGamePluginService;
 import java.util.Random;
@@ -69,7 +69,7 @@ public class EnemyPlugin implements IGamePluginService {
 
         Entity enemyShip = new Enemy();
         enemyShip.setRadius(8);
-        enemyShip.add(new MovingPart(maxSpeed));
+        enemyShip.add(new EnemyMovingPart(maxSpeed));
         enemyShip.add(new PositionPart(x, y, radians));
      
 

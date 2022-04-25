@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Localizing-Bundle: rescuerage/map/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+OpenIDE-Module-Implementation-Version: 1.0-20220422
+OpenIDE-Module-Build-Version: 202204221335
+OpenIDE-Module: rescuerage.Map
+OpenIDE-Module-Public-Packages: -
+OpenIDE-Module-Requires: org.openide.modules.ModuleFormat1
+OpenIDE-Module-Display-Category: rescuerage
+OpenIDE-Module-Name: Map
+OpenIDE-Module-Short-Description: <undefined>
+OpenIDE-Module-Long-Description: <undefined>
+OpenIDE-Module-Module-Dependencies: org.netbeans.api.annotations.commo
+ n/1 > 1.43, rescuerage.Common > 1.0, org.openide.util.lookup > 8.49
+

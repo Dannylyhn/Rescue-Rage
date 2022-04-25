@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package rescuerage.enemysystem;
-import rescuerage.common.data.entityparts.MovingPart;
+import rescuerage.common.data.entityparts.EnemyMovingPart;
 import rescuerage.common.data.Entity;
 
 
