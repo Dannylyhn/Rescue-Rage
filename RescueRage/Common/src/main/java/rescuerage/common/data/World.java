@@ -196,7 +196,9 @@ public class World {
                             counter++;
                             System.out.println("counter: " + counter);
                         }
-                    }  
+                    }
+                }
+                else if(e.getClass().getSimpleName().equals("Weapon")){
                 }
                 else
                 {

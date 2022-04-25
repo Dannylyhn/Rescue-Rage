@@ -35,12 +35,12 @@ public class WeaponPlugin implements IGamePluginService {
         world.addEntity(weapon);
         
         weapon = createWeapon(gameData, new GunPart(3,10000, new float[]{-6,6,6}));
-        world.addEntityInRoom(weapon, 2);
+        world.addEntityInRoom(weapon, generateRandom(min,max,range));
         world.addEntity(weapon);
 
         
         weapon = createWeapon(gameData, new GunPart(6,10000, new float[]{-9,9,9,9,9,9}));
-        world.addEntityInRoom(weapon, 2);
+        world.addEntityInRoom(weapon, generateRandom(min,max,range));
         world.addEntity(weapon);
 
     }

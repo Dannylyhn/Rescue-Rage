@@ -41,7 +41,10 @@ public class WeaponControlSystem implements IEntityProcessingService {
             
             positionPart.process(gameData, weapon);
             
-            updateShape(weapon);
+            if(gunPart.pickedUp==false)
+            {
+                updateShape(weapon);       
+            }
         }
     }
     

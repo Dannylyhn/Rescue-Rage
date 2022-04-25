@@ -18,14 +18,16 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.LifePart;
+import rescuerage.common.data.entityparts.LoadoutPart;
 
 @ServiceProvider(service = IPostEntityProcessingService.class)
 public class CollisionHandler implements IPostEntityProcessingService {
 
     private final List<String> ignoredEntities
             //= new ArrayList<String>(Collections.singletonList("Player"));
-            = new ArrayList<String>(Collections.singletonList("Weapon"));
+            = new ArrayList<String>(Collections.singletonList(""));
             //= new ArrayList<String>();
 
     @Override
@@ -68,6 +70,20 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     //world.removeEntity(e1);
                     //return;
                 }
+                
+                if(e1.getClass().getSimpleName().equals("Weapon")){
+                    if(e2.getClass().getSimpleName().equals("Player"))
+                    {
+                        LoadoutPart lp = e2.getPart(LoadoutPart.class);
+                        if(!lp.getWeapons().contains(e1))
+                        {
+                            lp.addWeapon(e1);
+                            GunPart gunPart = e1.getPart(GunPart.class);
+                            gunPart.setPickedUp(true);
+                        }
+                    }
+                }
+                    
                 if (e2.getClass().getSimpleName().equals("Map")) {
                     if (e1.getClass().getSimpleName().equals("Player")) {
                         //unWalkable(e2,e1);

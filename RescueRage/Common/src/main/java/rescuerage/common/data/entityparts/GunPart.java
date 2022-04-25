@@ -12,7 +12,7 @@ import rescuerage.common.data.GameData;
  * @author dan
  */
 public class GunPart implements EntityPart{
-    
+    public boolean pickedUp = false;
     public boolean equipped = false;
     public int bulletsPerShot;
     public int ammo;
@@ -61,6 +61,15 @@ public class GunPart implements EntityPart{
     public void setEquipped(boolean equipped) {
         this.equipped = equipped;
     }
+
+    public boolean isPickedUp() {
+        return pickedUp;
+    }
+
+    public void setPickedUp(boolean pickedUp) {
+        this.pickedUp = pickedUp;
+    }
+    
     
 
     @Override
