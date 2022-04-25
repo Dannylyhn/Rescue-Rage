@@ -36,11 +36,11 @@ public class World {
     
     public String weapon;
 
-    public String getWeapon() {
+    public String getDefaultWeapon() {
         return weapon;
     }
 
-    public void setWeapon(String weapon) {
+    public void setDefaultWeapon(String weapon) {
         this.weapon = weapon;
     }
     
@@ -186,13 +186,20 @@ public class World {
         int counter = 0;
         for(Map<String, Entity> room : getHouseRooms()){
             for(Entity e : room.values()){
-                TilePart tp = e.getPart(TilePart.class);
-                if(tp.getType().equals("roomInfo")){
-                    System.out.println("room check unlocking");
-                    if(tp.getState().equals("unexplored")){
-                        counter++;
-                        System.out.println("counter: " + counter);
-                    }
+                if(e.getClass().getSimpleName().equals("Map"))
+                {
+                    TilePart tp = e.getPart(TilePart.class);
+                    if(tp.getType().equals("roomInfo")){
+                        System.out.println("room check unlocking");
+                        if(tp.getState().equals("unexplored")){
+                            counter++;
+                            System.out.println("counter: " + counter);
+                        }
+                    }  
+                }
+                else
+                {
+                    counter++;
                 }
             }
         }
@@ -283,4 +290,21 @@ public class World {
         return collisionMap.get(ID);
     }
 
+    public int getHouseH() {
+        return houseH;
+    }
+
+    public void setHouseH(int houseH) {
+        this.houseH = houseH;
+    }
+
+    public int getHouseW() {
+        return houseW;
+    }
+
+    public void setHouseW(int houseW) {
+        this.houseW = houseW;
+    }
+
+    
 }

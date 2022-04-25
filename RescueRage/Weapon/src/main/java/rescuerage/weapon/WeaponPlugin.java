@@ -24,24 +24,31 @@ public class WeaponPlugin implements IGamePluginService {
 
     @Override
     public void start(GameData gameData, World world) {
+        int max = world.getHouseH()*world.getHouseW()-1;
+        int min = 1;
+        int range = max - min + 1;
+        
+        
         //Gunpart = Bulletspershot, ammo, spraypattern
         weapon = createWeapon(gameData, new GunPart(1,10000, new float[]{0}));
+        world.setDefaultWeapon(weapon.getID());
         world.addEntity(weapon);
-        world.getWeapons()[0] = weapon.getID();
         
         weapon = createWeapon(gameData, new GunPart(3,10000, new float[]{-6,6,6}));
+        world.addEntityInRoom(weapon, 2);
         world.addEntity(weapon);
-        world.getWeapons()[1] = weapon.getID();
+
         
         weapon = createWeapon(gameData, new GunPart(6,10000, new float[]{-9,9,9,9,9,9}));
+        world.addEntityInRoom(weapon, 2);
         world.addEntity(weapon);
-        world.getWeapons()[2] = weapon.getID();
+
     }
     
     private Entity createWeapon(GameData gameData, GunPart gunPart)
     { 
-        float x = gameData.getDisplayWidth() / 2;
-        float y = gameData.getDisplayHeight() / 2;
+        float x = 60;
+        float y = 60;
         float radians = 3.1415f / 2;
        
         Entity weapon = new Weapon();
@@ -55,5 +62,11 @@ public class WeaponPlugin implements IGamePluginService {
 
     @Override
     public void stop(GameData gameData, World world) {
+    }
+    
+    public int generateRandom(int min, int max, int range)
+    {
+        int rand = (int)(Math.random()*range) + min;
+        return rand;
     }
 }
