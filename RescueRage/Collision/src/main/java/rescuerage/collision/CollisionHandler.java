@@ -210,12 +210,12 @@ public class CollisionHandler implements IPostEntityProcessingService {
         return distance < (entity.getRadius() + entity2.getRadius());
 */
         float[] sx = entity.getShapeX();
-            float[] sy = entity.getShapeY();
-            for(int i = 0; i < sx.length; i++){
-                if(entity2.contains(sx[i], sy[i])){
-                    return true;
-                }
+        float[] sy = entity.getShapeY();
+        for(int i = 0; i < sx.length; i++){
+            if(entity2.contains(sx[i], sy[i])){
+                return true;
             }
-            return false;
+        }
+        return false;
     }
 }
