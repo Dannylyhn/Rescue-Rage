@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Enemy">
-    <module_version install_time="1650451503763" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1650882261453" last="true" origin="installer" specification_version="1.0">
         <file crc="940900039" name="config/Modules/rescuerage-Enemy.xml"/>
         <file crc="3764980079" name="modules/ext/rescuerage.Enemy/com-badlogicgames-gdx/gdx.jar"/>
-        <file crc="1320739480" name="modules/rescuerage-Enemy.jar"/>
+        <file crc="1239198979" name="modules/rescuerage-Enemy.jar"/>
     </module_version>
 </module>
