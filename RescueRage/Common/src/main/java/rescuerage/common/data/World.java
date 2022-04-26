@@ -22,6 +22,9 @@ public class World {
     public String getPlayerID() {
         return playerID;
     }
+    public PositionPart getPlayerPositionPart(){
+        return entityMap.get(playerID).getPart(PositionPart.class);
+    }
     public void setPlayerID(String playerID) {
         this.playerID = playerID;
     }    
@@ -223,11 +226,11 @@ public class World {
     }
     private void roomCollisionCheck(Map<String, Entity> room, Entity entity){
         Random rand = new Random();
-        int min = tileSize;
-        int maxW = roomW*tileSize;
-        int maxH = roomH*tileSize-tileSize;
-        int randomX = rand.nextInt((maxW - min) + 1) + min;
-        int randomY = rand.nextInt((maxH - min) + 1) + min;
+        int min = tileSize + (int)entity.getRadius()*2;
+        int maxW = roomW*tileSize-tileSize*2-(int)entity.getRadius()*2;
+        int maxH = roomH*tileSize-tileSize*2-(int)entity.getRadius()*2;
+        int randomX = rand.nextInt((maxW - min) + min) + min;
+        int randomY = rand.nextInt((maxH - min) + min) + min;
         entity.add(new PositionPart(randomX,randomY,0));
         for(Entity e : room.values()){
             float[] sx = e.getShapeX();

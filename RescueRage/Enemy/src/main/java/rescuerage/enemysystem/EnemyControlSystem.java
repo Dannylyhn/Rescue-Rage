@@ -68,7 +68,16 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
             movingPart.process(gameData, enemy);
             positionPart.process(gameData, enemy);
-           
+            
+            
+            PositionPart playerPart = world.getPlayerPositionPart();
+
+            //Vector3 playerPos = new Vector3(playerPart.getX(), playerPart.getY(), 0);
+            //radians = (float)Math.atan2(positionPart.y - playerPos.y, positionPart.x - playerPos.x);
+            float degree = (float)Math.atan2( playerPart.getY() - positionPart.getY(), playerPart.getX() - positionPart.getX());
+            positionPart.setRadians(degree);
+            //positionPart.setRadians(radians);
+
 
             updateShape(enemy);
 
