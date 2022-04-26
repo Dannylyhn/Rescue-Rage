@@ -83,7 +83,7 @@ public class EnemyPlugin implements IGamePluginService {
         //createBoxInRoomIndex(4);
         createEneymyInRoomIndex(3);
         createEneymyInRoomIndex(0);
-        //createBoxInRoomBossArea();
+        createEnemyInRoomBossArea();
         // end area
         
     }
@@ -91,7 +91,9 @@ public class EnemyPlugin implements IGamePluginService {
     private void createEneymyInRoomIndex(int index){
         world.addEntityInRoom(createEnemy(), index);
     }
-    
+    private void createEnemyInRoomBossArea(){
+        world.addEntityInBossArea(createEnemy());
+    }
     private Entity createEnemy(){
         Entity enemy = new Enemy();
         /*
@@ -105,7 +107,7 @@ public class EnemyPlugin implements IGamePluginService {
         //System.out.println("x: " + x);
         //System.out.println("y: " + y);
         enemy.add(new PositionPart(0,0,0));
-        enemy.add(new LifePart(1));
+        enemy.add(new LifePart(3));
         
         world.addEntity(enemy);
         //addEntity(map, roomEntityMap);

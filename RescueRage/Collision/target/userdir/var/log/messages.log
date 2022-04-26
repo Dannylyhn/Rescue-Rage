@@ -1,0 +1,40 @@
+-------------------------------------------------------------------------------
+>Log Session: Tuesday, April 26, 2022 at 4:45:56 PM Central European Summer Time
+>System Info: 
+  Product Version         = Apache NetBeans IDE 11.1
+  Operating System        = Windows 10 version 10.0 running on amd64
+  Java; VM; Vendor        = 12.0.2; Java HotSpot(TM) 64-Bit Server VM 12.0.2+10; Oracle Corporation
+  Runtime                 = Java(TM) SE Runtime Environment 12.0.2+10
+  Java Home               = C:\Program Files\Java\jdk-12.0.2
+  System Locale; Encoding = da_DK (nb); Cp1252
+  Home Directory          = C:\Users\ander
+  Current Directory       = G:\Mit drev\software engineering\Semester 4\PRO\Rescue-Rage\RescueRage\Collision
+  User Directory          = G:\Mit drev\software engineering\Semester 4\PRO\Rescue-Rage\RescueRage\Collision\target\userdir
+  Cache Directory         = G:\Mit drev\software engineering\Semester 4\PRO\Rescue-Rage\RescueRage\Collision\target\userdir\var\cache
+  Installation            = C:\Program Files\NetBeans-11.1\netbeans\nb
+                            C:\Program Files\NetBeans-11.1\netbeans\ergonomics
+                            C:\Program Files\NetBeans-11.1\netbeans\ide
+                            C:\Program Files\NetBeans-11.1\netbeans\extide
+                            C:\Program Files\NetBeans-11.1\netbeans\java
+                            C:\Program Files\NetBeans-11.1\netbeans\apisupport
+                            C:\Program Files\NetBeans-11.1\netbeans\webcommon
+                            C:\Program Files\NetBeans-11.1\netbeans\websvccommon
+                            C:\Program Files\NetBeans-11.1\netbeans\enterprise
+                            C:\Program Files\NetBeans-11.1\netbeans\profiler
+                            C:\Program Files\NetBeans-11.1\netbeans\php
+                            C:\Program Files\NetBeans-11.1\netbeans\harness
+                            C:\Program Files\NetBeans-11.1\netbeans\groovy
+                            C:\Program Files\NetBeans-11.1\netbeans\javafx
+                            G:\Mit drev\software engineering\Semester 4\PRO\Rescue-Rage\RescueRage\Collision\target\netbeans_clusters\rescuerage
+                            C:\Program Files\NetBeans-11.1\netbeans\platform
+  Boot & Ext. Classpath   = 
+  Application Classpath   = C:\Program Files\NetBeans-11.1\netbeans\platform\lib\boot.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\lib\org-openide-modules.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\lib\org-openide-util-lookup.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\lib\org-openide-util-ui.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\lib\org-openide-util.jar
+  Startup Classpath       = C:\Program Files\NetBeans-11.1\netbeans\platform\core\asm-all-5.0.1.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\core\core-base.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\core\core.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\core\org-netbeans-libs-asm.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\core\org-openide-filesystems-compat8.jar;C:\Program Files\NetBeans-11.1\netbeans\platform\core\org-openide-filesystems.jar;C:\Program Files\NetBeans-11.1\netbeans\nb\core\org-netbeans-upgrader.jar;C:\Program Files\NetBeans-11.1\netbeans\nb\core\locale\core_nb.jar
+-------------------------------------------------------------------------------
+WARNING [org.netbeans.core.startup.NbEvents]: The extension C:\Program Files\NetBeans-11.1\netbeans\ide\modules\ext\jcodings-1.0.18.jar may be multiply loaded by modules: [C:\Program Files\NetBeans-11.1\netbeans\ide\modules\org-netbeans-libs-bytelist.jar, C:\Program Files\NetBeans-11.1\netbeans\ide\modules\org-netbeans-modules-textmate-lexer.jar]; see: http://www.netbeans.org/download/dev/javadoc/org-openide-modules/org/openide/modules/doc-files/classpath.html#class-path
+WARNING [org.netbeans.core.startup.InstalledFileLocatorImpl]: module org.netbeans.modules.servletjspapi in C:\Program Files\NetBeans-11.1\netbeans\enterprise does not own modules/ext/servlet3.1-jsp2.3-api.jar at org.netbeans.LocaleVariants.findLogicalPath(LocaleVariants.java:246)
+WARNING [org.netbeans.core.startup.InstalledFileLocatorImpl]: module org.netbeans.modules.gradle in C:\Program Files\NetBeans-11.1\netbeans\groovy does not own modules/gradle/netbeans-gradle-tooling.jar at org.netbeans.LocaleVariants.findLogicalPath(LocaleVariants.java:246)
+Warning - could not install some modules:
+	rescuerage.Collision - The module org.netbeans.api.annotations.common was requested in version >= 1.43 but only 1.32 was found.
+	rescuerage.Collision - The module named rescuerage.Common was needed and not found.
+	rescuerage.Collision - The module org.openide.util.lookup was requested in version >= 8.49 but only 8.38 was found.
