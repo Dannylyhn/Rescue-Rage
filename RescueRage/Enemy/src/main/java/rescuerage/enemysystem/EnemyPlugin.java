@@ -101,7 +101,7 @@ public class EnemyPlugin implements IGamePluginService {
         enemy.setSizeX(tileSize/2);
         enemy.setSizeY(tileSize/2);
         */
-        float maxSpeed = 20;
+        float maxSpeed = world.tileSize;
         enemy.setRadius(8);
         enemy.add(new EnemyMovingPart(maxSpeed));
         //System.out.println("x: " + x);
@@ -115,8 +115,7 @@ public class EnemyPlugin implements IGamePluginService {
     }
     
     private Entity createEnemyShip(GameData gameData) {
-
-     
+    
         float maxSpeed = 20;
 
         

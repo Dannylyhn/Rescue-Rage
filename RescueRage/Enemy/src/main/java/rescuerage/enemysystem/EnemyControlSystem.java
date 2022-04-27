@@ -14,26 +14,59 @@ import org.openide.util.lookup.ServiceProvider;
 public class EnemyControlSystem implements IEntityProcessingService {
 
     private int level = 1;
+    private int enemyCount = 0;
+    private int moveCount = 0;
+    private boolean up = true;
+    private float playerX = -1;
+    private float playerY = -1;
+    
     @Override
     public void process(GameData gameData, World world) {
+        playerX = world.getPlayerPositionPart().getX();
+        playerY = world.getPlayerPositionPart().getY();
+        
+        if(enemyCount != world.getEntities(Enemy.class).size()){
+            enemyCount = world.getEntities(Enemy.class).size();
+            if(moveCount>world.tileSize)
+                moveCount = moveCount - world.tileSize;
+        }
+        if(moveCount == 0){
+            moveCount = world.tileSize * 2 * enemyCount;
+            up = !up;
+        }
+        
         if(level!=world.level){
             //MapPlugin.createLevel();
             //world.clearRoomMap();
             Lookup.getDefault().lookup(EnemyPlugin.class).createEnemiesInLevel();
             //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
             level = world.level;
+            moveCount = world.tileSize * world.getEntities(Enemy.class).size();
         }
 
         for (Entity enemy : world.getEntities(Enemy.class)) {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
             EnemyMovingPart movingPart = enemy.getPart(EnemyMovingPart.class);
             
+            movingPart.setPlayerTile((int)(playerX+playerY));
 
             Random rand = new Random();
 
             int rng = rand.nextInt(10000);
-            System.out.println(rng);
+            //System.out.println(rng);
             
+            //System.out.println("\nPre move | x: " + positionPart.getX() + " | y: " + positionPart.getY());
+            if(moveCount>0){
+                if(up){
+                    movingPart.setUp(true);
+                }
+                else{
+                    movingPart.setDown(true);
+                }
+                moveCount--;
+            }
+            //System.out.println("moveCount: " + moveCount);
+            /*
             if (rng > 0 && rng < 1000) {
                 movingPart.setUp(true);
                 movingPart.setRight(false);
@@ -62,7 +95,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
                 movingPart.setUp(false);
          
             }
-            
+            */
             
            
 
@@ -85,6 +118,8 @@ public class EnemyControlSystem implements IEntityProcessingService {
             movingPart.setLeft(false);
             movingPart.setUp(false);
             movingPart.setDown(false);
+            
+            //System.out.println("Post move | x: " + positionPart.getX() + " | y: " + positionPart.getY() + "\n");
         }
     }
 

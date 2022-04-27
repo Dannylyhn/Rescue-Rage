@@ -163,6 +163,9 @@ public class Game implements ApplicationListener {
                                 sr.setColor(0, 1, 0, 0);
                             }
                         }
+                        else if(tile.getType().equals("floor")){
+                            sr.setColor(1, 1, 1, 1);
+                        }
                         else{
                             sr.setColor(0, 0, 1, 0);
                         }

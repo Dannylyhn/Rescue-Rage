@@ -13,18 +13,30 @@ import static rescuerage.common.data.GameKeys.W;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
+import java.util.ArrayList;
 
 /**
  *
  * @author Alexander
  */
-public class EnemyMovingPart
-        implements EntityPart {
+public class EnemyMovingPart implements EntityPart {
 
     private float dx, dy;
-    private float deceleration, acceleration;
-    private float maxSpeed, rotationSpeed;
-    private boolean left, right, up, down;
+    //private float deceleration, acceleration;
+    private float maxSpeed;
+    //private float rotationSpeed;
+    private boolean left, right, up, down, upLeft, upRight, downLeft, downRight;
+    
+    private int playerTile = 0;
+    private boolean changed = false;
+    private ArrayList<String> path = new ArrayList();
+    
+    public void setPlayerTile(int tileNR){
+        if(playerTile != tileNR){
+            changed = true;
+        }
+        playerTile = tileNR;
+    }
 
     public EnemyMovingPart(float maxSpeed) {
        
@@ -40,26 +52,26 @@ public class EnemyMovingPart
         return dy;
     }
 
-    public void setDeceleration(float deceleration) {
+    /*public void setDeceleration(float deceleration) {
         this.deceleration = deceleration;
-    }
+    }*/
 
-    public void setAcceleration(float acceleration) {
+    /*public void setAcceleration(float acceleration) {
         this.acceleration = acceleration;
-    }
+    }*/
 
     public void setMaxSpeed(float maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
 
     public void setSpeed(float speed) {
-        this.acceleration = speed;
+        //this.acceleration = speed;
         this.maxSpeed = speed;
     }
 
-    public void setRotationSpeed(float rotationSpeed) {
+    /*public void setRotationSpeed(float rotationSpeed) {
         this.rotationSpeed = rotationSpeed;
-    }
+    }*/
 
     public void setLeft(boolean left) {
         this.left = left;
@@ -76,9 +88,26 @@ public class EnemyMovingPart
     public void setDown(boolean down){
         this.down = down;
     }
+    //upLeft, upRight, downLeft, downRight
+    public void setUpLeft(boolean upLeft){
+        this.upLeft = upLeft;
+    }
+    public void setUpRight(boolean upRight){
+        this.upRight = upRight;
+    }
+    public void setDownLeft(boolean downLeft){
+        this.downLeft = downLeft;
+    }
+    public void setDownRight(boolean downRight){
+        this.downRight = downRight;
+    }
 
     @Override
     public void process(GameData gameData, Entity entity) {
+        if(changed){
+            System.out.println("In new tile");
+            changed = false;
+        }
         PositionPart positionPart = entity.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
@@ -101,6 +130,22 @@ public class EnemyMovingPart
         
         if (down){
             dy = -maxSpeed;
+        }
+        if (upLeft){
+            dy =  maxSpeed;
+            dx = -maxSpeed;
+        }
+        if (upRight){
+            dy =  maxSpeed;
+            dx = maxSpeed;
+        }
+        if (downLeft){
+            dy = -maxSpeed;
+            dx = -maxSpeed;
+        }
+        if (downRight){
+            dy = -maxSpeed;
+            dx = maxSpeed;
         }
 
         // set position
