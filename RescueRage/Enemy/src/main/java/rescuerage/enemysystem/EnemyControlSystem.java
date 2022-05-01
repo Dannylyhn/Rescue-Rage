@@ -51,20 +51,55 @@ public class EnemyControlSystem implements IEntityProcessingService {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
             EnemyMovingPart movingPart = enemy.getPart(EnemyMovingPart.class);
             
-            movingPart.setPlayerTile(playerTile, world.currentRoom);
+            movingPart.setPlayerTile(playerTile, world.currentRoom, (int)playerX, (int)playerY);
 
             if(movingPart.newTile == false){
-                if(up){
+                if(movingPart.path.size()>0){
+                    String move = movingPart.path.get(0);
+                    //System.out.println("path 0 : " + move);
+                    if(move!=null){
+                        switch (move) {
+                            case "up":
+                                movingPart.setUp(true);
+                                break;
+                            case "down":
+                                movingPart.setDown(true);
+                                break;
+                            case "left":
+                                movingPart.setLeft(true);
+                                break;
+                            case "right":
+                                movingPart.setRight(true);
+                                break;
+                            case "upleft":
+                                movingPart.setUpLeft(true);
+                                break;
+                            case "upright":
+                                movingPart.setUpRight(true);
+                                break;
+                            case "downleft":
+                                movingPart.setDownLeft(true);
+                                break;
+                            case "downright":
+                                movingPart.setDownRight(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                /*if(up){
                     movingPart.setUp(true);
                     System.out.println("up");
                 }
                 else{
                     movingPart.setDownLeft(true);
                     System.out.println("!up");
-                }
+                }*/
             }
             else{
-                up = !up;
+                /*up = !up;*/
+                movingPart.path.remove(0);
                 movingPart.newTile = false;
             }
             //System.out.println("moveCount: " + moveCount);
