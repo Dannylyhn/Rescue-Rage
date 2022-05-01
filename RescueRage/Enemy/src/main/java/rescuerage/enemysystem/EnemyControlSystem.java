@@ -43,12 +43,15 @@ public class EnemyControlSystem implements IEntityProcessingService {
             level = world.level;
             moveCount = world.tileSize * world.getEntities(Enemy.class).size();
         }
+        int playerTile = 0;
+        playerTile = (int)playerX/world.tileSize;
+        playerTile = playerTile * ((int)playerY/world.tileSize);
 
         for (Entity enemy : world.getEntities(Enemy.class)) {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
             EnemyMovingPart movingPart = enemy.getPart(EnemyMovingPart.class);
             
-            movingPart.setPlayerTile((int)(playerX+playerY));
+            movingPart.setPlayerTile(playerTile, world.currentRoom);
 
             Random rand = new Random();
 

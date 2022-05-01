@@ -7,6 +7,7 @@ package rescuerage.common.data.entityparts;
 
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
+import rescuerage.common.data.GameData;
 import static rescuerage.common.data.GameKeys.A;
 import static rescuerage.common.data.GameKeys.D;
 import static rescuerage.common.data.GameKeys.W;
@@ -28,19 +29,24 @@ public class EnemyMovingPart implements EntityPart {
     private boolean left, right, up, down, upLeft, upRight, downLeft, downRight;
     
     private int playerTile = 0;
+    private int roomNR = 0;
+    
     private boolean changed = false;
     private ArrayList<String> path = new ArrayList();
     
-    public void setPlayerTile(int tileNR){
-        if(playerTile != tileNR){
-            changed = true;
+    public void setPlayerTile(int tileNR, int currentRoom){
+        if(currentRoom == roomNR){
+            if(playerTile != tileNR){
+                changed = true;
+            }
+            playerTile = tileNR;
         }
-        playerTile = tileNR;
     }
 
-    public EnemyMovingPart(float maxSpeed) {
+    public EnemyMovingPart(float maxSpeed, int roomNR) {
        
         this.maxSpeed = maxSpeed;
+        this.roomNR = roomNR;
        
     }
 
@@ -105,7 +111,7 @@ public class EnemyMovingPart implements EntityPart {
     @Override
     public void process(GameData gameData, Entity entity) {
         if(changed){
-            System.out.println("In new tile");
+            System.out.println("In new tile: " + playerTile);
             changed = false;
         }
         PositionPart positionPart = entity.getPart(PositionPart.class);

@@ -89,12 +89,12 @@ public class EnemyPlugin implements IGamePluginService {
     }
     
     private void createEneymyInRoomIndex(int index){
-        world.addEntityInRoom(createEnemy(), index);
+        world.addEntityInRoom(createEnemy(index+2), index);
     }
     private void createEnemyInRoomBossArea(){
-        world.addEntityInBossArea(createEnemy());
+        world.addEntityInBossArea(createEnemy(1));
     }
-    private Entity createEnemy(){
+    private Entity createEnemy(int roomNR){
         Entity enemy = new Enemy();
         /*
         enemy.setRadius(tileSize/2);
@@ -103,7 +103,7 @@ public class EnemyPlugin implements IGamePluginService {
         */
         float maxSpeed = world.tileSize;
         enemy.setRadius(8);
-        enemy.add(new EnemyMovingPart(maxSpeed));
+        enemy.add(new EnemyMovingPart(maxSpeed, roomNR));
         //System.out.println("x: " + x);
         //System.out.println("y: " + y);
         enemy.add(new PositionPart(0,0,0));
@@ -113,7 +113,7 @@ public class EnemyPlugin implements IGamePluginService {
         //addEntity(map, roomEntityMap);
         return enemy;
     }
-    
+    /*
     private Entity createEnemyShip(GameData gameData) {
     
         float maxSpeed = 20;
@@ -135,7 +135,7 @@ public class EnemyPlugin implements IGamePluginService {
 
         return enemyShip;
     }
-
+*/
     @Override
     public void stop(GameData gameData, World world) {
         // Remove entities

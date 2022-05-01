@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.data.entityparts.PositionPart;
 
@@ -29,6 +32,8 @@ public class Game implements ApplicationListener {
 
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
+    /*SpriteBatch batch = new SpriteBatch();
+    BitmapFont font = new BitmapFont();*/
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = new World();
@@ -77,8 +82,8 @@ public class Game implements ApplicationListener {
         cam.position.x = positionPart.getX();
         cam.position.y = positionPart.getY();
         cam.update();
-        System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
-        System.out.println(cam.position);
+        //System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
+        //System.out.println(cam.position);
         
         Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
@@ -228,6 +233,17 @@ public class Game implements ApplicationListener {
                 sr.end();
             }
         }
+        //world.getCollisionEntities().
+        //world.getPlayerID()
+        
+        /*
+        Entity player = world.getEntity(world.getPlayerID());
+        LifePart life = player.getPart(LifePart.class);
+        int lifeAmount = life.getLife();
+        batch.begin();
+        font.draw(batch, ("Health: " + lifeAmount), 100, 40);
+        batch.end();
+        */
     }
 
     @Override
