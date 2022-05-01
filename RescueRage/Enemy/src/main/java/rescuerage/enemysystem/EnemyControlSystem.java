@@ -14,17 +14,24 @@ import org.openide.util.lookup.ServiceProvider;
 public class EnemyControlSystem implements IEntityProcessingService {
 
     private int level = 1;
-    private int enemyCount = 0;
-    private int moveCount = 0;
+    //private int enemyCount = 0;
+    //private int moveCount = 0;
     private boolean up = true;
     private float playerX = -1;
     private float playerY = -1;
     
     @Override
     public void process(GameData gameData, World world) {
+        if(level!=world.level){
+            Lookup.getDefault().lookup(EnemyPlugin.class).createEnemiesInLevel();
+            level = world.level;
+            //moveCount = world.tileSize * world.getEntities(Enemy.class).size();
+        }
+        
         playerX = world.getPlayerPositionPart().getX();
         playerY = world.getPlayerPositionPart().getY();
         
+        /*
         if(enemyCount != world.getEntities(Enemy.class).size()){
             enemyCount = world.getEntities(Enemy.class).size();
             if(moveCount>world.tileSize)
@@ -34,17 +41,10 @@ public class EnemyControlSystem implements IEntityProcessingService {
             moveCount = world.tileSize * 2 * enemyCount;
             up = !up;
         }
+        */
         
-        if(level!=world.level){
-            //MapPlugin.createLevel();
-            //world.clearRoomMap();
-            Lookup.getDefault().lookup(EnemyPlugin.class).createEnemiesInLevel();
-            //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
-            level = world.level;
-            moveCount = world.tileSize * world.getEntities(Enemy.class).size();
-        }
-        int playerTile = 0;
-        playerTile = (int)playerX/world.tileSize;
+        //int playerTile = 0;
+        int playerTile = (int)playerX/world.tileSize;
         playerTile = playerTile * ((int)playerY/world.tileSize);
 
         for (Entity enemy : world.getEntities(Enemy.class)) {
@@ -53,20 +53,19 @@ public class EnemyControlSystem implements IEntityProcessingService {
             
             movingPart.setPlayerTile(playerTile, world.currentRoom);
 
-            Random rand = new Random();
-
-            int rng = rand.nextInt(10000);
-            //System.out.println(rng);
-            
-            //System.out.println("\nPre move | x: " + positionPart.getX() + " | y: " + positionPart.getY());
-            if(moveCount>0){
+            if(movingPart.newTile == false){
                 if(up){
                     movingPart.setUp(true);
+                    System.out.println("up");
                 }
                 else{
-                    movingPart.setDown(true);
+                    movingPart.setDownLeft(true);
+                    System.out.println("!up");
                 }
-                moveCount--;
+            }
+            else{
+                up = !up;
+                movingPart.newTile = false;
             }
             //System.out.println("moveCount: " + moveCount);
             /*
@@ -121,6 +120,10 @@ public class EnemyControlSystem implements IEntityProcessingService {
             movingPart.setLeft(false);
             movingPart.setUp(false);
             movingPart.setDown(false);
+            movingPart.setUpLeft(false);
+            movingPart.setUpRight(false);
+            movingPart.setDownLeft(false);
+            movingPart.setDownRight(false);
             
             //System.out.println("Post move | x: " + positionPart.getX() + " | y: " + positionPart.getY() + "\n");
         }

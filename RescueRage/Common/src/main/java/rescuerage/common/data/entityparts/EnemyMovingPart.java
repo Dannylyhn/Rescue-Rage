@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Alexander
+ * @author ander
  */
 public class EnemyMovingPart implements EntityPart {
 
@@ -30,12 +30,16 @@ public class EnemyMovingPart implements EntityPart {
     
     private int playerTile = 0;
     private int roomNR = 0;
+    private int tile = 0;
+    public boolean newTile = false;
+    private boolean enter = false;
     
     private boolean changed = false;
     private ArrayList<String> path = new ArrayList();
     
     public void setPlayerTile(int tileNR, int currentRoom){
         if(currentRoom == roomNR){
+            enter = true;
             if(playerTile != tileNR){
                 changed = true;
             }
@@ -110,70 +114,93 @@ public class EnemyMovingPart implements EntityPart {
 
     @Override
     public void process(GameData gameData, Entity entity) {
-        if(changed){
-            System.out.println("In new tile: " + playerTile);
-            changed = false;
-        }
-        PositionPart positionPart = entity.getPart(PositionPart.class);
-        float x = positionPart.getX();
-        float y = positionPart.getY();
-        float radians = positionPart.getRadians();
-        float dt = gameData.getDelta();
-
-        // turning
-        if (left) {
-            dx = -maxSpeed;
-        }
-
-        if (right) {
-            dx = maxSpeed;
-        }
-
-        // accelerating            
-        if (up) {
-            dy =  maxSpeed;
-        }
-        
-        if (down){
-            dy = -maxSpeed;
-        }
-        if (upLeft){
-            dy =  maxSpeed;
-            dx = -maxSpeed;
-        }
-        if (upRight){
-            dy =  maxSpeed;
-            dx = maxSpeed;
-        }
-        if (downLeft){
-            dy = -maxSpeed;
-            dx = -maxSpeed;
-        }
-        if (downRight){
-            dy = -maxSpeed;
-            dx = maxSpeed;
-        }
-
-        // set position
-        if(x!=0){
-            x += dx * dt;
-            if (x > gameData.getDisplayWidth()) {
-                x = 0;
-            } else if (x < 0) {
-                x = gameData.getDisplayWidth();
+        if(enter){
+            if(changed){
+                System.out.println("In new tile: " + playerTile);
+                changed = false;
+            }
+            PositionPart positionPart = entity.getPart(PositionPart.class);
+            float x = positionPart.getX();
+            float y = positionPart.getY();
+            float radians = positionPart.getRadians();
+            float dt = gameData.getDelta();
+            /*tile = (int)x*16;
+            tile = tile * ((int)y/16);*/
+            int tempTile = ((int)x/16) * ((int)y/16);
+            if(tile != tempTile){
+                newTile = true;
+                tile = tempTile;
+                System.out.println(tile);
+                // update new movement
             }
 
-            y += dy * dt;
-            if (y > gameData.getDisplayHeight()) {
-                y = 0;
-            } else if (y < 0) {
-                y = gameData.getDisplayHeight();
+            // turning
+            if (left) {
+                //dx = -maxSpeed;
+                x -= maxSpeed*dt;
             }
 
-            positionPart.setX(x);
-            positionPart.setY(y);
+            if (right) {
+                //dx = maxSpeed;
+                x += maxSpeed*dt;
+            }
+
+            // accelerating            
+            if (up) {
+                //dy =  maxSpeed;
+                y += maxSpeed*dt;
+            }
+
+            if (down){
+                //dy = -maxSpeed;
+                y -= maxSpeed*dt;
+            }
+            if (upLeft){
+                //dy =  maxSpeed;
+                y += maxSpeed*dt;
+                //dx = -maxSpeed;
+                x -= maxSpeed*dt;
+            }
+            if (upRight){
+                //dy =  maxSpeed;
+                y += maxSpeed*dt;
+                //dx = maxSpeed;
+                x += maxSpeed*dt;
+            }
+            if (downLeft){
+                //dy = -maxSpeed;
+                y -= maxSpeed*dt;
+                //dx = -maxSpeed;
+                x -= maxSpeed*dt;
+            }
+            if (downRight){
+                //dy = -maxSpeed;
+                y -= maxSpeed*dt;
+                //dx = maxSpeed;
+                x += maxSpeed*dt;
+            }
+
+            // set position
+            if(x!=0){
+                x += dx * dt;
+                if (x > gameData.getDisplayWidth()) {
+                    x = 0;
+                } else if (x < 0) {
+                    x = gameData.getDisplayWidth();
+                }
+
+                y += dy * dt;
+                if (y > gameData.getDisplayHeight()) {
+                    y = 0;
+                } else if (y < 0) {
+                    y = gameData.getDisplayHeight();
+                }
+
+                positionPart.setX(x);
+                positionPart.setY(y);
+            }
+            positionPart.setRadians(radians);
         }
-        positionPart.setRadians(radians);
     }
 
 }
