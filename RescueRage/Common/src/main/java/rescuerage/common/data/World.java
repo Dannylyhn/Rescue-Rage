@@ -17,7 +17,7 @@ import rescuerage.common.data.entityparts.TilePart;
  */
 public class World {
     //Player set id
-    private String playerID;
+    private String playerID = "";
 
     public String getPlayerID() {
         return playerID;
@@ -38,14 +38,14 @@ public class World {
         this.weapons = weapons;
     }
     
-    public String weapon;
+    public String DefaultWeapon = "";
 
-    public String getWeapon() {
-        return weapon;
+    public String getDefaultWeapon() {
+        return DefaultWeapon;
     }
 
-    public void setWeapon(String weapon) {
-        this.weapon = weapon;
+    public void setDefaultWeapon(String weapon) {
+        this.DefaultWeapon = weapon;
     }
     
     public int level = 1;

@@ -29,19 +29,20 @@ public class PlayerPlugin implements IGamePluginService {
         player = createPlayerShip(gameData);
         world.setPlayerID(player.getID());
         
-        // Hardcoding weapons for now until we add collision.
         LoadoutPart lp = player.getPart(LoadoutPart.class);
-        for(String weaponID : world.getWeapons())
-        {
-            Entity weapon = world.getEntity(weaponID);
-            lp.addWeapon(weapon);
-        }
         
-        // First weapon is current equipped weapon.
-        Entity firstWeapon = world.getEntity(world.getWeapons()[0]);
-        lp.setCurrentWeapon(firstWeapon);
-        GunPart gunPart = firstWeapon.getPart(GunPart.class);
-        gunPart.setEquipped(true);
+        // Add default weapon
+        if(!world.getDefaultWeapon().equals(""))
+        {
+            Entity defaultWeapon = world.getEntity(world.getDefaultWeapon());
+            lp.addWeapon(defaultWeapon);
+
+            //Set defualt weapon to the currently equipped weapon. 
+            lp.setCurrentWeapon(defaultWeapon);
+            GunPart gunPart = defaultWeapon.getPart(GunPart.class);
+            gunPart.setEquipped(true);   
+        }
+
         
         world.addEntity(player);
     }
