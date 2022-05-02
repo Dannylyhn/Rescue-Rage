@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.data.entityparts.PositionPart;
 
@@ -29,6 +32,8 @@ public class Game implements ApplicationListener {
 
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
+    SpriteBatch batch;
+    BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = new World();
@@ -36,7 +41,7 @@ public class Game implements ApplicationListener {
     private Lookup.Result<IGamePluginService> result;
     
     private Entity player;
-    private PositionPart positionPart;
+    private PositionPart positionPart = null;
     private float radians;
 
     @Override
@@ -45,6 +50,8 @@ public class Game implements ApplicationListener {
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
 
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        batch = new SpriteBatch();
+        font = new BitmapFont();
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
 
@@ -61,8 +68,12 @@ public class Game implements ApplicationListener {
             gamePlugins.add(plugin);
         }
 
-        player = world.getEntity(world.getPlayerID());
-        positionPart = player.getPart(PositionPart.class);
+        //We need the player entity 
+        if(!world.getPlayerID().equals(""))
+        {
+            player = world.getEntity(world.getPlayerID());
+            positionPart = player.getPart(PositionPart.class);
+        }
     }
 
     @Override
@@ -74,17 +85,21 @@ public class Game implements ApplicationListener {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
         
-        cam.position.x = positionPart.getX();
-        cam.position.y = positionPart.getY();
-        cam.update();
-        System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
-        System.out.println(cam.position);
-        
-        Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
-        radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
-        positionPart.setRadians(radians);
-        
+        if(positionPart != null)
+        {
+            //Sets camera position center to player
+            cam.position.x = positionPart.getX();
+            cam.position.y = positionPart.getY();
+            cam.update();
+            System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
+            System.out.println(cam.position);
+
+            //Rotates player to the cursor
+            Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
+            radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
+            positionPart.setRadians(radians);   
+        }
 
         update();
         draw();
@@ -114,6 +129,8 @@ public class Game implements ApplicationListener {
         //System.out.println("draw 1");
         //for(Map<String, Entity> entityMap : world.getRooms()){
         //System.out.println("rooms: " + world.getHouseRooms().size());
+        
+        //Following code has issues with dynamic load and unload
         int justOne = -1;
         for(Entity e : world.getLevel().get(world.currentRoom).values()){
             if(e.getClass().getSimpleName().equals("Map")){
@@ -125,11 +142,6 @@ public class Game implements ApplicationListener {
                 }
         }
         for(int ii = 0; ii < world.getLevel().size(); ii++){
-            
-        //for(int ii = 0; ii < world.getHouseRooms().size(); ii++){
-            //if(ii==3){ii++;}
-        //for(int ii = 0; ii < 7; ii++){
-            //System.out.println("draw 2");
             boolean skip = false;
             for (Entity entity : world.getLevel().get(ii).values()) {
                 if(entity.getClass().getSimpleName().equals("Map")){
@@ -163,6 +175,9 @@ public class Game implements ApplicationListener {
                                 sr.setColor(0, 1, 0, 0);
                             }
                         }
+                        else if(tile.getType().equals("floor")){
+                            sr.setColor(1, 1, 1, 1);
+                        }
                         else{
                             sr.setColor(0, 0, 1, 0);
                         }
@@ -193,7 +208,7 @@ public class Game implements ApplicationListener {
         }
         
         for (Entity entity : world.getCollisionEntities()) {
-            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Weapon")){
+            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy")){
                 /*TilePart tile = entity.getPart(TilePart.class);
                 if(tile.getType().equals("door")){
                     //System.out.println("Colliding with door");
@@ -207,6 +222,18 @@ public class Game implements ApplicationListener {
                 else{
                     sr.setColor(0, 0, 1, 0);
                 }*/
+                // from top sr = new ShapeRenderer();
+                batch.begin();
+                String s = "Level: ";
+                int l = world.level;
+                s = s + l + " | Life: ";
+                if(entity.getClass().getSimpleName().equals("Player")){
+                    LifePart lifepart = entity.getPart(LifePart.class);
+                    int life = lifepart.getLife();
+                    s = s + life;
+                }
+                font.draw(batch, s, 100, 100);
+                batch.end();
                 sr.setColor(1, 1, 1, 1);
 
 
@@ -225,6 +252,17 @@ public class Game implements ApplicationListener {
                 sr.end();
             }
         }
+        //world.getCollisionEntities().
+        //world.getPlayerID()
+        
+        /*
+        Entity player = world.getEntity(world.getPlayerID());
+        LifePart life = player.getPart(LifePart.class);
+        int lifeAmount = life.getLife();
+        batch.begin();
+        font.draw(batch, ("Health: " + lifeAmount), 100, 40);
+        batch.end();
+        */
     }
 
     @Override

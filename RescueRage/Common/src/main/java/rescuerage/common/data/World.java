@@ -17,10 +17,13 @@ import rescuerage.common.data.entityparts.TilePart;
  */
 public class World {
     //Player set id
-    private String playerID;
+    private String playerID = "";
 
     public String getPlayerID() {
         return playerID;
+    }
+    public PositionPart getPlayerPositionPart(){
+        return entityMap.get(playerID).getPart(PositionPart.class);
     }
     public void setPlayerID(String playerID) {
         this.playerID = playerID;
@@ -35,14 +38,14 @@ public class World {
         this.weapons = weapons;
     }
     
-    public String weapon;
+    public String DefaultWeapon = "";
 
     public String getDefaultWeapon() {
-        return weapon;
+        return DefaultWeapon;
     }
 
     public void setDefaultWeapon(String weapon) {
-        this.weapon = weapon;
+        this.DefaultWeapon = weapon;
     }
     
     public int level = 1;
@@ -153,14 +156,17 @@ public class World {
     public void lockDoors(){
         int counter = 0;
         for(Entity e : getLevel().get(currentRoom).values()){
-            if(e.getClass().getSimpleName().equals("Map")){
+            if(e.getClass().getSimpleName().equals("Enemy")){
+                counter++;
+            }
+            else if(e.getClass().getSimpleName().equals("Map")){
                 TilePart tp = e.getPart(TilePart.class);
                 if(tp.getType().equals("door")){
                     tp.lock();
                 }
-                else if(tp.getType().equals("box")){
+                /*else if(tp.getType().equals("box")){
                     counter++;
-                }
+                }*/
             }
         }
         //System.out.println("\n\n\n\n c: " + counter + "\n\n\n\n\n");
@@ -187,27 +193,26 @@ public class World {
         int counter = 0;
         for(Map<String, Entity> room : getHouseRooms()){
             for(Entity e : room.values()){
-                if(e.getClass().getSimpleName().equals("Map"))
-                {
+                /*if(e.getClass().getSimpleName().equals("Enemy")){
+                    counter++;
+                }*/
+                if(e.getClass().getSimpleName().equals("Map")){
                     TilePart tp = e.getPart(TilePart.class);
                     if(tp.getType().equals("roomInfo")){
-                        System.out.println("room check unlocking");
+                        //System.out.println("room check unlocking");
                         if(tp.getState().equals("unexplored")){
                             counter++;
-                            System.out.println("counter: " + counter);
+                            //System.out.println("counter: " + counter);
                         }
                     }
                 }
-                else if(e.getClass().getSimpleName().equals("Weapon")){
-                }
-                else
-                {
+                else{
                     counter++;
                 }
             }
         }
         if(counter == 0){
-            System.out.println("unlocking boss");
+            //System.out.println("unlocking boss");
             unlockBossRoom();
         }
     }
@@ -221,11 +226,11 @@ public class World {
     }
     private void roomCollisionCheck(Map<String, Entity> room, Entity entity){
         Random rand = new Random();
-        int min = tileSize;
-        int maxW = roomW*tileSize;
-        int maxH = roomH*tileSize-tileSize;
-        int randomX = rand.nextInt((maxW - min) + 1) + min;
-        int randomY = rand.nextInt((maxH - min) + 1) + min;
+        int min = tileSize + (int)entity.getRadius()*2;
+        int maxW = roomW*tileSize-tileSize*2-(int)entity.getRadius()*2;
+        int maxH = roomH*tileSize-tileSize*2-(int)entity.getRadius()*2;
+        int randomX = rand.nextInt((maxW - min) + min) + min;
+        int randomY = rand.nextInt((maxH - min) + min) + min;
         entity.add(new PositionPart(randomX,randomY,0));
         for(Entity e : room.values()){
             float[] sx = e.getShapeX();

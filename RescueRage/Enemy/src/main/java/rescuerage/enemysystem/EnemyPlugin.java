@@ -1,6 +1,6 @@
 package rescuerage.enemysystem;
 
-import com.badlogic.gdx.graphics.Texture;
+//import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
@@ -20,17 +20,29 @@ public class EnemyPlugin implements IGamePluginService {
     private Entity enemy2;
     */
     private ArrayList<Entity> enemies = new ArrayList<>();
- 
-
+    
+    private int houseH;
+    private int houseW;
+    private int roomH = 9; // must be uneven number, because the doors are being set at the center of the wall
+    private int roomW = 11; // must be uneven number, because the doors are being set at the center of the wall
+    private int tileSize = 16; // must be even number, because the top and right rows are depending on it
+    private int WIDTH = roomW * tileSize;
+    private int HEIGHT = roomH * tileSize;
+    private int level;
+    private World world;
     @Override
     public void start(GameData gameData, World world) {
-        int amountOfEnemies = 5;
-        // Add entities to the world
+        this.world = world;
+        this.level = 0;
+        createEnemiesInLevel();
         
+        //int amountOfEnemies = 50;
+        // Add entities to the world
+        /*
         for(int i  = 0; i<amountOfEnemies;i++){
             enemies.add(createEnemyShip(gameData));
         }
-        
+        */
         
         /*
         enemy = createEnemyShip(gameData);
@@ -41,41 +53,93 @@ public class EnemyPlugin implements IGamePluginService {
             world.addEntity(enemy);
             world.addEntity(enemy2);
       */
-      
+      /*
       for(int i = 0;i<enemies.size();i++){
         world.addEntity(enemies.get(i));   
       }
-     
+     */
     }
-
+    
+    private void initLevel(){
+        this.world = world;
+        this.houseH = world.houseH;
+        this.houseW = world.houseW + 1;
+        this.roomH = world.roomH;
+        this.roomW = world.roomW;
+        this.tileSize = world.tileSize;
+    }
+    
+    public void createEnemiesInLevel(){
+        /*if (level != world.level){
+            level = world.level;
+        }*/
+        //world.clearRoomMap();
+        initLevel();
+        //initLevel();
+        // starting area
+        
+        //createHouse();
+        
+        //createBoxInRoomIndex(4);
+        createEneymyInRoomIndex(3);
+        createEneymyInRoomIndex(0);
+        createEnemyInRoomBossArea();
+        createEnemyInRoomBossArea();
+        createEnemyInRoomBossArea();
+        createEnemyInRoomBossArea();
+        createEnemyInRoomBossArea();
+        // end area
+        
+    }
+    
+    private void createEneymyInRoomIndex(int index){
+        world.addEntityInRoom(createEnemy(index+2), index);
+    }
+    private void createEnemyInRoomBossArea(){
+        world.addEntityInBossArea(createEnemy(1));
+    }
+    private Entity createEnemy(int roomNR){
+        Entity enemy = new Enemy();
+        
+        enemy.setRadius(tileSize/2);
+        enemy.setSizeX(tileSize/2);
+        enemy.setSizeY(tileSize/2);
+        
+        float maxSpeed = world.tileSize;
+        enemy.setRadius(8);
+        enemy.add(new EnemyMovingPart(maxSpeed, roomNR));
+        //System.out.println("x: " + x);
+        //System.out.println("y: " + y);
+        enemy.add(new PositionPart(0,0,0));
+        enemy.add(new LifePart(3));
+        
+        world.addEntity(enemy);
+        //addEntity(map, roomEntityMap);
+        return enemy;
+    }
+    /*
     private Entity createEnemyShip(GameData gameData) {
-
-     
+    
         float maxSpeed = 20;
 
         
         
         //Declares the position of the ship
-        float x = new Random().nextFloat() * gameData.getDisplayWidth();
-        float y = new Random().nextFloat() * gameData.getDisplayHeight();
-        float radians = 3.1415f / 2;
+        //float x = new Random().nextFloat() * gameData.getDisplayWidth();
+        //float y = new Random().nextFloat() * gameData.getDisplayHeight();
+        //float radians = 3.1415f / 2;
 
         
-        float[] colour = new float[4];
-        colour[0] = 1.0f;
-        colour[1] = 0.0f;
-        colour[2] = 0.0f;
-        colour[3] = 1.0f;
 
         Entity enemyShip = new Enemy();
         enemyShip.setRadius(8);
         enemyShip.add(new EnemyMovingPart(maxSpeed));
-        enemyShip.add(new PositionPart(x, y, radians));
+        //enemyShip.add(new PositionPart(x, y, radians));
      
 
         return enemyShip;
     }
-
+*/
     @Override
     public void stop(GameData gameData, World world) {
         // Remove entities

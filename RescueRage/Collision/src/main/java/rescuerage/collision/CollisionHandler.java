@@ -53,7 +53,8 @@ public class CollisionHandler implements IPostEntityProcessingService {
 
 
                 if (e1.getClass().getSimpleName().equals("Map")) {
-                    if (e2.getClass().getSimpleName().equals("Player")) {
+                    String temp = e2.getClass().getSimpleName();
+                    if (temp.equals("Player") || temp.equals("Enemy")) {
                         TilePart tile = e1.getPart(TilePart.class);
                         switch (tile.getType()) {
                             case "box":
@@ -85,7 +86,8 @@ public class CollisionHandler implements IPostEntityProcessingService {
                 }
                     
                 if (e2.getClass().getSimpleName().equals("Map")) {
-                    if (e1.getClass().getSimpleName().equals("Player")) {
+                    String temp = e1.getClass().getSimpleName();
+                    if (temp.equals("Player") || temp.equals("Enemy")) {
                         //unWalkable(e2,e1);
                         TilePart tile = e2.getPart(TilePart.class);
                         switch (tile.getType()) {
@@ -94,10 +96,13 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                 break;
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
-                                world.currentRoom = tile.getRoom();
-                                if(tile.getState().equals("unexplored")){
-                                    world.lockDoors();
-                                }   break;
+                                if(temp.equals("Player")){
+                                    world.currentRoom = tile.getRoom();
+                                    if(tile.getState().equals("unexplored")){
+                                        world.lockDoors();
+                                    }
+                                }
+                                break;
                             default:
                                 unWalkable(e2,e1);
                                 break;
@@ -106,12 +111,18 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     //world.removeEntity(e1);
                     //return;
                 }
+                if (e1.getClass().getSimpleName().equals("Enemy")) {
+                    if (e2.getClass().getSimpleName().equals("Enemy")) {
+                        unWalkable(e1,e2);
+                    }
+                }
 
                 if (e1.getClass().getSimpleName().equals("Bullet")) {
-                    if (e2.getClass().getSimpleName().equals("Player")) {
+                    String temp = e2.getClass().getSimpleName();
+                    if (temp.equals("Player")) {
 
                     }
-                    else if(e2.getClass().getSimpleName().equals("Map")){
+                    else if(temp.equals("Map")){
                         TilePart tp = e2.getPart(TilePart.class);
                         if(tp.type.equals("box")){
                             //System.out.println("\nhere\n\nhere\n\nhere\n");
@@ -128,6 +139,16 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             return;
                         }
                         world.removeEntity(e1);
+                    }
+                    else if(temp.equals("Enemy")){
+                        LifePart l = e2.getPart(LifePart.class);
+                        //System.out.println("pre hit: life int: " + l.getLife() + " | dead: " + l.isDead());
+                        l.hit(1);
+                        //System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
+                        if(l.isDead()){
+                            world.removeEntity(e2);
+                            //world.
+                        }
                     }
                     else{
                         world.removeEntity(e1);
@@ -208,6 +229,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
     }
 
     private boolean isSameEntityType(Entity entity, Entity entity2) {
+        if(entity.getClass().getSimpleName().equals("Enemy")){
+            return false;
+        }
         return Objects.equals(entity.getClass().getSimpleName(), entity2.getClass().getSimpleName());
     }
 
