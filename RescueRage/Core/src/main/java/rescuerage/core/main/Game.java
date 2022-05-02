@@ -41,7 +41,7 @@ public class Game implements ApplicationListener {
     private Lookup.Result<IGamePluginService> result;
     
     private Entity player;
-    private PositionPart positionPart;
+    private PositionPart positionPart = null;
     private float radians;
 
     @Override
@@ -68,8 +68,12 @@ public class Game implements ApplicationListener {
             gamePlugins.add(plugin);
         }
 
-        player = world.getEntity(world.getPlayerID());
-        positionPart = player.getPart(PositionPart.class);
+        //We need the player entity 
+        if(!world.getPlayerID().equals(""))
+        {
+            player = world.getEntity(world.getPlayerID());
+            positionPart = player.getPart(PositionPart.class);
+        }
     }
 
     @Override
@@ -81,17 +85,21 @@ public class Game implements ApplicationListener {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
         
-        cam.position.x = positionPart.getX();
-        cam.position.y = positionPart.getY();
-        cam.update();
-        //System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
-        //System.out.println(cam.position);
-        
-        Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
-        radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
-        positionPart.setRadians(radians);
-        
+        if(positionPart != null)
+        {
+            //Sets camera position center to player
+            cam.position.x = positionPart.getX();
+            cam.position.y = positionPart.getY();
+            cam.update();
+            System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
+            System.out.println(cam.position);
+
+            //Rotates player to the cursor
+            Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
+            radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
+            positionPart.setRadians(radians);   
+        }
 
         update();
         draw();
@@ -121,6 +129,8 @@ public class Game implements ApplicationListener {
         //System.out.println("draw 1");
         //for(Map<String, Entity> entityMap : world.getRooms()){
         //System.out.println("rooms: " + world.getHouseRooms().size());
+        
+        //Following code has issues with dynamic load and unload
         int justOne = -1;
         for(Entity e : world.getLevel().get(world.currentRoom).values()){
             if(e.getClass().getSimpleName().equals("Map")){

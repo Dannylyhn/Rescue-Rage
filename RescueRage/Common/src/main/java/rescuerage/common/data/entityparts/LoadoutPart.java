@@ -13,7 +13,7 @@ import rescuerage.common.data.GameData;
  */
 public class LoadoutPart implements EntityPart{
     public ArrayList<Entity> weapons = new ArrayList<Entity>();
-    public Entity currentWeapon;
+    public Entity currentWeapon = null;
     
     private boolean Q,E;
 
@@ -56,11 +56,18 @@ public class LoadoutPart implements EntityPart{
     public void process(GameData gameData, Entity entity) {
         int indexOfCurrentWeapon = getWeapons().indexOf(currentWeapon);
         int loadoutLength = getWeapons().size();
-        GunPart gunPart = currentWeapon.getPart(GunPart.class);
+        GunPart gunPart = null;
+        
+        //Get the gunPart of the current weapon. 
+        if(currentWeapon!=null)
+        {
+             gunPart = currentWeapon.getPart(GunPart.class);
+        }
 
         //Changes weapon to previous
-        if(Q)
+        if(Q && weapons.size()>2)
         {
+            //Set current weapon equip to false. Now it cannot shoot
             gunPart.setEquipped(false);
             int indexOfPreviousWeapon = indexOfCurrentWeapon-1;
             //Loop back in the array if we press Q for the first weapon.
@@ -68,12 +75,13 @@ public class LoadoutPart implements EntityPart{
             {
                 indexOfPreviousWeapon = loadoutLength-1;
             }
+            //New current weapon to previous and set its equip to true.
             setCurrentWeapon(getWeapons().get(indexOfPreviousWeapon));
             gunPart = currentWeapon.getPart(GunPart.class);
             gunPart.setEquipped(true);
         }
         //Changes weapon to next
-        if(E)
+        if(E && weapons.size()>2)
         {
             gunPart.setEquipped(false);
             //Loop back in the array if we press Q for the last weapon.

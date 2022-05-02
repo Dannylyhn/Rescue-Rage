@@ -27,15 +27,13 @@ public class WeaponPlugin implements IGamePluginService {
         //Gunpart = Bulletspershot, ammo, spraypattern
         weapon = createWeapon(gameData, new GunPart(1,10000, new float[]{0}));
         world.addEntity(weapon);
-        world.getWeapons()[0] = weapon.getID();
+        world.setDefaultWeapon(weapon.getID());
         
         weapon = createWeapon(gameData, new GunPart(3,10000, new float[]{-6,6,6}));
-        world.addEntity(weapon);
-        world.getWeapons()[1] = weapon.getID();
+//        world.addEntity(weapon);
         
         weapon = createWeapon(gameData, new GunPart(6,10000, new float[]{-9,9,9,9,9,9}));
-        world.addEntity(weapon);
-        world.getWeapons()[2] = weapon.getID();
+//        world.addEntity(weapon);
     }
     
     private Entity createWeapon(GameData gameData, GunPart gunPart)
