@@ -33,18 +33,29 @@ public class WeaponControlSystem implements IEntityProcessingService {
             GunPart gunPart = weapon.getPart(GunPart.class);
             
             //Needs to be equipped and have ammo before it can shoot. 
-            if(gunPart.equipped == true && gameData.getKeys().isDown(GameKeys.LEFTCLICK) && gunPart.getAmmo() != 0)
+            if(gunPart.equipped == true && gameData.getKeys().isDown(GameKeys.LEFTCLICK) && gunPart.getMagazine()!= 0)
             {
                 shoot(weapon, gameData, world);
-                gunPart.minusAmmo();
+                gunPart.minusMagazine();
+                System.out.println("Current Magazine: " + gunPart.getMagazine());
+            }
+            
+            if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()!=0)
+            {
+                int reloadedAmount = gunPart.getMagazineLength()-gunPart.getMagazine();
+                gunPart.minusAmmo(reloadedAmount);
+                
+                gunPart.setMagazine(gunPart.getMagazineLength());
+                System.out.println("Reloaded magazine: " + gunPart.getMagazine());
             }
             
             positionPart.process(gameData, weapon);
             
-            if(gunPart.pickedUp==false)
-            {
-                updateShape(weapon);       
-            }
+//            if(gunPart.pickedUp==false)
+//            {
+//                updateShape(weapon);       
+//            }
+            updateShape(weapon);       
         }
     }
     

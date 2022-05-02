@@ -57,8 +57,13 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 movingPart.setLeft(false);
                 movingPart.setDown(false);
             }
-            
-           
+
+            for(Entity weapon : loadoutPart.getWeapons())
+            {
+                PositionPart weaponPos = weapon.getPart(PositionPart.class);
+                weaponPos.setPosition(positionPart.getX(), positionPart.getY());
+                weaponPos.setRadians(positionPart.getRadians()); 
+            }
             
             loadoutPart.setQ(gameData.getKeys().isDown(GameKeys.Q));
             loadoutPart.setE(gameData.getKeys().isDown(GameKeys.E));
@@ -71,12 +76,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
             updateShape(player);
             
-            for(Entity weapon : loadoutPart.getWeapons())
-            {
-                PositionPart weaponPos = weapon.getPart(PositionPart.class);
-                weaponPos.setPosition(positionPart.getX(), positionPart.getY());
-                weaponPos.setRadians(positionPart.getRadians()); 
-            }
+
         }
     }
     

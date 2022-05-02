@@ -25,13 +25,13 @@ public class MapProcessor implements IEntityProcessingService {
     public void process(GameData gameData, World world) {
         //MapPlugin.start(gameData, world);
         //int level = 1;
-        if(level!=world.level){
-            //MapPlugin.createLevel();
-            //world.clearRoomMap();
-            Lookup.getDefault().lookup(MapPlugin.class).createLevel();
-            //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
-            level = world.level;
-        }
+//        if(level!=world.level){
+//            //MapPlugin.createLevel();
+//            //world.clearRoomMap();
+//            Lookup.getDefault().lookup(MapPlugin.class).createLevel();
+//            //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
+//            level = world.level;
+//        }
         for(java.util.Map<String, Entity> entityMap : world.getLevel()){
             //System.out.println("draw 2");
             for (Entity entity : entityMap.values()) {

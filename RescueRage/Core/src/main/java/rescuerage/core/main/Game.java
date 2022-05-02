@@ -23,6 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.data.entityparts.PositionPart;
@@ -208,7 +209,29 @@ public class Game implements ApplicationListener {
         }
         
         for (Entity entity : world.getCollisionEntities()) {
-            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy")){
+            //Draw magazine and ammo
+            batch.begin();
+
+            String nameOfWeapon = "Current: ";
+            String ammo = "Ammo: ";
+            String magazine = "          |  Magazine: ";
+            if(entity.getClass().getSimpleName().equals("Weapon")){
+                GunPart gunPart = entity.getPart(GunPart.class);
+                if(gunPart.isEquipped())
+                {
+                    ammo = ammo + gunPart.getAmmo();
+                    int magazineAmount = gunPart.getMagazine();
+                    font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
+                    nameOfWeapon = nameOfWeapon + gunPart.getName();
+                    font.draw(batch, nameOfWeapon, 550, 150);
+                }
+            }
+
+
+            font.draw(batch, ammo, 550, 100);
+            batch.end();
+            sr.setColor(1, 1, 1, 1);
+            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy") && !entity.getClass().getSimpleName().equals("Weapon")){
                 /*TilePart tile = entity.getPart(TilePart.class);
                 if(tile.getType().equals("door")){
                     //System.out.println("Colliding with door");
@@ -235,7 +258,6 @@ public class Game implements ApplicationListener {
                 font.draw(batch, s, 100, 100);
                 batch.end();
                 sr.setColor(1, 1, 1, 1);
-
 
                 sr.begin(ShapeRenderer.ShapeType.Line);
 

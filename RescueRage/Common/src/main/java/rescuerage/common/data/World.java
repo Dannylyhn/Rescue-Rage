@@ -83,7 +83,7 @@ public class World {
         
     }
     public void clearRoomMap(){
-        roomMap.clear();
+//        roomMap.clear();
         for(Entity e : collisionMap.values()){
             if(e.getClass().getSimpleName().equals("Player")){
                 
@@ -206,9 +206,9 @@ public class World {
                         }
                     }
                 }
-                else{
-                    counter++;
-                }
+//                else{
+//                    counter++;
+//                }
             }
         }
         if(counter == 0){

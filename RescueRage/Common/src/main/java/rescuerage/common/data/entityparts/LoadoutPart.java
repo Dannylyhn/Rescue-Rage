@@ -4,6 +4,7 @@
  */
 package rescuerage.common.data.entityparts;
 import java.util.ArrayList;
+import java.util.Map;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 
@@ -50,8 +51,6 @@ public class LoadoutPart implements EntityPart{
         this.currentWeapon = currentWeapon;
     }
     
-    
-
     @Override
     public void process(GameData gameData, Entity entity) {
         int indexOfCurrentWeapon = getWeapons().indexOf(currentWeapon);
