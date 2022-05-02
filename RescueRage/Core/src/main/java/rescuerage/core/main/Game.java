@@ -132,15 +132,15 @@ public class Game implements ApplicationListener {
         
         //Following code has issues with dynamic load and unload
         int justOne = -1;
-//        for(Entity e : world.getLevel().get(world.currentRoom).values()){
-//            if(e.getClass().getSimpleName().equals("Map")){
-//                    TilePart tile = e.getPart(TilePart.class);
-//                    if(tile.getType().equals("roomInfo")){
-//                        if(tile.getState().equals("unexplored"))
-//                            justOne = world.currentRoom;
-//                    }
-//                }
-//        }
+        for(Entity e : world.getLevel().get(world.currentRoom).values()){
+            if(e.getClass().getSimpleName().equals("Map")){
+                    TilePart tile = e.getPart(TilePart.class);
+                    if(tile.getType().equals("roomInfo")){
+                        if(tile.getState().equals("unexplored"))
+                            justOne = world.currentRoom;
+                    }
+                }
+        }
         for(int ii = 0; ii < world.getLevel().size(); ii++){
             boolean skip = false;
             for (Entity entity : world.getLevel().get(ii).values()) {

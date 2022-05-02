@@ -30,10 +30,10 @@ public class WeaponPlugin implements IGamePluginService {
         world.setDefaultWeapon(weapon.getID());
         
         weapon = createWeapon(gameData, new GunPart(3,10000, new float[]{-6,6,6}));
-        world.addEntity(weapon);
+//        world.addEntity(weapon);
         
         weapon = createWeapon(gameData, new GunPart(6,10000, new float[]{-9,9,9,9,9,9}));
-        world.addEntity(weapon);
+//        world.addEntity(weapon);
     }
     
     private Entity createWeapon(GameData gameData, GunPart gunPart)
