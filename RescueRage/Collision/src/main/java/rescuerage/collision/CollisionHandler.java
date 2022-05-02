@@ -18,6 +18,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import rescuerage.common.data.entityparts.InventoryPart;
 import rescuerage.common.data.entityparts.LifePart;
 
 @ServiceProvider(service = IPostEntityProcessingService.class)
@@ -146,6 +147,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         l.hit(1);
                         //System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
                         if(l.isDead()){
+                            Entity p = world.getEntity(world.getPlayerID());
+                            InventoryPart ip = p.getPart(InventoryPart.class);
+                            ip.incMoney(100);
                             world.removeEntity(e2);
                             //world.
                         }

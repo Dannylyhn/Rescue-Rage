@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import org.openide.util.Lookup;
+import rescuerage.common.data.entityparts.InventoryPart;
 import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.TilePart;
@@ -91,7 +92,10 @@ public class World {
                 player.setX(((roomW/2)*tileSize));
                 player.setY(((roomH/2)*tileSize));
                 LifePart lifePart = e.getPart(LifePart.class);
+                InventoryPart ip = e.getPart(InventoryPart.class);
                 lifePart.setLife(5);
+                ip.money = 0;
+                ip.keys = 0;
             }
         }
         
