@@ -77,45 +77,6 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 weaponPos.setPosition(positionPart.getX(), positionPart.getY());
                 weaponPos.setRadians(positionPart.getRadians()); 
             }
-            
-//            if(gameData.getKeys().isDown(GameKeys.Q))
-//            {
-//                //Current weapon set to false.
-//                Entity currentWeapon = loadoutPart.currentWeapon;
-//                GunPart gunPart = currentWeapon.getPart(GunPart.class);
-//                gunPart.setEquipped(false);
-//                int indexOfCurrentWeapon = loadoutPart.getWeapons().indexOf(currentWeapon);
-//
-//                
-//                //Get the previous weapon, set it to true and to new current weapon. 
-//                int indexOfPreviousWeapon = indexOfCurrentWeapon-1;
-//                if(indexOfPreviousWeapon < 0)
-//                {
-//                    indexOfPreviousWeapon = 2;
-//                }
-//                
-//                Entity previousWeapon = loadoutPart.getWeapons().get(indexOfPreviousWeapon);
-//                gunPart = previousWeapon.getPart(GunPart.class);
-//                gunPart.setEquipped(true);
-//                loadoutPart.setCurrentWeapon(previousWeapon);
-//            }
-//            
-//            if(gameData.getKeys().isDown(GameKeys.E))
-//            {
-//                //Current weapon set to false.
-//                Entity currentWeapon = loadoutPart.currentWeapon;
-//                GunPart gunPart = currentWeapon.getPart(GunPart.class);
-//                gunPart.setEquipped(false);
-//                int indexOfCurrentWeapon = loadoutPart.getWeapons().indexOf(currentWeapon);
-//                int lengthOfLoadout = loadoutPart.getWeapons().size();
-//
-//                
-//                //Get the next weapon, set it to true and to new current weapon. 
-//                Entity previousWeapon = loadoutPart.getWeapons().get((indexOfCurrentWeapon+1)%lengthOfLoadout);
-//                gunPart = previousWeapon.getPart(GunPart.class);
-//                gunPart.setEquipped(true);
-//                loadoutPart.setCurrentWeapon(previousWeapon);
-//            }
         }
     }
     
