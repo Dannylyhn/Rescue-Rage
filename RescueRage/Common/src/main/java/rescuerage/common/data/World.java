@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import org.openide.util.Lookup;
+import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.TilePart;
 //import rescuerage.map.BulletSPI;
@@ -81,6 +82,31 @@ public class World {
         //Lookup.getDefault().lookup(MapSPI.class).createLevel();
         //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
         
+    }
+    public void restartGame(){
+        currentRoom = 0;
+        for(Entity e : entityMap.values()){
+            if (e.getClass().getSimpleName().equals("Player")) {
+                PositionPart player = e.getPart(PositionPart.class);
+                player.setX(((roomW/2)*tileSize));
+                player.setY(((roomH/2)*tileSize));
+                LifePart lifePart = e.getPart(LifePart.class);
+                lifePart.setLife(5);
+            }
+        }
+        
+        houseW = 2;
+        houseH = 2;
+        //roomMap.clear();
+        //clearRoomMap();
+        if(level == 0){
+            level = 1;
+        }
+        else{
+            level = 0;
+        }
+        //Lookup.getDefault().lookup(MapSPI.class).createLevel();
+        //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
     }
     public void clearRoomMap(){
         roomMap.clear();

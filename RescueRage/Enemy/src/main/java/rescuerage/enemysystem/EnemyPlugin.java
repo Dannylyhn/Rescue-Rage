@@ -33,7 +33,7 @@ public class EnemyPlugin implements IGamePluginService {
     @Override
     public void start(GameData gameData, World world) {
         this.world = world;
-        this.level = 0;
+        this.level = 1;
         createEnemiesInLevel();
         
         //int amountOfEnemies = 50;
