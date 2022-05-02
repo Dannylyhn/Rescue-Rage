@@ -32,8 +32,8 @@ public class Game implements ApplicationListener {
 
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
-    /*SpriteBatch batch = new SpriteBatch();
-    BitmapFont font = new BitmapFont();*/
+    SpriteBatch batch;
+    BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = new World();
@@ -50,6 +50,8 @@ public class Game implements ApplicationListener {
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
 
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        batch = new SpriteBatch();
+        font = new BitmapFont();
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
 
@@ -130,11 +132,6 @@ public class Game implements ApplicationListener {
                 }
         }
         for(int ii = 0; ii < world.getLevel().size(); ii++){
-            
-        //for(int ii = 0; ii < world.getHouseRooms().size(); ii++){
-            //if(ii==3){ii++;}
-        //for(int ii = 0; ii < 7; ii++){
-            //System.out.println("draw 2");
             boolean skip = false;
             for (Entity entity : world.getLevel().get(ii).values()) {
                 if(entity.getClass().getSimpleName().equals("Map")){
@@ -215,6 +212,18 @@ public class Game implements ApplicationListener {
                 else{
                     sr.setColor(0, 0, 1, 0);
                 }*/
+                // from top sr = new ShapeRenderer();
+                batch.begin();
+                String s = "Level: ";
+                int l = world.level;
+                s = s + l + " | Life: ";
+                if(entity.getClass().getSimpleName().equals("Player")){
+                    LifePart lifepart = entity.getPart(LifePart.class);
+                    int life = lifepart.getLife();
+                    s = s + life;
+                }
+                font.draw(batch, s, 100, 100);
+                batch.end();
                 sr.setColor(1, 1, 1, 1);
 
 
