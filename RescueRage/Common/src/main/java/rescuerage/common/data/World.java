@@ -199,10 +199,10 @@ public class World {
                 if(e.getClass().getSimpleName().equals("Map")){
                     TilePart tp = e.getPart(TilePart.class);
                     if(tp.getType().equals("roomInfo")){
-                        System.out.println("room check unlocking");
+                        //System.out.println("room check unlocking");
                         if(tp.getState().equals("unexplored")){
                             counter++;
-                            System.out.println("counter: " + counter);
+                            //System.out.println("counter: " + counter);
                         }
                     }
                 }
@@ -212,7 +212,7 @@ public class World {
             }
         }
         if(counter == 0){
-            System.out.println("unlocking boss");
+            //System.out.println("unlocking boss");
             unlockBossRoom();
         }
     }
