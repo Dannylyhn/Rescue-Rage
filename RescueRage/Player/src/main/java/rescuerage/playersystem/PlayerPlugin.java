@@ -18,13 +18,14 @@ import rescuerage.common.data.entityparts.PlayerMovingPart;
 public class PlayerPlugin implements IGamePluginService {
 
     private Entity player;
+    private World world;
 
     public PlayerPlugin() {
     }
 
     @Override
     public void start(GameData gameData, World world) {
-
+        this.world = world;
         // Add entity to the world
         player = createPlayerShip(gameData);
         world.setPlayerID(player.getID());
@@ -55,6 +56,10 @@ public class PlayerPlugin implements IGamePluginService {
         float radians = 3.1415f / 2;
 
         Entity playerShip = new Player();
+        playerShip.setRadius(world.tileSize/2);
+        playerShip.setSizeX(world.tileSize/2);
+        playerShip.setSizeY(world.tileSize/2);
+        
         playerShip.setRadius(8);
         playerShip.add(new PlayerMovingPart(maxSpeed));
         playerShip.add(new PositionPart(x, y, radians));

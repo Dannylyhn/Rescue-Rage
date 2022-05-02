@@ -186,7 +186,7 @@ public class MapPlugin implements  IGamePluginService{
                 }
                 else{
                     // floor
-                    createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), "floor", roomEntityMap);
+                    //createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), "floor", roomEntityMap);
                     //createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), tileSize/2, "floor", roomEntityMap);
                 }
             }

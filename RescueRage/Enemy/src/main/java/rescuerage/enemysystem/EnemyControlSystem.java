@@ -165,6 +165,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
     }
 
     private void updateShape(Entity entity) {
+        /*
         float[] shapex = new float[4];
         float[] shapey = new float[4];
         PositionPart positionPart = entity.getPart(PositionPart.class);
@@ -186,5 +187,31 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
         entity.setShapeX(shapex);
         entity.setShapeY(shapey);
+        */
+        
+        float[] shapex = new float[4];
+        float[] shapey = new float[4];
+        PositionPart positionPart = entity.getPart(PositionPart.class);
+        float x = positionPart.getX();
+        float y = positionPart.getY();
+        //float radius = entity.getRadius();
+        float sizeX = entity.getSizeX();
+        float sizeY = entity.getSizeY();
+        
+        shapex[0] = x + sizeX;
+        shapey[0] = y + sizeY;
+        
+        shapex[1] = x + sizeX;
+        shapey[1] = y - sizeY;
+        
+        shapex[2] = x - sizeX;
+        shapey[2] = y - sizeY;
+        
+        shapex[3] = x - sizeX;
+        shapey[3] = y + sizeY;
+        
+        entity.setShapeX(shapex);
+        entity.setShapeY(shapey);
+        
     }
 }

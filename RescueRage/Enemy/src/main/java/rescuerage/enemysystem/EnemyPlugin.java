@@ -84,6 +84,10 @@ public class EnemyPlugin implements IGamePluginService {
         createEneymyInRoomIndex(3);
         createEneymyInRoomIndex(0);
         createEnemyInRoomBossArea();
+        createEnemyInRoomBossArea();
+        createEnemyInRoomBossArea();
+        createEnemyInRoomBossArea();
+        createEnemyInRoomBossArea();
         // end area
         
     }
@@ -96,11 +100,11 @@ public class EnemyPlugin implements IGamePluginService {
     }
     private Entity createEnemy(int roomNR){
         Entity enemy = new Enemy();
-        /*
+        
         enemy.setRadius(tileSize/2);
         enemy.setSizeX(tileSize/2);
         enemy.setSizeY(tileSize/2);
-        */
+        
         float maxSpeed = world.tileSize;
         enemy.setRadius(8);
         enemy.add(new EnemyMovingPart(maxSpeed, roomNR));
