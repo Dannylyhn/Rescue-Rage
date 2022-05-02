@@ -99,7 +99,9 @@ public class EnemyControlSystem implements IEntityProcessingService {
             }
             else{
                 /*up = !up;*/
-                movingPart.path.remove(0);
+                if(movingPart.path.size()>0){
+                    movingPart.path.remove(0);
+                }
                 movingPart.newTile = false;
             }
             //System.out.println("moveCount: " + moveCount);

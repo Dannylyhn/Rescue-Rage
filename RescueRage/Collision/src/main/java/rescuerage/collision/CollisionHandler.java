@@ -95,6 +95,11 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     //world.removeEntity(e1);
                     //return;
                 }
+                if (e1.getClass().getSimpleName().equals("Enemy")) {
+                    if (e2.getClass().getSimpleName().equals("Enemy")) {
+                        unWalkable(e1,e2);
+                    }
+                }
 
                 if (e1.getClass().getSimpleName().equals("Bullet")) {
                     String temp = e2.getClass().getSimpleName();
@@ -208,6 +213,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
     }
 
     private boolean isSameEntityType(Entity entity, Entity entity2) {
+        if(entity.getClass().getSimpleName().equals("Enemy")){
+            return false;
+        }
         return Objects.equals(entity.getClass().getSimpleName(), entity2.getClass().getSimpleName());
     }
 
