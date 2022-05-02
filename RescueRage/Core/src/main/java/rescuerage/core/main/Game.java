@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.data.entityparts.PositionPart;
 
@@ -29,6 +32,8 @@ public class Game implements ApplicationListener {
 
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
+    SpriteBatch batch;
+    BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = new World();
@@ -45,6 +50,8 @@ public class Game implements ApplicationListener {
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
 
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        batch = new SpriteBatch();
+        font = new BitmapFont();
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
 
@@ -135,11 +142,6 @@ public class Game implements ApplicationListener {
 //                }
 //        }
         for(int ii = 0; ii < world.getLevel().size(); ii++){
-            
-        //for(int ii = 0; ii < world.getHouseRooms().size(); ii++){
-            //if(ii==3){ii++;}
-        //for(int ii = 0; ii < 7; ii++){
-            //System.out.println("draw 2");
             boolean skip = false;
             for (Entity entity : world.getLevel().get(ii).values()) {
                 if(entity.getClass().getSimpleName().equals("Map")){
@@ -172,6 +174,9 @@ public class Game implements ApplicationListener {
                                 //System.out.println("draw wall");
                                 sr.setColor(0, 1, 0, 0);
                             }
+                        }
+                        else if(tile.getType().equals("floor")){
+                            sr.setColor(1, 1, 1, 1);
                         }
                         else{
                             sr.setColor(0, 0, 1, 0);
@@ -217,6 +222,18 @@ public class Game implements ApplicationListener {
                 else{
                     sr.setColor(0, 0, 1, 0);
                 }*/
+                // from top sr = new ShapeRenderer();
+                batch.begin();
+                String s = "Level: ";
+                int l = world.level;
+                s = s + l + " | Life: ";
+                if(entity.getClass().getSimpleName().equals("Player")){
+                    LifePart lifepart = entity.getPart(LifePart.class);
+                    int life = lifepart.getLife();
+                    s = s + life;
+                }
+                font.draw(batch, s, 100, 100);
+                batch.end();
                 sr.setColor(1, 1, 1, 1);
 
 
@@ -235,6 +252,17 @@ public class Game implements ApplicationListener {
                 sr.end();
             }
         }
+        //world.getCollisionEntities().
+        //world.getPlayerID()
+        
+        /*
+        Entity player = world.getEntity(world.getPlayerID());
+        LifePart life = player.getPart(LifePart.class);
+        int lifeAmount = life.getLife();
+        batch.begin();
+        font.draw(batch, ("Health: " + lifeAmount), 100, 40);
+        batch.end();
+        */
     }
 
     @Override
