@@ -255,7 +255,7 @@ public class World {
                     }
                 }
                 else{
-                    counter++;
+                    //counter++;
                 }
             }
         }

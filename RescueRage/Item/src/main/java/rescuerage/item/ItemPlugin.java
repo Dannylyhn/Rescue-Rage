@@ -27,7 +27,7 @@ public class ItemPlugin implements IGamePluginService {
     @Override
     public void start(GameData gameData, World world) {
         this.world = world;
-        
+        System.out.println("item");
         createItemsInLevel();
     }
     public void createItemsInLevel(){

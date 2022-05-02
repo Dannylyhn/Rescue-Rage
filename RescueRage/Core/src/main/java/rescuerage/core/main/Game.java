@@ -209,7 +209,7 @@ public class Game implements ApplicationListener {
         }
         
         for (Entity entity : world.getCollisionEntities()) {
-            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy")){
+            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy") && !entity.getClass().getSimpleName().equals("Item")){
                 /*TilePart tile = entity.getPart(TilePart.class);
                 if(tile.getType().equals("door")){
                     //System.out.println("Colliding with door");

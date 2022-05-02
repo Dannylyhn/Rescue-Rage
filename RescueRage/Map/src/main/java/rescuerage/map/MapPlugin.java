@@ -40,6 +40,7 @@ public class MapPlugin implements  IGamePluginService{
     public void start(GameData gameData, World world) {
         this.world = world;
         this.level = 0;
+        System.out.println("map");
         createLevel();
     }
     private void initLevel(){
