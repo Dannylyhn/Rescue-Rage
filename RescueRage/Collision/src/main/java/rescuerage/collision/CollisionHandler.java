@@ -18,6 +18,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import rescuerage.common.data.entityparts.InventoryPart;
 import rescuerage.common.data.entityparts.LifePart;
 
 @ServiceProvider(service = IPostEntityProcessingService.class)
@@ -99,6 +100,22 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     if (e2.getClass().getSimpleName().equals("Enemy")) {
                         unWalkable(e1,e2);
                     }
+                    else if(e2.getClass().getSimpleName().equals("Palyer")){
+                        LifePart l = e2.getPart(LifePart.class);
+                        l.hit(1);
+                        if(l.isDead()){
+                            world.restartGame();
+                        }
+                    }
+                }
+                if (e1.getClass().getSimpleName().equals("Player")) {
+                    if (e2.getClass().getSimpleName().equals("Enemy")) {
+                        LifePart l = e1.getPart(LifePart.class);
+                        l.hit(1);
+                        if(l.isDead()){
+                            world.restartGame();
+                        }
+                    }
                 }
 
                 if (e1.getClass().getSimpleName().equals("Bullet")) {
@@ -130,6 +147,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         l.hit(1);
                         //System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
                         if(l.isDead()){
+                            Entity p = world.getEntity(world.getPlayerID());
+                            InventoryPart ip = p.getPart(InventoryPart.class);
+                            ip.incMoney(100);
                             world.removeEntity(e2);
                             //world.
                         }

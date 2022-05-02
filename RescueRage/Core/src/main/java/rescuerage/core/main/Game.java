@@ -23,6 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import rescuerage.common.data.entityparts.InventoryPart;
 import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.data.entityparts.PositionPart;
@@ -231,6 +232,11 @@ public class Game implements ApplicationListener {
                     LifePart lifepart = entity.getPart(LifePart.class);
                     int life = lifepart.getLife();
                     s = s + life;
+                    s = s + " | Money: ";
+                    InventoryPart ip = entity.getPart(InventoryPart.class);
+                    s = s + ip.money;
+                    s = s + " | Keys: ";
+                    s = s + ip.keys;
                 }
                 font.draw(batch, s, 100, 100);
                 batch.end();

@@ -10,6 +10,7 @@ import rescuerage.common.services.IGamePluginService;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.entityparts.GunPart;
+import rescuerage.common.data.entityparts.InventoryPart;
 import rescuerage.common.data.entityparts.LoadoutPart;
 import rescuerage.common.data.entityparts.PlayerMovingPart;
 
@@ -66,6 +67,7 @@ public class PlayerPlugin implements IGamePluginService {
         playerShip.add(new PositionPart(x, y, radians));
         playerShip.add(new LifePart(5));
         playerShip.add(new LoadoutPart());
+        playerShip.add(new InventoryPart());
         
         return playerShip;
     }
