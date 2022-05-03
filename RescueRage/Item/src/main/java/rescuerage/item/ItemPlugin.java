@@ -33,9 +33,18 @@ public class ItemPlugin implements IGamePluginService {
         createItemsInLevel();
     }
     public void createItemsInLevel(){
+        Random random = new Random();
+        for (int i = 0; i < world.getHouseRooms().size(); i++){
+            int r = random.nextInt(10);
+            if(r<3){
+                createItemInRoomIndex(i);
+            }
+        }
+        /*
         createItemInRoomIndex(0);
         createItemInRoomIndex(1);
         createItemInRoomIndex(2);
+        */
     }
     private void createItemInRoomIndex(int index){
         world.addEntityInRoom(createItem(), index);
@@ -47,7 +56,9 @@ public class ItemPlugin implements IGamePluginService {
         item.setSizeY(world.tileSize/2);
         item.setRadius(8);
         item.add(new PositionPart(0,0,0));
+        
         ArrayList<String> types = new ArrayList(Arrays.asList("healthInc", "key", "chest"));
+        //ArrayList<String> types = new ArrayList(Arrays.asList("healthInc", "key", "chest", "healthInc", "key", "chest", "healthInc", "key", "chest", "healthInc", "key", "chest"));
         Random r = new Random();
         
         int rIndex = r.nextInt(types.size());
