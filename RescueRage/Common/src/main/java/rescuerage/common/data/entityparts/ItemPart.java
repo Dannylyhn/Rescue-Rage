@@ -13,6 +13,7 @@ public class ItemPart implements EntityPart {
     private String type;
     private int value;
     private int price;
+    public boolean E;
     
     public ItemPart(String type, int value, int price) {
         this.type = type;
@@ -28,6 +29,13 @@ public class ItemPart implements EntityPart {
     }
     public int getPrice(){
         return price;
+    }
+    public void open(){
+        this.type = "healthInc";
+        this.value = 1;
+    }
+    public void setE(boolean E) {
+        this.E = E;
     }
     
     @Override

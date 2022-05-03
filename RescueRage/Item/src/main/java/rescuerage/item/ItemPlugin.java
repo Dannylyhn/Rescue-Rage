@@ -7,6 +7,8 @@ package rescuerage.item;
 
 //import org.graalvm.compiler.serviceprovider.ServiceProvider;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
 import rescuerage.common.services.IGamePluginService;
@@ -45,8 +47,13 @@ public class ItemPlugin implements IGamePluginService {
         item.setSizeY(world.tileSize/2);
         item.setRadius(8);
         item.add(new PositionPart(0,0,0));
-        item.add(new ItemPart("healthInc",1,100));
-        // item part
+        ArrayList<String> types = new ArrayList(Arrays.asList("healthInc", "key", "chest"));
+        Random r = new Random();
+        
+        int rIndex = r.nextInt(types.size());
+        
+        item.add(new ItemPart(types.get(rIndex),1,100));
+        
         world.addEntity(item);
         return item;
     }

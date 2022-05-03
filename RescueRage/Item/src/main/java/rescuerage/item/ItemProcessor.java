@@ -15,6 +15,8 @@ import rescuerage.common.services.IGamePluginService;
 
 import java.util.ArrayList;
 import rescuerage.common.data.Entity;
+import rescuerage.common.data.GameKeys;
+import rescuerage.common.data.entityparts.ItemPart;
 import rescuerage.common.data.entityparts.PositionPart;
 
 /**
@@ -43,8 +45,11 @@ public class ItemProcessor implements IEntityProcessingService {
         for (Entity item : world.getEntities(Item.class)) {
             //for (Entity entity : entityMap.values()) {
                 setShape(item);
+                ItemPart ip = item.getPart(ItemPart.class);
+                ip.setE(gameData.getKeys().isDown(GameKeys.SPACE));
             //}
         }
+
     }
     private void setShape(Entity entity) {
         

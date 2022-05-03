@@ -44,12 +44,31 @@ public class CollisionHandler implements IPostEntityProcessingService {
                 if(e1.getClass().getSimpleName().equals("Item")){
                     if(e2.getClass().getSimpleName().equals("Player")){
                         ItemPart i = e1.getPart(ItemPart.class);
-                        if(i.getType().equals("healthInc")){
-                            LifePart lp = e2.getPart(LifePart.class);
-                            if(lp.getLife()<lp.getMax()){
-                                lp.incLife(i.getValue());
+                        String type = i.getType();
+                        InventoryPart ip = e2.getPart(InventoryPart.class);
+                        switch (type) {
+                            case "healthInc":
+                                LifePart lp = e2.getPart(LifePart.class);
+                                if(lp.getLife()<lp.getMax()){
+                                    lp.incLife(i.getValue());
+                                    world.removeEntity(e1);
+                                }   break;
+                            case "key":
+                                ip.takeKey();
                                 world.removeEntity(e1);
-                            }
+                                break;
+                            case "chest":
+                                unWalkable(e2, e1);
+                                if(ip.keys>0){
+                                    if(i.E){
+                                        ip.useKey();
+                                        i.open();
+                                    }
+                                    //world.removeEntity(e1);
+                                }
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
