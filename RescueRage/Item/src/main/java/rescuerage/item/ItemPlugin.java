@@ -12,6 +12,7 @@ import rescuerage.common.data.World;
 import rescuerage.common.services.IGamePluginService;
 import org.openide.util.lookup.ServiceProvider;
 import rescuerage.common.data.Entity;
+import rescuerage.common.data.entityparts.ItemPart;
 import rescuerage.common.data.entityparts.PositionPart;
 
 /**
@@ -27,7 +28,6 @@ public class ItemPlugin implements IGamePluginService {
     @Override
     public void start(GameData gameData, World world) {
         this.world = world;
-        System.out.println("item");
         createItemsInLevel();
     }
     public void createItemsInLevel(){
@@ -45,6 +45,7 @@ public class ItemPlugin implements IGamePluginService {
         item.setSizeY(world.tileSize/2);
         item.setRadius(8);
         item.add(new PositionPart(0,0,0));
+        item.add(new ItemPart("healthInc",1,100));
         // item part
         world.addEntity(item);
         return item;

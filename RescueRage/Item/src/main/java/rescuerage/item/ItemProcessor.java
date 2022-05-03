@@ -41,7 +41,6 @@ public class ItemProcessor implements IEntityProcessingService {
         }
         //for(java.util.Map<String, Entity> entityMap : world.getLevel()){
         for (Entity item : world.getEntities(Item.class)) {
-            System.out.println("Item whatever");
             //for (Entity entity : entityMap.values()) {
                 setShape(item);
             //}

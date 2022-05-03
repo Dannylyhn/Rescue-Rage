@@ -94,6 +94,7 @@ public class World {
                 LifePart lifePart = e.getPart(LifePart.class);
                 InventoryPart ip = e.getPart(InventoryPart.class);
                 lifePart.setLife(5);
+                lifePart.reincarnate();
                 ip.money = 0;
                 ip.keys = 0;
             }
