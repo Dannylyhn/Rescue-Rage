@@ -22,7 +22,6 @@ public class GameKeys {
     public GameKeys() {
         keys = new boolean[NUM_KEYS];
         pkeys = new boolean[NUM_KEYS];
-
     }
 
  
