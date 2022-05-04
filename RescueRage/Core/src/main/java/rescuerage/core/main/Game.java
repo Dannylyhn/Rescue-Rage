@@ -24,6 +24,7 @@ import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import rescuerage.common.data.entityparts.GunPart;
+import rescuerage.common.data.entityparts.InventoryPart;
 import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.data.entityparts.PositionPart;
@@ -92,8 +93,8 @@ public class Game implements ApplicationListener {
             cam.position.x = positionPart.getX();
             cam.position.y = positionPart.getY();
             cam.update();
-            System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
-            System.out.println(cam.position);
+            //System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
+            //System.out.println(cam.position);
 
             //Rotates player to the cursor
             Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -231,7 +232,7 @@ public class Game implements ApplicationListener {
             font.draw(batch, ammo, 550, 100);
             batch.end();
             sr.setColor(1, 1, 1, 1);
-            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy") && !entity.getClass().getSimpleName().equals("Weapon")){
+            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy") && !entity.getClass().getSimpleName().equals("Weapon") &&  !entity.getClass().getSimpleName().equals("Item")){
                 /*TilePart tile = entity.getPart(TilePart.class);
                 if(tile.getType().equals("door")){
                     //System.out.println("Colliding with door");
@@ -254,6 +255,11 @@ public class Game implements ApplicationListener {
                     LifePart lifepart = entity.getPart(LifePart.class);
                     int life = lifepart.getLife();
                     s = s + life;
+                    s = s + " | Money: ";
+                    InventoryPart ip = entity.getPart(InventoryPart.class);
+                    s = s + ip.money;
+                    s = s + " | Keys: ";
+                    s = s + ip.keys;
                 }
                 font.draw(batch, s, 100, 100);
                 batch.end();

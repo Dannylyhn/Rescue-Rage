@@ -71,6 +71,7 @@
         <module>Map</module>
         <module>Collision</module>
         <module>Enemy</module>
+        <module>Item</module>
     </modules>
 
     <properties>

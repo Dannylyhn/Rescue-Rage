@@ -33,7 +33,7 @@ public class EnemyPlugin implements IGamePluginService {
     @Override
     public void start(GameData gameData, World world) {
         this.world = world;
-        this.level = 0;
+        this.level = 1;
         createEnemiesInLevel();
         
         //int amountOfEnemies = 50;
@@ -75,14 +75,22 @@ public class EnemyPlugin implements IGamePluginService {
         }*/
         //world.clearRoomMap();
         initLevel();
+        Random random = new Random();
+        for (int i = 0; i < world.getHouseRooms().size(); i++){
+            int r = random.nextInt(10+level);
+            //while(r<5+level){
+            for(int j = 0; j < r+level; j++){
+                createEneymyInRoomIndex(i);
+            }
+        }
         //initLevel();
         // starting area
         
         //createHouse();
         
         //createBoxInRoomIndex(4);
-        createEneymyInRoomIndex(3);
-        createEneymyInRoomIndex(0);
+        /*createEneymyInRoomIndex(3);
+        createEneymyInRoomIndex(0);*/
         createEnemyInRoomBossArea();
         createEnemyInRoomBossArea();
         createEnemyInRoomBossArea();

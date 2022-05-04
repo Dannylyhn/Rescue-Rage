@@ -19,6 +19,8 @@ import org.openide.util.lookup.ServiceProvider;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import rescuerage.common.data.entityparts.GunPart;
+import rescuerage.common.data.entityparts.InventoryPart;
+import rescuerage.common.data.entityparts.ItemPart;
 import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.LoadoutPart;
 
@@ -39,6 +41,38 @@ public class CollisionHandler implements IPostEntityProcessingService {
             if(!e1.getClass().getSimpleName().equals("Map") || !e2.getClass().getSimpleName().equals("Map")){
                 if (isIgnoredEntity(e1,e2) || isSameEntityType(e1, e2) || !isCollision(e1, e2)) {
                     return;
+                }
+                
+                if(e1.getClass().getSimpleName().equals("Item")){
+                    if(e2.getClass().getSimpleName().equals("Player")){
+                        ItemPart i = e1.getPart(ItemPart.class);
+                        String type = i.getType();
+                        InventoryPart ip = e2.getPart(InventoryPart.class);
+                        switch (type) {
+                            case "healthInc":
+                                LifePart lp = e2.getPart(LifePart.class);
+                                if(lp.getLife()<lp.getMax()){
+                                    lp.incLife(i.getValue());
+                                    world.removeEntity(e1);
+                                }   break;
+                            case "key":
+                                ip.takeKey();
+                                world.removeEntity(e1);
+                                break;
+                            case "chest":
+                                unWalkable(e2, e1);
+                                if(ip.keys>0){
+                                    if(i.E){
+                                        ip.useKey();
+                                        i.open();
+                                    }
+                                    //world.removeEntity(e1);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
 
                 if(e1.getClass().getSimpleName().equals("Map")){
@@ -115,12 +149,31 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     if (e2.getClass().getSimpleName().equals("Enemy")) {
                         unWalkable(e1,e2);
                     }
+                    else if(e2.getClass().getSimpleName().equals("Palyer")){
+                        LifePart l = e2.getPart(LifePart.class);
+                        l.hit(1);
+                        if(l.isDead()){
+                            world.restartGame();
+                        }
+                    }
+                }
+                if (e1.getClass().getSimpleName().equals("Player")) {
+                    if (e2.getClass().getSimpleName().equals("Enemy")) {
+                        LifePart l = e1.getPart(LifePart.class);
+                        l.hit(1);
+                        if(l.isDead()){
+                            world.restartGame();
+                        }
+                    }
                 }
 
                 if (e1.getClass().getSimpleName().equals("Bullet")) {
                     String temp = e2.getClass().getSimpleName();
                     if (temp.equals("Player")) {
 
+                    }
+                    else if(temp.equals("Item")){
+                        
                     }
                     else if(temp.equals("Map")){
                         TilePart tp = e2.getPart(TilePart.class);
@@ -146,6 +199,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         l.hit(1);
                         //System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
                         if(l.isDead()){
+                            Entity p = world.getEntity(world.getPlayerID());
+                            InventoryPart ip = p.getPart(InventoryPart.class);
+                            ip.incMoney(100);
                             world.removeEntity(e2);
                             //world.
                         }

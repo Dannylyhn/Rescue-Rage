@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import org.openide.util.Lookup;
+import rescuerage.common.data.entityparts.InventoryPart;
+import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.TilePart;
 //import rescuerage.map.BulletSPI;
@@ -60,7 +62,7 @@ public class World {
     public int HEIGHT = roomH * tileSize;
     
     
-    private final ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
+    private ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
     
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
     private final Map<String, Entity> collisionMap = new ConcurrentHashMap<>();
@@ -82,8 +84,55 @@ public class World {
         //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
         
     }
+    public void restartGame(){
+        currentRoom = 0;
+        for(Entity e : entityMap.values()){
+            if (e.getClass().getSimpleName().equals("Player")) {
+                PositionPart player = e.getPart(PositionPart.class);
+                player.setX(((roomW/2)*tileSize));
+                player.setY(((roomH/2)*tileSize));
+                LifePart lifePart = e.getPart(LifePart.class);
+                InventoryPart ip = e.getPart(InventoryPart.class);
+                lifePart.setLife(5);
+                lifePart.reincarnate();
+                ip.money = 0;
+                ip.keys = 0;
+            }
+        }
+        
+        houseW = 2;
+        houseH = 2;
+        //roomMap.clear();
+        //clearRoomMap();
+        if(level == 0){
+            level = 1;
+        }
+        else{
+            level = 0;
+        }
+        //Lookup.getDefault().lookup(MapSPI.class).createLevel();
+        //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
+    }
     public void clearRoomMap(){
-//        roomMap.clear();
+        //roomMap.clear();
+        /*private final ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
+        */
+        roomMap = new ArrayList<>();
+        /*
+        for(Map<String, Entity> map : roomMap){
+            for(Entity e : map.values()){
+                if(e.getClass().getSimpleName().equals("Player")){
+
+                }
+                else if(e.getClass().getSimpleName().equals("Weapon")){
+
+                }
+                else{
+                    map.remove(e.getID());
+                }
+            }
+            map=null;
+        }*/
         for(Entity e : collisionMap.values()){
             if(e.getClass().getSimpleName().equals("Player")){
                 
@@ -206,9 +255,9 @@ public class World {
                         }
                     }
                 }
-//                else{
-//                    counter++;
-//                }
+                else{
+                    //counter++;
+                }
             }
         }
         if(counter == 0){

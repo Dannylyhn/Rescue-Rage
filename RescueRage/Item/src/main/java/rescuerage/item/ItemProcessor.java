@@ -1,17 +1,23 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package rescuerage.map;
+package rescuerage.item;
 
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
-import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
-import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.services.IEntityProcessingService;
+import rescuerage.common.services.IGamePluginService;
+
+import java.util.ArrayList;
+import rescuerage.common.data.Entity;
+import rescuerage.common.data.GameKeys;
+import rescuerage.common.data.entityparts.ItemPart;
+import rescuerage.common.data.entityparts.PositionPart;
 
 /**
  *
@@ -19,16 +25,15 @@ import rescuerage.common.services.IEntityProcessingService;
  */
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
-public class MapProcessor implements IEntityProcessingService {
+public class ItemProcessor implements IEntityProcessingService {
     private int level = 1;
+
     @Override
     public void process(GameData gameData, World world) {
-        //MapPlugin.start(gameData, world);
-        //int level = 1;
         if(level!=world.level){
             //MapPlugin.createLevel();
             //world.clearRoomMap();
-            Lookup.getDefault().lookup(MapPlugin.class).createLevel();
+            Lookup.getDefault().lookup(ItemPlugin.class).createItemsInLevel();
             //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
             if(world.level == 0){
                 //world.level = 1;
@@ -36,21 +41,16 @@ public class MapProcessor implements IEntityProcessingService {
             level = world.level;
             
         }
-        for(java.util.Map<String, Entity> entityMap : world.getLevel()){
-            //System.out.println("draw 2");
-            for (Entity entity : entityMap.values()) {
-                setShape(entity);
-            }
+        //for(java.util.Map<String, Entity> entityMap : world.getLevel()){
+        for (Entity item : world.getEntities(Item.class)) {
+            //for (Entity entity : entityMap.values()) {
+                setShape(item);
+                ItemPart ip = item.getPart(ItemPart.class);
+                ip.setE(gameData.getKeys().isDown(GameKeys.SPACE));
+            //}
         }
-        /*
-        for (Entity map : world.getEntities(Map.class)) {
-            //PositionPart positionPart = map.getPart(PositionPart.class);
-            
-            setShape(map);
-        }
-        */
+
     }
-    
     private void setShape(Entity entity) {
         
         float[] shapex = new float[4];
