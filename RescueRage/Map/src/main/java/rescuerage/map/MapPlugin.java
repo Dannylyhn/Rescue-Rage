@@ -68,9 +68,11 @@ public class MapPlugin implements  IGamePluginService{
         createHouse();
         
         //createBoxInRoomIndex(4);
+        
         createBoxInRoomIndex(3);
         createBoxInRoomIndex(0);
         createBoxInRoomBossArea();
+        
         // end area
         
     }

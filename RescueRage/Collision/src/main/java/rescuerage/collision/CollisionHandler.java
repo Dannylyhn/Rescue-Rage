@@ -19,6 +19,7 @@ import org.openide.util.lookup.ServiceProvider;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import rescuerage.common.data.entityparts.InventoryPart;
+import rescuerage.common.data.entityparts.ItemPart;
 import rescuerage.common.data.entityparts.LifePart;
 
 @ServiceProvider(service = IPostEntityProcessingService.class)
@@ -38,6 +39,38 @@ public class CollisionHandler implements IPostEntityProcessingService {
             if(!e1.getClass().getSimpleName().equals("Map") || !e2.getClass().getSimpleName().equals("Map")){
                 if (isIgnoredEntity(e1,e2) || isSameEntityType(e1, e2) || !isCollision(e1, e2)) {
                     return;
+                }
+                
+                if(e1.getClass().getSimpleName().equals("Item")){
+                    if(e2.getClass().getSimpleName().equals("Player")){
+                        ItemPart i = e1.getPart(ItemPart.class);
+                        String type = i.getType();
+                        InventoryPart ip = e2.getPart(InventoryPart.class);
+                        switch (type) {
+                            case "healthInc":
+                                LifePart lp = e2.getPart(LifePart.class);
+                                if(lp.getLife()<lp.getMax()){
+                                    lp.incLife(i.getValue());
+                                    world.removeEntity(e1);
+                                }   break;
+                            case "key":
+                                ip.takeKey();
+                                world.removeEntity(e1);
+                                break;
+                            case "chest":
+                                unWalkable(e2, e1);
+                                if(ip.keys>0){
+                                    if(i.E){
+                                        ip.useKey();
+                                        i.open();
+                                    }
+                                    //world.removeEntity(e1);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
 
                 if(e1.getClass().getSimpleName().equals("Map")){
@@ -122,6 +155,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     String temp = e2.getClass().getSimpleName();
                     if (temp.equals("Player")) {
 
+                    }
+                    else if(temp.equals("Item")){
+                        
                     }
                     else if(temp.equals("Map")){
                         TilePart tp = e2.getPart(TilePart.class);

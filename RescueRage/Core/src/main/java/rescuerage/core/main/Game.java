@@ -92,8 +92,8 @@ public class Game implements ApplicationListener {
             cam.position.x = positionPart.getX();
             cam.position.y = positionPart.getY();
             cam.update();
-            System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
-            System.out.println(cam.position);
+            //System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
+            //System.out.println(cam.position);
 
             //Rotates player to the cursor
             Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -209,7 +209,7 @@ public class Game implements ApplicationListener {
         }
         
         for (Entity entity : world.getCollisionEntities()) {
-            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy")){
+            if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy") && !entity.getClass().getSimpleName().equals("Item")){
                 /*TilePart tile = entity.getPart(TilePart.class);
                 if(tile.getType().equals("door")){
                     //System.out.println("Colliding with door");

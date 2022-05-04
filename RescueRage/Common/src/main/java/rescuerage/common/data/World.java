@@ -62,7 +62,7 @@ public class World {
     public int HEIGHT = roomH * tileSize;
     
     
-    private final ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
+    private ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
     
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
     private final Map<String, Entity> collisionMap = new ConcurrentHashMap<>();
@@ -94,6 +94,7 @@ public class World {
                 LifePart lifePart = e.getPart(LifePart.class);
                 InventoryPart ip = e.getPart(InventoryPart.class);
                 lifePart.setLife(5);
+                lifePart.reincarnate();
                 ip.money = 0;
                 ip.keys = 0;
             }
@@ -113,7 +114,25 @@ public class World {
         //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
     }
     public void clearRoomMap(){
-        roomMap.clear();
+        //roomMap.clear();
+        /*private final ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
+        */
+        roomMap = new ArrayList<>();
+        /*
+        for(Map<String, Entity> map : roomMap){
+            for(Entity e : map.values()){
+                if(e.getClass().getSimpleName().equals("Player")){
+
+                }
+                else if(e.getClass().getSimpleName().equals("Weapon")){
+
+                }
+                else{
+                    map.remove(e.getID());
+                }
+            }
+            map=null;
+        }*/
         for(Entity e : collisionMap.values()){
             if(e.getClass().getSimpleName().equals("Player")){
                 
@@ -237,7 +256,7 @@ public class World {
                     }
                 }
                 else{
-                    counter++;
+                    //counter++;
                 }
             }
         }
