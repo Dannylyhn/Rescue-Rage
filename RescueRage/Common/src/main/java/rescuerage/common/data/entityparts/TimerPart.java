@@ -14,7 +14,6 @@ import rescuerage.common.data.GameData;
  */
 public class TimerPart
         implements EntityPart {
-
     private float expiration;
 
     public TimerPart(float expiration) {
