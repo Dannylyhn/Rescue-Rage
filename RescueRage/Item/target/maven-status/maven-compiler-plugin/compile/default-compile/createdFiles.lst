@@ -1,5 +1,5 @@
-rescuerage/enemysystem/EnemyPlugin.class
+rescuerage/item/Item.class
+rescuerage/item/ItemPlugin.class
 META-INF/services/rescuerage.common.services.IEntityProcessingService
-rescuerage/enemysystem/EnemyControlSystem.class
-rescuerage/enemysystem/Enemy.class
+rescuerage/item/ItemProcessor.class
 META-INF/services/rescuerage.common.services.IGamePluginService

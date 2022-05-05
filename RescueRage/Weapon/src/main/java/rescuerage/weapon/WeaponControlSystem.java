@@ -16,6 +16,7 @@ import rescuerage.common.data.GameKeys;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
+import rescuerage.common.data.entityparts.GunCooldownPart;
 
 /**
  *
@@ -31,17 +32,36 @@ public class WeaponControlSystem implements IEntityProcessingService {
         {
             PositionPart positionPart = weapon.getPart(PositionPart.class);
             GunPart gunPart = weapon.getPart(GunPart.class);
+            GunCooldownPart gunCD = weapon.getPart(GunCooldownPart.class);
             
+            gunCD.process(gameData, weapon);
             //Needs to be equipped and have ammo before it can shoot. 
-            if(gunPart.equipped == true && gameData.getKeys().isDown(GameKeys.LEFTCLICK) && gunPart.getAmmo() != 0)
+            if(gunPart.equipped == true && gameData.getKeys().isDown(GameKeys.LEFTCLICK) && gunPart.getMagazine()!= 0)
             {
-                shoot(weapon, gameData, world);
-                gunPart.minusAmmo();
+                if(gunCD.getCurrentShootingCD()<=0)
+                {
+                    shoot(weapon, gameData, world);
+                    gunPart.minusMagazine();
+                    gunCD.setCurrentShootingCD(gunCD.getShootingCD());
+                    gunCD.setShot(true);
+                }
+            }
+            
+            if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()!=0)
+            {
+                    int reloadedAmount = gunPart.getMagazineLength()-gunPart.getMagazine();
+                    gunPart.minusAmmo(reloadedAmount);
+
+                    gunPart.setMagazine(gunPart.getMagazineLength());
             }
             
             positionPart.process(gameData, weapon);
             
-            updateShape(weapon);
+//            if(gunPart.pickedUp==false)
+//            {
+//                updateShape(weapon);       
+//            }
+            updateShape(weapon);       
         }
     }
     

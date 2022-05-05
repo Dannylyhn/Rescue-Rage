@@ -4,6 +4,7 @@
  */
 package rescuerage.common.data.entityparts;
 import java.util.ArrayList;
+import java.util.Map;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 
@@ -16,8 +17,10 @@ public class LoadoutPart implements EntityPart{
     public Entity currentWeapon = null;
     
     private boolean Q,E;
-
     
+    private float swapCD = 50;
+    private float currentSwapCD = swapCD;
+
     public void setQ(boolean Q) {
         this.Q = Q;
     }
@@ -50,10 +53,15 @@ public class LoadoutPart implements EntityPart{
         this.currentWeapon = currentWeapon;
     }
     
+    public void decrementSwapCD()
+    {
+        this.currentSwapCD--;
+    }
     
-
     @Override
     public void process(GameData gameData, Entity entity) {
+        
+        
         int indexOfCurrentWeapon = getWeapons().indexOf(currentWeapon);
         int loadoutLength = getWeapons().size();
         GunPart gunPart = null;
@@ -63,31 +71,44 @@ public class LoadoutPart implements EntityPart{
         {
              gunPart = currentWeapon.getPart(GunPart.class);
         }
-
-        //Changes weapon to previous
-        if(Q && weapons.size()>2)
+        
+        if(this.currentSwapCD<0)
         {
-            //Set current weapon equip to false. Now it cannot shoot
-            gunPart.setEquipped(false);
-            int indexOfPreviousWeapon = indexOfCurrentWeapon-1;
-            //Loop back in the array if we press Q for the first weapon.
-            if(indexOfPreviousWeapon<0)
+            //Changes weapon to previous
+            if(Q && weapons.size()>2)
             {
-                indexOfPreviousWeapon = loadoutLength-1;
+                //Set current weapon equip to false. Now it cannot shoot
+                gunPart.setEquipped(false);
+                int indexOfPreviousWeapon = indexOfCurrentWeapon-1;
+                //Loop back in the array if we press Q for the first weapon.
+                if(indexOfPreviousWeapon<0)
+                {
+                    indexOfPreviousWeapon = loadoutLength-1;
+                }
+                //New current weapon to previous and set its equip to true.
+                setCurrentWeapon(getWeapons().get(indexOfPreviousWeapon));
+                gunPart = currentWeapon.getPart(GunPart.class);
+                gunPart.setEquipped(true);
+                
+                this.currentSwapCD = this.swapCD;
             }
-            //New current weapon to previous and set its equip to true.
-            setCurrentWeapon(getWeapons().get(indexOfPreviousWeapon));
-            gunPart = currentWeapon.getPart(GunPart.class);
-            gunPart.setEquipped(true);
+            //Changes weapon to next
+            if(E && weapons.size()>2)
+            {
+                gunPart.setEquipped(false);
+                //Loop back in the array if we press Q for the last weapon.
+                setCurrentWeapon(getWeapons().get((indexOfCurrentWeapon+1)%loadoutLength));
+                gunPart = currentWeapon.getPart(GunPart.class);
+                gunPart.setEquipped(true);
+                
+                this.currentSwapCD = this.swapCD;
+            }
         }
-        //Changes weapon to next
-        if(E && weapons.size()>2)
+        else
         {
-            gunPart.setEquipped(false);
-            //Loop back in the array if we press Q for the last weapon.
-            setCurrentWeapon(getWeapons().get((indexOfCurrentWeapon+1)%loadoutLength));
-            gunPart = currentWeapon.getPart(GunPart.class);
-            gunPart.setEquipped(true);
+            this.currentSwapCD--;
         }
+
+
     }
 }

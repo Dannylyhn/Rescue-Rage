@@ -39,6 +39,7 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
             if (timerPart.getExpiration() < 0) {
                 world.removeEntity(bullet);
             }
+            
             timerPart.process(gameData, bullet);
             movingPart.process(gameData, bullet);
             positionPart.process(gameData, bullet);
