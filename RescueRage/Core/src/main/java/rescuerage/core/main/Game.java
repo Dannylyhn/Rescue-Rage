@@ -25,6 +25,7 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.InventoryPart;
+import rescuerage.common.data.entityparts.ItemPart;
 import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.data.entityparts.PositionPart;
@@ -183,6 +184,20 @@ public class Game implements ApplicationListener {
                         else{
                             sr.setColor(0, 0, 1, 0);
                         }
+                    }
+                    else if(entity.getClass().getSimpleName().equals("Enemy")){
+                        sr.setColor(1, 0, 0, 0);
+                    }
+                    else if(entity.getClass().getSimpleName().equals("Item")){
+                        ItemPart ip = entity.getPart(ItemPart.class);
+                        if(ip.getType().equals("chest")){
+                            sr.setColor(1, 1, 0, 0);
+                        }
+                        else if(ip.getType().equals("key")){
+                            sr.setColor(1, 0, 1, 0);
+                        }
+                        else
+                            sr.setColor(0, 1, 1, 0);
                     }
                     else{
                         sr.setColor(1, 1, 1, 1);
