@@ -383,4 +383,21 @@ public class World {
         return collisionMap.get(ID);
     }
 
+    public int getHouseH() {
+        return houseH;
+    }
+
+    public void setHouseH(int houseH) {
+        this.houseH = houseH;
+    }
+
+    public int getHouseW() {
+        return houseW;
+    }
+
+    public void setHouseW(int houseW) {
+        this.houseW = houseW;
+    }
+
+    
 }

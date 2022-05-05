@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Localizing-Bundle: rescuerage/commonbullet/Bundle.prope
+ rties
+OpenIDE-Module-Specification-Version: 1.0
+OpenIDE-Module-Implementation-Version: 1.0-20220504
+OpenIDE-Module-Build-Version: 202205041820
+OpenIDE-Module: rescuerage.Item
+OpenIDE-Module-Public-Packages: -
+OpenIDE-Module-Requires: org.openide.modules.ModuleFormat1
+OpenIDE-Module-Display-Category: rescuerage
+OpenIDE-Module-Name: Item
+OpenIDE-Module-Short-Description: <undefined>
+OpenIDE-Module-Long-Description: <undefined>
+OpenIDE-Module-Module-Dependencies: org.netbeans.api.annotations.commo
+ n/1 > 1.43, rescuerage.Common > 1.0, org.openide.util.lookup > 8.49
+
