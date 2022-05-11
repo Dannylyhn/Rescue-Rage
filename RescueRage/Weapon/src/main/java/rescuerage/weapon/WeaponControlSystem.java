@@ -4,6 +4,8 @@
  */
 package rescuerage.weapon;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import rescuerage.commonbullet.BulletSPI;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
@@ -25,6 +27,9 @@ import rescuerage.common.data.entityparts.GunCooldownPart;
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class WeaponControlSystem implements IEntityProcessingService {
+    Sound shootingSound;
+   
+    
     @Override
     public void process(GameData gameData, World world) {
         
@@ -68,6 +73,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
     //The spray pattern thats called for each left click event
     private void shoot(Entity weapon, GameData gameData, World world)
     {
+        //shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
         GunPart gunPart = weapon.getPart(GunPart.class);
         PositionPart positionPart = weapon.getPart(PositionPart.class);
 
@@ -81,6 +87,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
             radians = radians + gunPart.getSprayPattern()[i];
             Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
             //world.addEntity(bullet);
+           // shootingSound.play();
             world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
         }
     }
