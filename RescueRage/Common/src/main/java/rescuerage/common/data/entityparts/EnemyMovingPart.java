@@ -40,6 +40,7 @@ public class EnemyMovingPart implements EntityPart {
     private int tile = 0;
     public boolean newTile = false;
     private boolean enter = false;
+    private int tileSize = 48;
     
     private boolean changed = false;
     public ArrayList<String> path = new ArrayList();
@@ -141,9 +142,9 @@ public class EnemyMovingPart implements EntityPart {
             }
             float radians = positionPart.getRadians();
             float dt = gameData.getDelta();
-            /*tile = (int)x*16;
-            tile = tile * ((int)y/16);*/
-            int tempTile = ((int)x/16) * ((int)y/16);
+            /*tile = (int)x*tileSize;
+            tile = tile * ((int)y/tileSize);*/
+            int tempTile = ((int)x/tileSize) * ((int)y/tileSize);
             if(tile != tempTile){
                 newTile = true;
                 tile = tempTile;
@@ -196,7 +197,7 @@ public class EnemyMovingPart implements EntityPart {
                 //dx = maxSpeed;
                 x += maxSpeed*dt;
             }
-
+            /*
             // set position
             if(x!=0){
                 x += dx * dt;
@@ -216,6 +217,9 @@ public class EnemyMovingPart implements EntityPart {
                 positionPart.setX(x);
                 positionPart.setY(y);
             }
+            */
+            positionPart.setX(x);
+            positionPart.setY(y);
             positionPart.setRadians(radians);
         }
     }
@@ -236,8 +240,8 @@ public class EnemyMovingPart implements EntityPart {
             int temp = node.heuristic();
             System.out.println("heuristic + path: " + temp );
             
-            //if(node.heuristic()<16){
-            if(node.heuristic()<16){
+            //if(node.heuristic()<tileSize){
+            if(node.heuristic()<tileSize){
                 //return node.path();
                 return node;
             }
@@ -259,7 +263,7 @@ public class EnemyMovingPart implements EntityPart {
                         for(Node n : fringe.get(j).path()){
                             if(n!=null){
                                 //path1 = path1 + n.depth;
-                                path1 = path1 + 16;
+                                path1 = path1 + tileSize;
                             }
                         }
                         
@@ -267,7 +271,7 @@ public class EnemyMovingPart implements EntityPart {
                         for(Node n : fringe.get(j+1).path()){
                             if(n!=null){
                                 //path2 = path2 + n.depth;
-                                path2 = path2 + 16;
+                                path2 = path2 + tileSize;
                             }
                         }
                         */
@@ -353,29 +357,29 @@ public class EnemyMovingPart implements EntityPart {
             int ny = 0;
             switch (action) { 
                 case 5:
-                    nx = 16;
-                    //this.x = x + 16;
+                    nx = tileSize;
+                    //this.x = x + tileSize;
                 case 1:
-                    ny = 16;
-                    this.y = y + 16;
+                    ny = tileSize;
+                    this.y = y + tileSize;
                     break;
                 case 8:
-                    nx = -16;
+                    nx = -tileSize;
                 case 2:
-                    ny = -16;
-                    this.y = y - 16;
+                    ny = -tileSize;
+                    this.y = y - tileSize;
                     break;
                 case 6:
-                    ny = 16;
+                    ny = tileSize;
                 case 3:
-                    nx = -16;
-                    this.x = x - 16;
+                    nx = -tileSize;
+                    this.x = x - tileSize;
                     break;
                 case 7:
-                    ny = -16;
+                    ny = -tileSize;
                 case 4:
-                    nx = 16;
-                    this.x = x + 16;
+                    nx = tileSize;
+                    this.x = x + tileSize;
                     break;
                 default:
                     break;
@@ -435,24 +439,24 @@ public class EnemyMovingPart implements EntityPart {
             int ny = 0;
             switch (rule) { 
                 case 5:
-                    nx = 16;
+                    nx = tileSize;
                 case 1:
-                    ny = 16;
+                    ny = tileSize;
                     break;
                 case 8:
-                    nx = -16;
+                    nx = -tileSize;
                 case 2:
-                    ny = -16;
+                    ny = -tileSize;
                     break;
                 case 6:
-                    ny = 16;
+                    ny = tileSize;
                 case 3:
-                    nx = -16;
+                    nx = -tileSize;
                     break;
                 case 7:
-                    ny = -16;
+                    ny = -tileSize;
                 case 4:
-                    nx = 16;
+                    nx = tileSize;
                     break;
                 default:
                     break;

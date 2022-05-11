@@ -34,7 +34,23 @@ public class CollisionHandler implements IPostEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
-        world.getCollisionEntities().forEach(e1 -> world.getCollisionEntities().forEach(e2 -> {
+        Entity player = world.getEntity(world.getPlayerID());
+        for(Entity roomIdentifier : world.roomIdentifiers){
+            if (isCollision(player, roomIdentifier)) {
+                TilePart tile = roomIdentifier.getPart(TilePart.class);
+
+                world.currentRoom = tile.getRoom();
+                System.out.println("current room: " + world.currentRoom);
+                if(tile.getState().equals("unexplored")){
+                    world.lockDoors();
+                }
+            }
+        }
+        System.out.println("world.currentRoom: " + world.currentRoom);
+        //for(Entity e : world.getLevel().get(world.currentRoom).values()){
+        world.getLevel().get(world.currentRoom).put(world.getPlayerID(), player);
+        world.getLevel().get(world.currentRoom).values().forEach(e1 -> world.getLevel().get(world.currentRoom).values().forEach(e2 -> {
+        //world.getCollisionEntities().forEach(e1 -> world.getCollisionEntities().forEach(e2 -> {
             if(ignoreWalkableTiles(e1,e2)){
                 return;
             }
@@ -205,6 +221,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             world.removeEntity(e2);
                             //world.
                         }
+                        world.removeEntity(e1);
                     }
                     else{
                         world.removeEntity(e1);
@@ -216,6 +233,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
            
             
         }));
+        world.getLevel().get(world.currentRoom).remove(world.getPlayerID());
     }
     
     private void unWalkable(Entity wall1, Entity player1){

@@ -23,9 +23,9 @@ public class EnemyPlugin implements IGamePluginService {
     
     private int houseH;
     private int houseW;
-    private int roomH = 9; // must be uneven number, because the doors are being set at the center of the wall
-    private int roomW = 11; // must be uneven number, because the doors are being set at the center of the wall
-    private int tileSize = 16; // must be even number, because the top and right rows are depending on it
+    private int roomH = 19; // must be uneven number, because the doors are being set at the center of the wall
+    private int roomW = 23; // must be uneven number, because the doors are being set at the center of the wall
+    private int tileSize = 48; // must be even number, because the top and right rows are depending on it
     private int WIDTH = roomW * tileSize;
     private int HEIGHT = roomH * tileSize;
     private int level;
@@ -114,7 +114,7 @@ public class EnemyPlugin implements IGamePluginService {
         enemy.setSizeY(tileSize/2);
         
         float maxSpeed = world.tileSize;
-        enemy.setRadius(8);
+        enemy.setRadius(tileSize/2);
         enemy.add(new EnemyMovingPart(maxSpeed, roomNR));
         //System.out.println("x: " + x);
         //System.out.println("y: " + y);
