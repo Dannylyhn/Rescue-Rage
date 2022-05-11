@@ -38,12 +38,9 @@ public class Game implements ApplicationListener {
     BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
-    private World world = new World();
+    private World world = World.getInstance();
     private List<IGamePluginService> gamePlugins = new CopyOnWriteArrayList<>();
     private Lookup.Result<IGamePluginService> result;
-    
-    private Entity player;
-    private PositionPart positionPart = null;
     private float radians;
 
     @Override
@@ -70,12 +67,6 @@ public class Game implements ApplicationListener {
             gamePlugins.add(plugin);
         }
 
-        //We need the player entity 
-        if(!world.getPlayerID().equals(""))
-        {
-            player = world.getEntity(world.getPlayerID());
-            positionPart = player.getPart(PositionPart.class);
-        }
     }
 
     @Override
@@ -86,21 +77,22 @@ public class Game implements ApplicationListener {
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
-        
-        if(positionPart != null)
+                
+        if(world.getPlayerPositionPart() != null)
         {
+            PositionPart playerPosPart = world.getPlayerPositionPart();
             //Sets camera position center to player
-            cam.position.x = positionPart.getX();
-            cam.position.y = positionPart.getY();
+            cam.position.x = playerPosPart.getX();
+            cam.position.y = playerPosPart.getY();
             cam.update();
             //System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
             //System.out.println(cam.position);
 
             //Rotates player to the cursor
             Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
+            Vector3 playerPos = new Vector3(playerPosPart.getX(), playerPosPart.getY(), 0);
             radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
-            positionPart.setRadians(radians);   
+            playerPosPart.setRadians(radians);   
         }
 
         update();
@@ -134,15 +126,19 @@ public class Game implements ApplicationListener {
         
         //Following code has issues with dynamic load and unload
         int justOne = -1;
-        for(Entity e : world.getLevel().get(world.currentRoom).values()){
-            if(e.getClass().getSimpleName().equals("Map")){
-                    TilePart tile = e.getPart(TilePart.class);
-                    if(tile.getType().equals("roomInfo")){
-                        if(tile.getState().equals("unexplored"))
-                            justOne = world.currentRoom;
+        if(world.currentRoom != 0)
+        {
+            for(Entity e : world.getLevel().get(world.currentRoom).values()){
+                if(e.getClass().getSimpleName().equals("Map")){
+                        TilePart tile = e.getPart(TilePart.class);
+                        if(tile.getType().equals("roomInfo")){
+                            if(tile.getState().equals("unexplored"))
+                                justOne = world.currentRoom;
+                        }
                     }
-                }
+            }       
         }
+
         for(int ii = 0; ii < world.getLevel().size(); ii++){
             boolean skip = false;
             for (Entity entity : world.getLevel().get(ii).values()) {
