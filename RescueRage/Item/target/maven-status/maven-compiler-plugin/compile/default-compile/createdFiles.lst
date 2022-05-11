@@ -1,5 +1,10 @@
 rescuerage\item\Item.class
+<<<<<<< HEAD
 META-INF\services\rescuerage.common.services.IEntityProcessingService
 rescuerage\item\ItemProcessor.class
+=======
+rescuerage\item\ItemProcessor.class
+META-INF\services\rescuerage.common.services.IEntityProcessingService
+>>>>>>> main
 rescuerage\item\ItemPlugin.class
 META-INF\services\rescuerage.common.services.IGamePluginService
