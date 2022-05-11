@@ -83,6 +83,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
             {
                 Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
                 world.addEntity(bullet);
+                world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
             }
         }
     }
