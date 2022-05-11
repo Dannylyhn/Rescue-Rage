@@ -2,6 +2,7 @@ package rescuerage.core.main;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -37,12 +38,12 @@ public class Game implements ApplicationListener {
     private ShapeRenderer sr;
     SpriteBatch batch;
     BitmapFont font;
+    Music soundtrack; 
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = new World();
     private List<IGamePluginService> gamePlugins = new CopyOnWriteArrayList<>();
     private Lookup.Result<IGamePluginService> result;
-    
     private Entity player;
     private PositionPart positionPart = null;
     private float radians;
@@ -55,6 +56,11 @@ public class Game implements ApplicationListener {
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         batch = new SpriteBatch();
         font = new BitmapFont();
+        
+        soundtrack = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/soundtrack.mp3"));
+        soundtrack.setLooping(true);
+        
+                
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
 
@@ -84,6 +90,7 @@ public class Game implements ApplicationListener {
         // clear screen to black
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        soundtrack.play();
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
