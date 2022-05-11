@@ -54,11 +54,11 @@ public class ItemPlugin implements IGamePluginService {
         item.setRadius(world.tileSize/2);
         item.setSizeX(world.tileSize/2);
         item.setSizeY(world.tileSize/2);
-        item.setRadius(8);
+        item.setRadius(world.tileSize/2);
         item.add(new PositionPart(0,0,0));
         
-        ArrayList<String> types = new ArrayList(Arrays.asList("healthInc", "key", "chest"));
-        //ArrayList<String> types = new ArrayList(Arrays.asList("healthInc", "key", "chest", "healthInc", "key", "chest", "healthInc", "key", "chest", "healthInc", "key", "chest"));
+        //ArrayList<String> types = new ArrayList(Arrays.asList("healthInc", "key", "chest"));
+        ArrayList<String> types = new ArrayList(Arrays.asList("healthInc", "key", "chest", "healthInc", "key", "chest", "healthInc", "key", "chest", "healthInc", "key", "chest"));
         Random r = new Random();
         
         int rIndex = r.nextInt(types.size());

@@ -26,9 +26,9 @@ public class MapPlugin implements  IGamePluginService{
     
     private int houseH;
     private int houseW;
-    private int roomH = 9; // must be uneven number, because the doors are being set at the center of the wall
-    private int roomW = 11; // must be uneven number, because the doors are being set at the center of the wall
-    private int tileSize = 16; // must be even number, because the top and right rows are depending on it
+    private int roomH = 19; // must be uneven number, because the doors are being set at the center of the wall
+    private int roomW = 23; // must be uneven number, because the doors are being set at the center of the wall
+    private int tileSize = 48; // must be even number, because the top and right rows are depending on it
     private int WIDTH = roomW * tileSize;
     private int HEIGHT = roomH * tileSize;
     private int level;
@@ -246,6 +246,7 @@ public class MapPlugin implements  IGamePluginService{
         
         world.addEntity(map);
         addEntity(map, roomEntityMap);
+        world.addRoomIdentifier(map);
         return map;
     }
     private Entity createBox(){
