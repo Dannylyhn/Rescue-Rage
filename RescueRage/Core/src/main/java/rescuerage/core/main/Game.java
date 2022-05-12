@@ -3,6 +3,7 @@ package rescuerage.core.main;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -44,9 +45,21 @@ public class Game implements ApplicationListener {
     private World world = new World();
     private List<IGamePluginService> gamePlugins = new CopyOnWriteArrayList<>();
     private Lookup.Result<IGamePluginService> result;
+    //Sound shootingSound; 
     private Entity player;
     private PositionPart positionPart = null;
     private float radians;
+    
+    public Game(){
+        
+    }
+    
+    
+    //Very bad solutin for shooting
+    public static void shootSound(){
+        Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
+        shootingSound.play();
+    }
 
     @Override
     public void create() {
@@ -63,7 +76,9 @@ public class Game implements ApplicationListener {
                 
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
-
+        
+        //shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shooting.wav"));
+       // shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
         sr = new ShapeRenderer();
 
         Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
@@ -247,11 +262,13 @@ public class Game implements ApplicationListener {
                     font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
                     nameOfWeapon = nameOfWeapon + gunPart.getName();
                     font.draw(batch, nameOfWeapon, 550, 150);
+                   // shootingSound.play();
                 }
             }
 
 
             font.draw(batch, ammo, 550, 100);
+            
             batch.end();
             sr.setColor(1, 1, 1, 1);
             if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy") && !entity.getClass().getSimpleName().equals("Weapon") &&  !entity.getClass().getSimpleName().equals("Item")){
