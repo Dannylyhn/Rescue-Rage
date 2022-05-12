@@ -279,22 +279,28 @@ public class World {
         return entity.getID();
     }
     private void roomCollisionCheck(Map<String, Entity> room, Entity entity){
-        Random rand = new Random();
-        int min = tileSize + (int)entity.getRadius()*2;
-        int maxW = roomW*tileSize-tileSize*2-(int)entity.getRadius()*2;
-        int maxH = roomH*tileSize-tileSize*2-(int)entity.getRadius()*2;
-        int randomX = rand.nextInt((maxW - min) + min) + min;
-        int randomY = rand.nextInt((maxH - min) + min) + min;
-        entity.add(new PositionPart(randomX,randomY,0));
-        for(Entity e : room.values()){
-            float[] sx = e.getShapeX();
-            float[] sy = e.getShapeY();
-            for(int i = 0; i < sx.length; i++){
-                if(entity.contains(sx[i], sy[i])){
-                    roomCollisionCheck(room, entity);
+        boolean collides = true;
+        while(collides){
+            Random rand = new Random();
+            int min = tileSize + (int)entity.getRadius()*2;
+            int maxW = roomW*tileSize-tileSize*2-(int)entity.getRadius()*2;
+            int maxH = roomH*tileSize-tileSize*2-(int)entity.getRadius()*2;
+            int randomX = rand.nextInt((maxW - min) + min) + min;
+            int randomY = rand.nextInt((maxH - min) + min) + min;
+            entity.add(new PositionPart(randomX,randomY,0));
+            for(Entity e : room.values()){
+                float[] sx = e.getShapeX();
+                float[] sy = e.getShapeY();
+                for(int i = 0; i < sx.length; i++){
+                    if(entity.contains(sx[i], sy[i])){
+                        //roomCollisionCheck(room, entity);
+                    }
+                    else{
+                        collides = false;
+                    }
                 }
+                //return false;
             }
-            //return false;
         }
     }
     public void addEntityInRoom(Entity entity, int roomIndex){
