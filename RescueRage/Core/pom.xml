@@ -113,6 +113,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.15</version>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>nbm-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <publicPackages>
+                        <publicPackage>rescuerage.core.main</publicPackage>
+                    </publicPackages>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

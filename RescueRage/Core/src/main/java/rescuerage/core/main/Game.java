@@ -44,10 +44,22 @@ public class Game implements ApplicationListener {
     private World world = new World();
     private List<IGamePluginService> gamePlugins = new CopyOnWriteArrayList<>();
     private Lookup.Result<IGamePluginService> result;
-    Sound shootingSound; 
+    //Sound shootingSound; 
     private Entity player;
     private PositionPart positionPart = null;
     private float radians;
+    
+    public Game(){
+        
+    }
+    
+    
+    public void shootSound(){
+        
+        Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
+        shootingSound.play();
+       
+    }
 
     @Override
     public void create() {
@@ -61,7 +73,7 @@ public class Game implements ApplicationListener {
         cam.update();
         
         //shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shooting.wav"));
-        shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
+       // shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
         sr = new ShapeRenderer();
 
         Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
@@ -244,7 +256,7 @@ public class Game implements ApplicationListener {
                     font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
                     nameOfWeapon = nameOfWeapon + gunPart.getName();
                     font.draw(batch, nameOfWeapon, 550, 150);
-                    shootingSound.play();
+                   // shootingSound.play();
                 }
             }
 

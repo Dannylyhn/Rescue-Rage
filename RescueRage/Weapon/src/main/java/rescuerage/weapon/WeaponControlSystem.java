@@ -4,8 +4,12 @@
  */
 package rescuerage.weapon;
 
+
+import rescuerage.core.main.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
+import java.net.URL;
 import rescuerage.commonbullet.BulletSPI;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
@@ -14,7 +18,6 @@ import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.services.IEntityProcessingService;
 import rescuerage.common.data.GameKeys;
-
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -26,15 +29,22 @@ import rescuerage.common.data.entityparts.GunCooldownPart;
  */
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
-public class WeaponControlSystem implements IEntityProcessingService {
-    Sound shootingSound;
+public class WeaponControlSystem implements IEntityProcessingService{
+    
+    //Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("/src/main/resources/assets/sounds/shootingAlt.mp3"));
    
     
     @Override
     public void process(GameData gameData, World world) {
+      
+         
+       //Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/soundtrack.mp3"));
+        
+        
         
         for(Entity weapon : world.getEntities(Weapon.class))
         {
+            
             PositionPart positionPart = weapon.getPart(PositionPart.class);
             GunPart gunPart = weapon.getPart(GunPart.class);
             GunCooldownPart gunCD = weapon.getPart(GunCooldownPart.class);
@@ -73,7 +83,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
     //The spray pattern thats called for each left click event
     private void shoot(Entity weapon, GameData gameData, World world)
     {
-        //shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
+        Game gameobj = new Game();
         GunPart gunPart = weapon.getPart(GunPart.class);
         PositionPart positionPart = weapon.getPart(PositionPart.class);
 
@@ -87,12 +97,13 @@ public class WeaponControlSystem implements IEntityProcessingService {
             radians = radians + gunPart.getSprayPattern()[i];
             Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
             //world.addEntity(bullet);
-           // shootingSound.play();
+            gameobj.shootSound();
             world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
         }
     }
     
     private void updateShape(Entity entity) {
+        
         float[] shapex = new float[4];
         float[] shapey = new float[4];
         PositionPart positionPart = entity.getPart(PositionPart.class);
