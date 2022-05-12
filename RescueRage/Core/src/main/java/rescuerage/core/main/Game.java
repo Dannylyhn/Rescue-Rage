@@ -49,18 +49,8 @@ public class Game implements ApplicationListener {
     private Entity player;
     private PositionPart positionPart = null;
     private float radians;
-    
-    public Game(){
-        
-    }
-    
-    
-    //Very bad solutin for shooting
-    public static void shootSound(){
-        Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
-        shootingSound.play();
-    }
 
+    
     @Override
     public void create() {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());

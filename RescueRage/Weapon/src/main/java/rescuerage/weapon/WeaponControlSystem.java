@@ -4,12 +4,6 @@
  */
 package rescuerage.weapon;
 
-
-import rescuerage.core.main.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
-import java.net.URL;
 import rescuerage.commonbullet.BulletSPI;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
@@ -22,7 +16,7 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.entityparts.GunCooldownPart;
-import static rescuerage.core.main.Game.shootSound;
+import static rescuerage.core.main.Sounds.shootSound;
 
 /**
  *

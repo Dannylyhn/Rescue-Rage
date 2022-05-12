@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Collision">
-<<<<<<< HEAD
-    <module_version install_time="1652269280606" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1652353069450" last="true" origin="installer" specification_version="1.0">
         <file crc="661484228" name="config/Modules/rescuerage-Collision.xml"/>
-        <file crc="3717851904" name="modules/rescuerage-Collision.jar"/>
-=======
-    <module_version install_time="1652352492407" last="true" origin="installer" specification_version="1.0">
-        <file crc="661484228" name="config/Modules/rescuerage-Collision.xml"/>
-        <file crc="259945501" name="modules/rescuerage-Collision.jar"/>
->>>>>>> GunshotSounds
+        <file crc="1709092137" name="modules/rescuerage-Collision.jar"/>
     </module_version>
 </module>
