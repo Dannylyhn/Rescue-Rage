@@ -95,6 +95,7 @@ public class Game implements ApplicationListener {
         // clear screen to black
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        soundtrack.setVolume(0.2f);
         soundtrack.play();
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
@@ -252,7 +253,7 @@ public class Game implements ApplicationListener {
                     font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
                     nameOfWeapon = nameOfWeapon + gunPart.getName();
                     font.draw(batch, nameOfWeapon, 550, 150);
-                   // shootingSound.play();
+                
                 }
             }
 

@@ -4,6 +4,7 @@
  */
 package rescuerage.weapon;
 
+
 import rescuerage.commonbullet.BulletSPI;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
@@ -25,8 +26,6 @@ import static rescuerage.core.main.Sounds.shootSound;
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class WeaponControlSystem implements IEntityProcessingService{
-    
-    //Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("/src/main/resources/assets/sounds/shootingAlt.mp3"));
    
     
     @Override

@@ -10,11 +10,8 @@ import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.services.IPostEntityProcessingService;
 import org.openide.util.lookup.ServiceProvider;
-//import rescuerage.map
-/**
- *
- * @author ander
- */
+import static rescuerage.core.main.Sounds.deathSound;
+
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -218,6 +215,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             Entity p = world.getEntity(world.getPlayerID());
                             InventoryPart ip = p.getPart(InventoryPart.class);
                             ip.incMoney(100);
+                            deathSound();
                             world.removeEntity(e2);
                             //world.
                         }

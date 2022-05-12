@@ -15,10 +15,14 @@ public class Sounds {
     
     //Very bad solutin for shooting
     public static void shootSound(){
-        Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
-        shootingSound.play();
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
+        sound.play();
     }
     
+    public static void deathSound(){
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombieDeath.mp3"));
+        sound.play(1f);
+    }
     
     
     
