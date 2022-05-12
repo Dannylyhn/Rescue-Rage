@@ -54,11 +54,10 @@ public class Game implements ApplicationListener {
     }
     
     
-    public void shootSound(){
-        
+    //Very bad solutin for shooting
+    public static void shootSound(){
         Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
         shootingSound.play();
-       
     }
 
     @Override

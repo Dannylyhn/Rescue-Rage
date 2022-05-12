@@ -22,6 +22,7 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.entityparts.GunCooldownPart;
+import static rescuerage.core.main.Game.shootSound;
 
 /**
  *
@@ -83,7 +84,7 @@ public class WeaponControlSystem implements IEntityProcessingService{
     //The spray pattern thats called for each left click event
     private void shoot(Entity weapon, GameData gameData, World world)
     {
-        Game gameobj = new Game();
+        //Game gameobj = new Game();
         GunPart gunPart = weapon.getPart(GunPart.class);
         PositionPart positionPart = weapon.getPart(PositionPart.class);
 
@@ -97,7 +98,8 @@ public class WeaponControlSystem implements IEntityProcessingService{
             radians = radians + gunPart.getSprayPattern()[i];
             Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
             //world.addEntity(bullet);
-            gameobj.shootSound();
+            //shootSound is a method from Core
+            shootSound();
             world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
         }
     }
