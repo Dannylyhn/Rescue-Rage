@@ -52,7 +52,7 @@ public class PositionPart implements EntityPart {
     public void setRadians(float radians) {
         this.radians = radians;
     }
-
+    
     @Override
     public void process(GameData gameData, Entity entity) {
     }
