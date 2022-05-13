@@ -125,6 +125,35 @@ public class Game implements ApplicationListener {
             radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
             positionPart.setRadians(radians);   
         }
+        
+        
+        //Code down below is for drawing the sprite, setting the position and rotation
+        if(!world.getPlayerID().equals(""))
+        {
+        batch.begin();
+       
+        float PlayerSpriteX = (gameData.getDisplayWidth()/2);
+        float PlayerSpriteY = (gameData.getDisplayHeight()/2);
+        sprite.setPosition(PlayerSpriteX-47, PlayerSpriteY-47);
+       // sprite.setSize(60, 60);
+        float xInput = Gdx.input.getX();
+        float yInput = (Gdx.graphics.getHeight() - Gdx.input.getY());
+        float angle = MathUtils.radiansToDegrees * MathUtils.atan2(yInput - PlayerSpriteY, xInput - PlayerSpriteX);
+      
+
+        if(angle < 0){
+           angle += 360;
+          }
+        sprite.setRotation(angle);
+        
+        }else{
+          //If player is not in, it should remove the picture
+           img = new Texture("assets/images/Empty.png");
+           sprite = new Sprite(img);
+        }
+        sprite.draw(batch);
+        batch.end();
+        
 
         update();
         draw();
@@ -165,9 +194,8 @@ public class Game implements ApplicationListener {
         }
         */
         
+        /*
         //Code down below is for drawing the sprite, setting the position and rotation
-        
-        
         if(!world.getPlayerID().equals(""))
         {
         batch.begin();
@@ -189,10 +217,10 @@ public class Game implements ApplicationListener {
           //If player is not in, it should remove the picture
            img = new Texture("assets/images/Empty.png");
            sprite = new Sprite(img);
-        
         }
         sprite.draw(batch);
         batch.end();
+        */
         
         //Following code has issues with dynamic load and unload
         int justOne = -1;
