@@ -80,6 +80,7 @@ public class EnemyPlugin implements IGamePluginService {
             int r = random.nextInt(5+level);
             //while(r<5+level){
             for(int j = 0; j < r+level; j++){
+            //for(int j = 0; j < 1; j++){
                 createEneymyInRoomIndex(i);
             }
         }
@@ -115,7 +116,7 @@ public class EnemyPlugin implements IGamePluginService {
         
         float maxSpeed = world.tileSize;
         enemy.setRadius(tileSize/2);
-        enemy.add(new EnemyMovingPart(maxSpeed, roomNR));
+        enemy.add(new EnemyMovingPart(maxSpeed, roomNR, world.getLevel().get(roomNR)));
         //System.out.println("x: " + x);
         //System.out.println("y: " + y);
         enemy.add(new PositionPart(0,0,0));
