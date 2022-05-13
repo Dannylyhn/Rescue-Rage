@@ -16,17 +16,17 @@ public class Sounds {
     //Very bad solutin for shooting
     public static void shootSound(){
         Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
-        sound.play();
+        sound.play(0.3f);
     }
     
     public static void deathSound(){
         Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombieDeath.mp3"));
-        sound.play(1f);
+        sound.play(2f);
     }
     
     public static void reloadSound(){
         Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/Reload.mp3"));
-        sound.play();
+        sound.play(0.5f);
     }
     
     
