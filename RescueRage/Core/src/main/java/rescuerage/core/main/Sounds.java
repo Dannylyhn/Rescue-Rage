@@ -24,6 +24,11 @@ public class Sounds {
         sound.play(1f);
     }
     
+    public static void reloadSound(){
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/Reload.mp3"));
+        sound.play();
+    }
+    
     
     
 }

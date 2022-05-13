@@ -18,6 +18,7 @@ import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.entityparts.GunCooldownPart;
 import static rescuerage.core.main.Sounds.shootSound;
+import static rescuerage.core.main.Sounds.reloadSound;
 
 /**
  *
@@ -56,11 +57,11 @@ public class WeaponControlSystem implements IEntityProcessingService{
                 }
             }
             
-            if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()!=0)
-            {
+            if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()!=0 && gunPart.getMagazine()<10)
+            {   
                     int reloadedAmount = gunPart.getMagazineLength()-gunPart.getMagazine();
                     gunPart.minusAmmo(reloadedAmount);
-
+                    reloadSound();
                     gunPart.setMagazine(gunPart.getMagazineLength());
             }
             
