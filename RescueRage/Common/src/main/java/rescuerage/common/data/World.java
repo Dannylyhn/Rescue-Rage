@@ -55,14 +55,15 @@ public class World {
     
     public int houseH = 2;
     public int houseW = 2;
-    public int roomH = 9; // must be uneven number, because the doors are being set at the center of the wall
-    public int roomW = 11; // must be uneven number, because the doors are being set at the center of the wall
-    public int tileSize = 16; // must be even number, because the top and right rows are depending on it
+    public int roomH = 19; // must be uneven number, because the doors are being set at the center of the wall
+    public int roomW = 23; // must be uneven number, because the doors are being set at the center of the wall
+    public int tileSize = 48; // must be even number, because the top and right rows are depending on it
     public int WIDTH = roomW * tileSize;
     public int HEIGHT = roomH * tileSize;
     
     
     private ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
+    public ArrayList<Entity> roomIdentifiers = new ArrayList<>();
     
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
     private final Map<String, Entity> collisionMap = new ConcurrentHashMap<>();
@@ -114,7 +115,7 @@ public class World {
         //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
     }
     public void clearRoomMap(){
-        //roomMap.clear();
+        roomMap.clear();
         /*private final ArrayList<Map<String, Entity>> roomMap = new ArrayList<>();
         */
         roomMap = new ArrayList<>();
@@ -155,12 +156,16 @@ public class World {
                 entityMap.remove(e.getID());
             }
         }
+        roomIdentifiers.clear();
     }
     public void addRoom(Map<String, Entity> room){
         roomMap.add(room);
     }
     public void addBossarea(Map<String, Entity> room){
         roomMap.add(1,room);
+    }
+    public void addRoomIdentifier(Entity roomIdentifier){
+        roomIdentifiers.add(roomIdentifier);
     }
     public ArrayList<Map<String, Entity>> getLevel() {
         return roomMap;
@@ -349,6 +354,7 @@ public class World {
     public void removeEntity(Entity entity) {
         entityMap.remove(entity.getID());
         collisionMap.remove(entity.getID());
+        getLevel().get(currentRoom).remove(entity.getID());
         
         for(Map<String, Entity> entityMap : getLevel()){
             if(entityMap.containsValue(entity)){

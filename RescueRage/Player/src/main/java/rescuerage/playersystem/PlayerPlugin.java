@@ -53,8 +53,8 @@ public class PlayerPlugin implements IGamePluginService {
 
         float maxSpeed = 100;
         float rotationSpeed = 5;
-        float x = gameData.getDisplayWidth() / 20;
-        float y = gameData.getDisplayHeight() / 20;
+        float x = gameData.getDisplayWidth() / 2;
+        float y = gameData.getDisplayHeight() / 2;
         float radians = 3.1415f / 2;
 
         Entity playerShip = new Player();
@@ -62,7 +62,7 @@ public class PlayerPlugin implements IGamePluginService {
         playerShip.setSizeX(world.tileSize/2);
         playerShip.setSizeY(world.tileSize/2);
         
-        playerShip.setRadius(8);
+        playerShip.setRadius(world.tileSize/2);
         playerShip.add(new PlayerMovingPart(maxSpeed));
         playerShip.add(new PositionPart(x, y, radians));
         LifePart lp = new LifePart(5);
