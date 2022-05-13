@@ -294,24 +294,81 @@ public class World {
         }
         return entity.getID();
     }
-    private void roomCollisionCheck(Map<String, Entity> room, Entity entity){
-        Random rand = new Random();
-        int min = tileSize + (int)entity.getRadius()*2;
-        int maxW = roomW*tileSize-tileSize*2-(int)entity.getRadius()*2;
-        int maxH = roomH*tileSize-tileSize*2-(int)entity.getRadius()*2;
-        int randomX = rand.nextInt((maxW - min) + min) + min;
-        int randomY = rand.nextInt((maxH - min) + min) + min;
-        entity.add(new PositionPart(randomX,randomY,0));
-        for(Entity e : room.values()){
-            float[] sx = e.getShapeX();
-            float[] sy = e.getShapeY();
-            for(int i = 0; i < sx.length; i++){
-                if(entity.contains(sx[i], sy[i])){
-                    roomCollisionCheck(room, entity);
-                }
-            }
-            //return false;
+    private void roomCollisionCheck(Map<String, Entity> room, Entity entity, int roomIndex){
+        boolean collides = true;
+        entity.add(new PositionPart(0,0,0));
+        PositionPart p = entity.getPart(PositionPart.class);
+        
+        int shiftY = 0;
+        int shiftX = roomIndex+1;
+        while(shiftX>houseW){
+            shiftX = shiftX - houseW;
+            shiftY = shiftY + 1;
         }
+        shiftX = shiftX*roomW*tileSize;
+        shiftY = shiftY*roomH*tileSize;
+        if(roomIndex==-1){
+            p.setPosition(((houseW+1)*roomW*tileSize)+p.getX(), p.getY());
+            shiftY = 0;
+            shiftX = ((houseW+1)*roomW*tileSize);
+        }
+        
+        while(collides){
+            collides = false;
+            Random rand = new Random();
+            int min = tileSize + (int)entity.getRadius()*2;
+            int maxW = roomW*tileSize-tileSize*2-(int)entity.getRadius()*2;
+            int maxH = roomH*tileSize-tileSize*2-(int)entity.getRadius()*2;
+            int randomX = rand.nextInt((maxW - min) + min) + min;
+            int randomY = rand.nextInt((maxH - min) + min) + min;
+            
+            p.setX(shiftX+randomX);
+            p.setY(shiftY+randomY);
+            updateShape(entity);
+            
+            for(Entity e : room.values()){
+                boolean ret = isCollision(e, entity);
+                if(ret)
+                    collides = ret;
+            }
+        }
+    }
+    private void updateShape(Entity entity) {
+        
+        float[] shapex = new float[4];
+        float[] shapey = new float[4];
+        PositionPart positionPart = entity.getPart(PositionPart.class);
+        float x = positionPart.getX();
+        float y = positionPart.getY();
+        //float radius = entity.getRadius();
+        float sizeX = entity.getSizeX();
+        float sizeY = entity.getSizeY();
+        
+        shapex[0] = x + sizeX;
+        shapey[0] = y + sizeY;
+        
+        shapex[1] = x + sizeX;
+        shapey[1] = y - sizeY;
+        
+        shapex[2] = x - sizeX;
+        shapey[2] = y - sizeY;
+        
+        shapex[3] = x - sizeX;
+        shapey[3] = y + sizeY;
+        
+        entity.setShapeX(shapex);
+        entity.setShapeY(shapey);
+        
+    }
+    private boolean isCollision(Entity entity, Entity entity2) {
+        float[] sx = entity.getShapeX();
+        float[] sy = entity.getShapeY();
+        for(int i = 0; i < sx.length; i++){
+            if(entity2.contains(sx[i], sy[i])){
+                return true;
+            }
+        }
+        return false;
     }
     public void addEntityInRoom(Entity entity, int roomIndex){
         Map<String, Entity> room = getHouseRooms().get(roomIndex);
@@ -327,9 +384,11 @@ public class World {
         int randomY = rand.nextInt((maxH - min) + 1) + min;
         entity.add(new PositionPart(randomX,randomY,0));
         */
-        roomCollisionCheck(room, entity);
+        roomCollisionCheck(room, entity, roomIndex);
+        /*
         //post colide loop
         PositionPart p = entity.getPart(PositionPart.class);
+        
         int shiftY = 0;
         int shiftX = roomIndex+1;
         while(shiftX>houseW){
@@ -340,15 +399,15 @@ public class World {
         p.setPosition((shiftX*roomW*tileSize)+p.getX(), (shiftY*roomH*tileSize)+p.getY());
         
         //p.setPosition(p.getX(), p.getY());
-        
+        */
         room.put(entity.getID(), entity);
     }
     public void addEntityInBossArea(Entity entity){
         Map<String, Entity> room = getBossArea();
         //PositionPart p = entity.getPart(PositionPart.class);
-        roomCollisionCheck(room, entity);
-        PositionPart p = entity.getPart(PositionPart.class);
-        p.setPosition(((houseW+1)*roomW*tileSize)+p.getX(), p.getY());
+        roomCollisionCheck(room, entity, -1);
+        //PositionPart p = entity.getPart(PositionPart.class);
+        //p.setPosition(((houseW+1)*roomW*tileSize)+p.getX(), p.getY());
         room.put(entity.getID(), entity);
     }
     private boolean ignoreWalkableTiles(Entity e1){
