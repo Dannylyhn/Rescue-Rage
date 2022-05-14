@@ -137,7 +137,7 @@ public class EnemyMovingPart implements EntityPart {
             float y = positionPart.getY();
             float size = entity.getSizeX();
             if(changed){
-                System.out.println("In new tile: " + playerTile);
+                //System.out.println("In new tile: " + playerTile);
                 changed = false;
                 //ArrayList<String> path = new ArrayList();
                 Node astar = aStar((int)x, (int)y, (int)playerX, (int)playerY, (int)size);
@@ -149,7 +149,7 @@ public class EnemyMovingPart implements EntityPart {
                 }
                 Collections.reverse(path);
                 path.remove(null);
-                System.out.println("Path: " + path);
+                //System.out.println("Path: " + path);
             }
             float radians = positionPart.getRadians();
             float dt = gameData.getDelta();
@@ -159,7 +159,7 @@ public class EnemyMovingPart implements EntityPart {
             if(tile != tempTile){
                 newTile = true;
                 tile = tempTile;
-                System.out.println(tile);
+                //System.out.println(tile);
                 // update new movement
             }
 
@@ -241,15 +241,15 @@ public class EnemyMovingPart implements EntityPart {
         fringe.add(initNode);
         while(!fringe.isEmpty()){
             //System.out.println("while 225");
-            System.out.print("List: ");
-            for(Node n : fringe){
+            //System.out.print("List: ");
+            /*for(Node n : fringe){
                 System.out.print((n.heuristic()) + ", ");
             }
-            System.out.println("");
+            System.out.println("");*/
             Node node = fringe.get(0);
             fringe.remove(0);
             int temp = node.heuristic();
-            System.out.println("heuristic + path: " + temp );
+            //System.out.println("heuristic + path: " + temp );
             
             //if(node.heuristic()<tileSize){
             if(node.heuristic()<=tileSize){
@@ -471,7 +471,7 @@ public class EnemyMovingPart implements EntityPart {
             Node n = new Node(node.getX(), node.getY(), node.goalX, node.goalY, (int)node.sizeX);
             n.actuators(child);
             n.action = moves.get(child);
-            System.out.println("move: " + moves.get(child));
+            //System.out.println("move: " + moves.get(child));
             n.parentNode = node;
             n.depth = node.depth + 1;
             successors.add(n);

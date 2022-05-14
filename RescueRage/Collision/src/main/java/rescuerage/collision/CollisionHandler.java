@@ -90,13 +90,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         }
                     }
                 }
-
-                if(e1.getClass().getSimpleName().equals("Map")){
-                    TilePart tile = e1.getPart(TilePart.class);
-                    if(tile.getType().equals("door")){
-                        System.out.println("Colliding with door");
-                    }
-                }
+                
                 /*System.out.println("Collision detected");
                 System.out.println("Entity 1: " + e1.getID() + " (" + e1.getClass().getSimpleName() + ")");
                 System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");*/
@@ -311,19 +305,6 @@ public class CollisionHandler implements IPostEntityProcessingService {
     }
 
     private boolean isCollision(Entity entity, Entity entity2) {
-        /*
-        if (entity.getID().equals(entity2.getID())) {
-            return false;
-        }
-
-        PositionPart entMov = entity.getPart(PositionPart.class);
-        PositionPart entMov2 = entity2.getPart(PositionPart.class);
-        float dx = (float) entMov.getX() - (float) entMov2.getX();
-        float dy = (float) entMov.getY() - (float) entMov2.getY();
-        float distance = (float) Math.sqrt(dx * dx + dy * dy);
-
-        return distance < (entity.getRadius() + entity2.getRadius());
-*/
         float[] sx = entity.getShapeX();
         float[] sy = entity.getShapeY();
         for(int i = 0; i < sx.length; i++){
