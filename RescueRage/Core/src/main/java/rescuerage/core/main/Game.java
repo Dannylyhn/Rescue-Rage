@@ -127,7 +127,7 @@ public class Game implements ApplicationListener {
         gameData.getKeys().update();
         
         
-        if(positionPart != null)
+        if(world.getPlayerPositionPart() != null)
         {
             PositionPart playerPosPart = world.getPlayerPositionPart();
             //Sets camera position center to player
