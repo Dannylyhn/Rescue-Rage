@@ -50,6 +50,7 @@ public class Game implements ApplicationListener {
     Texture keySprite;
     Texture healthSprite;
     Texture chestSprite;
+    Texture bulletSprite;
     BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
@@ -83,6 +84,7 @@ public class Game implements ApplicationListener {
          keySprite = new Texture(Gdx.files.internal("assets/images/key.png"));
          healthSprite = new Texture(Gdx.files.internal("assets/images/health.png"));
          chestSprite = new Texture(Gdx.files.internal("assets/images/chest.png"));
+         bulletSprite = new Texture(Gdx.files.internal("assets/images/bullet2.png"));
          //new Texture(Gdx.files.internal("E:\\Mit drev\\software engineering\\Semester 4\\PRO\\PersonalTesting\\AsteroidsProTesting\\core\\assets\\player.png"));
         //For the pokemon guy
         // sprite = new Sprite(img, 64, 64);
@@ -124,11 +126,6 @@ public class Game implements ApplicationListener {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
         
-        
-      
-        
-        
-       
         
         if(positionPart != null)
         {
@@ -295,88 +292,97 @@ public class Game implements ApplicationListener {
                         sorted.add(entity);
                     }
                 }
-                //for (Entity entity : world.getLevel().get(ii).values()) {
                 for (Entity entity : sorted) {
-                    //System.out.println("ii: " + ii);
-                    //System.out.println("draw 3");
                     PositionPart tilePos = entity.getPart(PositionPart.class);
-                    if(entity.getClass().getSimpleName().equals("Map")){
-                        //System.out.println("draw 4");
-                        TilePart tile = entity.getPart(TilePart.class);
-                        //PositionPart tilePos = entity.getPart(PositionPart.class);
-                        if(tile.getType().equals("door")){
-                            //System.out.println("draw door");
-                            //System.out.println("Colliding with door");
-                            if(tile.locked){
-                                sr.setColor(1, 0, 0, 0);
-                                batch.begin();
-                                batch.draw(wallSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                                batch.end();
+                    switch (entity.getClass().getSimpleName()) {
+                        case "Map":
+                            TilePart tile = entity.getPart(TilePart.class);
+                            switch (tile.getType()) {
+                                case "door":
+                                    if(tile.locked){
+                                        //sr.setColor(1, 0, 0, 0);
+                                        batch.begin();
+                                        batch.draw(wallSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                        batch.end();
+                                    }
+                                    else{
+                                        sr.setColor(0, 1, 0, 0);
+                                        batch.begin();
+                                        batch.draw(floorSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                        batch.end();
+                                    }   break;
+                                case "floor":
+                                    sr.setColor(1, 1, 1, 1);
+                                    batch.begin();
+                                    batch.draw(floorSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "wall":
+                                    sr.setColor(0, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(wallSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "box":
+                                    sr.setColor(0, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(boxSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                default:
+                                    sr.setColor(0, 0, 1, 0);
+                                    break;
+                            }   break;
+                        case "Enemy":
+                            sr.setColor(1, 0, 0, 0);
+                            float angle = 0;
+                            if(positionPart != null){
+                                angle = MathUtils.radiansToDegrees * (float)Math.atan2( positionPart.getY() - tilePos.getY(), positionPart.getX() - tilePos.getX());
+                            }   while(angle < 0){
+                                angle += 360;
+                            }   Sprite eSprite = new Sprite(enemySprite);
+                            eSprite.setPosition(((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            eSprite.setRotation((float)(angle+90));
+                            batch.begin();
+                            eSprite.draw(batch);
+                            batch.end();
+                            break;
+                        case "Item":
+                            ItemPart ip = entity.getPart(ItemPart.class);
+                            switch (ip.getType()) {
+                                case "chest":
+                                    sr.setColor(1, 1, 0, 0);
+                                    batch.begin();
+                                    batch.draw(chestSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "key":
+                                    sr.setColor(1, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(keySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "healthInc":
+                                    sr.setColor(1, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(healthSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                default:
+                                    sr.setColor(0, 1, 1, 0);
+                                    break;
                             }
-                            else{
-                                //System.out.println("draw wall");
-                                sr.setColor(0, 1, 0, 0);
-                                batch.begin();
-                                batch.draw(floorSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                                batch.end();
-                            }
-                        }
-                        else if(tile.getType().equals("floor")){
+                            break;
+
+                        case "Bullet":
                             sr.setColor(1, 1, 1, 1);
                             batch.begin();
-                            batch.draw(floorSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            batch.draw(bulletSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
                             batch.end();
-                        }
-                        else if(tile.getType().equals("wall")){
-                            sr.setColor(0, 0, 1, 0);
-                            
-                            batch.begin();
-                            batch.draw(wallSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                            batch.end();
-                        }
-                        else if(tile.getType().equals("box")){
-                            sr.setColor(0, 0, 1, 0);
-                            
-                            batch.begin();
-                            batch.draw(boxSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                            batch.end();
-                        }
-                        else{
-                            sr.setColor(0, 0, 1, 0);
-                        }
-                    }
-                    else if(entity.getClass().getSimpleName().equals("Enemy")){
-                        sr.setColor(1, 0, 0, 0);
-                        batch.begin();
-                            batch.draw(enemySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                            batch.end();
-                    }
-                    else if(entity.getClass().getSimpleName().equals("Item")){
-                        ItemPart ip = entity.getPart(ItemPart.class);
-                        if(ip.getType().equals("chest")){
-                            sr.setColor(1, 1, 0, 0);
-                            
-                            batch.begin();
-                            batch.draw(chestSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                            batch.end();
-                        }
-                        else if(ip.getType().equals("key")){
-                            sr.setColor(1, 0, 1, 0);
-                            batch.begin();
-                            batch.draw(keySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                            batch.end();
-                        }
-                        else if(ip.getType().equals("healthInc")){
-                            sr.setColor(1, 0, 1, 0);
-                            batch.begin();
-                            batch.draw(healthSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                            batch.end();
-                        }
-                        else
-                            sr.setColor(0, 1, 1, 0);
-                    }
-                    else{
-                        sr.setColor(1, 1, 1, 1);
+                            break;
+                        default:
+                            sr.setColor(1, 1, 1, 1);
+                            break;
                     }
 
                     sr.begin(ShapeRenderer.ShapeType.Line);
