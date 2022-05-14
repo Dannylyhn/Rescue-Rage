@@ -50,6 +50,7 @@ public class Game implements ApplicationListener {
     Texture keySprite;
     Texture healthSprite;
     Texture chestSprite;
+    Texture bulletSprite;
     BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
@@ -83,6 +84,7 @@ public class Game implements ApplicationListener {
          keySprite = new Texture(Gdx.files.internal("assets/images/key.png"));
          healthSprite = new Texture(Gdx.files.internal("assets/images/health.png"));
          chestSprite = new Texture(Gdx.files.internal("assets/images/chest.png"));
+         bulletSprite = new Texture(Gdx.files.internal("assets/images/bullet2.png"));
          //new Texture(Gdx.files.internal("E:\\Mit drev\\software engineering\\Semester 4\\PRO\\PersonalTesting\\AsteroidsProTesting\\core\\assets\\player.png"));
         //For the pokemon guy
         // sprite = new Sprite(img, 64, 64);
@@ -348,8 +350,8 @@ public class Game implements ApplicationListener {
                     else if(entity.getClass().getSimpleName().equals("Enemy")){
                         sr.setColor(1, 0, 0, 0);
                         batch.begin();
-                            batch.draw(enemySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
-                            batch.end();
+                        batch.draw(enemySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                        batch.end();
                     }
                     else if(entity.getClass().getSimpleName().equals("Item")){
                         ItemPart ip = entity.getPart(ItemPart.class);
@@ -375,6 +377,12 @@ public class Game implements ApplicationListener {
                         else
                             sr.setColor(0, 1, 1, 0);
                     }
+                    else if(entity.getClass().getSimpleName().equals("Bullet")){
+                        sr.setColor(1, 1, 1, 1);
+                        batch.begin();
+                        batch.draw(bulletSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                        batch.end();
+                        }
                     else{
                         sr.setColor(1, 1, 1, 1);
                     }
