@@ -25,8 +25,15 @@ import rescuerage.common.data.entityparts.GunCooldownPart;
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class WeaponControlSystem implements IEntityProcessingService {
+    private int level = 0;
     @Override
     public void process(GameData gameData, World world) {
+        if(level!=world.level){
+            System.out.println("method call");
+            Lookup.getDefault().lookup(WeaponPlugin.class).createWeaponsInLevel();
+            level = world.level;
+            //moveCount = world.tileSize * world.getEntities(Enemy.class).size();
+        }
         
         for(Entity weapon : world.getEntities(Weapon.class))
         {

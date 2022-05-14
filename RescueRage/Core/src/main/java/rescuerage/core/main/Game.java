@@ -51,6 +51,7 @@ public class Game implements ApplicationListener {
     Texture healthSprite;
     Texture chestSprite;
     Texture bulletSprite;
+    Texture gunSprite;
     BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
@@ -85,6 +86,7 @@ public class Game implements ApplicationListener {
          healthSprite = new Texture(Gdx.files.internal("assets/images/health.png"));
          chestSprite = new Texture(Gdx.files.internal("assets/images/chest.png"));
          bulletSprite = new Texture(Gdx.files.internal("assets/images/bullet2.png"));
+         gunSprite = new Texture(Gdx.files.internal("assets/images/gun.png"));
          //new Texture(Gdx.files.internal("E:\\Mit drev\\software engineering\\Semester 4\\PRO\\PersonalTesting\\AsteroidsProTesting\\core\\assets\\player.png"));
         //For the pokemon guy
         // sprite = new Sprite(img, 64, 64);
@@ -129,6 +131,7 @@ public class Game implements ApplicationListener {
         
         if(positionPart != null)
         {
+            playerSprite = new Texture("assets/images/PlayerSprite.png");
             PositionPart playerPosPart = world.getPlayerPositionPart();
             //Sets camera position center to player
             cam.position.x = playerPosPart.getX();
@@ -176,9 +179,9 @@ public class Game implements ApplicationListener {
         
         update();
         draw();
-        batch.begin();
+        /*batch.begin();
         sprite.draw(batch);
-        batch.end();
+        batch.end();*/
         //postUpdate();
     }
 
@@ -373,7 +376,41 @@ public class Game implements ApplicationListener {
                                     break;
                             }
                             break;
+                        case "Weapon":
+                            //System.out.println("drawing weapon");
+                            sr.setColor(1, 1, 1, 1);
+                            GunPart gp = entity.getPart(GunPart.class);
+                            //if(!gp.pickedUp){
+                                batch.begin();
+                                
+                                String nameOfWeapon = "Current: ";
+                                String ammo = "Ammo: ";
+                                String magazine = "          |  Magazine: ";
+                                if(entity.getClass().getSimpleName().equals("Weapon")){
+                                    GunPart gunPart = entity.getPart(GunPart.class);
+                                    PositionPart gunPos = entity.getPart(PositionPart.class);
+                                    if(gunPart.isEquipped())
+                                    {
+                                        ammo = ammo + gunPart.getAmmo();
+                                        int magazineAmount = gunPart.getMagazine();
+                                        font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
+                                        nameOfWeapon = nameOfWeapon + gunPart.getName();
+                                        font.draw(batch, nameOfWeapon, 550, 150);
+                                    }
+                                    else{
+                                        batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                                    }
+                                    //batch.begin();
+                                    //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
+                                    //batch.end();
+                                }
 
+
+                                font.draw(batch, ammo, 550, 100);
+                                //batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                                batch.end();
+                            //}
+                            break;
                         case "Bullet":
                             sr.setColor(1, 1, 1, 1);
                             batch.begin();
@@ -415,6 +452,7 @@ public class Game implements ApplicationListener {
             String magazine = "          |  Magazine: ";
             if(entity.getClass().getSimpleName().equals("Weapon")){
                 GunPart gunPart = entity.getPart(GunPart.class);
+                PositionPart gunPos = entity.getPart(PositionPart.class);
                 if(gunPart.isEquipped())
                 {
                     ammo = ammo + gunPart.getAmmo();
@@ -423,6 +461,9 @@ public class Game implements ApplicationListener {
                     nameOfWeapon = nameOfWeapon + gunPart.getName();
                     font.draw(batch, nameOfWeapon, 550, 150);
                 }
+                //batch.begin();
+                //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
+                //batch.end();
             }
 
 
@@ -488,6 +529,9 @@ public class Game implements ApplicationListener {
         font.draw(batch, ("Health: " + lifeAmount), 100, 40);
         batch.end();
         */
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
     }
 
     @Override

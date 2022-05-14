@@ -126,6 +126,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             lp.addWeapon(e1);
                             GunPart gunPart = e1.getPart(GunPart.class);
                             gunPart.setPickedUp(true);
+                            world.removeEntity(e1);
                         }
                     }
                 }
