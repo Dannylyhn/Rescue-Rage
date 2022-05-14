@@ -40,13 +40,15 @@ public class Game implements ApplicationListener {
     private ShapeRenderer sr;
     SpriteBatch batch;
     Sprite sprite;
-    Texture img; 
+    Texture playerSprite; 
     BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = World.getInstance();
     private List<IGamePluginService> gamePlugins = new CopyOnWriteArrayList<>();
     private Lookup.Result<IGamePluginService> result;
+    private Entity player;
+    private PositionPart positionPart = null;
     private float radians;
 
     @Override
@@ -62,11 +64,11 @@ public class Game implements ApplicationListener {
         
         
         //---------------------------------------------
-         img = new Texture("assets/images/PlayerSprite.png");
+         playerSprite = new Texture("assets/images/PlayerSprite.png");
         //For the pokemon guy
         // sprite = new Sprite(img, 64, 64);
         //For the soldier
-         sprite = new Sprite(img);
+         sprite = new Sprite(playerSprite);
          batch = new SpriteBatch();
          
          //---------------------------------------------
@@ -82,6 +84,13 @@ public class Game implements ApplicationListener {
         for (IGamePluginService plugin : result.allInstances()) {
             plugin.start(gameData, world);
             gamePlugins.add(plugin);
+        }
+        
+        //We need the player entity 
+        if(!world.getPlayerID().equals(""))
+        {
+            player = world.getEntity(world.getPlayerID());
+            positionPart = player.getPart(PositionPart.class);
         }
 
     }
@@ -140,8 +149,8 @@ public class Game implements ApplicationListener {
         
         }else{
           //If player is not in, it should remove the picture
-           img = new Texture("assets/images/Empty.png");
-           sprite = new Sprite(img);
+           playerSprite = new Texture("assets/images/Empty.png");
+           sprite = new Sprite(playerSprite);
         }
         sprite.draw(batch);
         batch.end();

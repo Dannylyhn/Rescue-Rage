@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Item">
-<<<<<<< HEAD
-    <module_version install_time="1652513052673" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1652517685395" last="true" origin="installer" specification_version="1.0">
         <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
-        <file crc="2173271007" name="modules/rescuerage-Item.jar"/>
-=======
-    <module_version install_time="1652452912527" last="true" origin="installer" specification_version="1.0">
-        <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
-        <file crc="221869644" name="modules/rescuerage-Item.jar"/>
->>>>>>> origin/danny/PlayerSpriteV2
+        <file crc="646784781" name="modules/rescuerage-Item.jar"/>
     </module_version>
 </module>
