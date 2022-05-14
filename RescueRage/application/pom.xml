@@ -19,12 +19,17 @@
     </properties>
 
     <dependencies>
-<!--        <dependency>
+        
+        
+       <dependency>
             <groupId>org.netbeans.cluster</groupId>
             <artifactId>platform</artifactId>
             <version>${netbeans.version}</version>
             <type>pom</type>
-        </dependency>-->
+        </dependency>
+       
+       
+        <!--
         <dependency>
             <groupId>org.netbeans.modules</groupId>
             <artifactId>org-netbeans-core-startup</artifactId>

@@ -4,9 +4,12 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 import rescuerage.common.data.Entity;
@@ -36,6 +39,8 @@ public class Game implements ApplicationListener {
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
     SpriteBatch batch;
+    Sprite sprite;
+    Texture img; 
     BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
@@ -54,6 +59,17 @@ public class Game implements ApplicationListener {
         font = new BitmapFont();
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
+        
+        
+        //---------------------------------------------
+         img = new Texture("assets/images/PlayerSprite.png");
+        //For the pokemon guy
+        // sprite = new Sprite(img, 64, 64);
+        //For the soldier
+         sprite = new Sprite(img);
+         batch = new SpriteBatch();
+         
+         //---------------------------------------------
 
         sr = new ShapeRenderer();
 
@@ -78,8 +94,14 @@ public class Game implements ApplicationListener {
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
-                
-        if(world.getPlayerPositionPart() != null)
+        
+        
+      
+        
+        
+       
+        
+        if(positionPart != null)
         {
             PositionPart playerPosPart = world.getPlayerPositionPart();
             //Sets camera position center to player
@@ -95,6 +117,35 @@ public class Game implements ApplicationListener {
             radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
             playerPosPart.setRadians(radians);   
         }
+        
+        
+        //Code down below is for drawing the sprite, setting the position and rotation
+        if(!world.getPlayerID().equals(""))
+        {
+        batch.begin();
+       
+        float PlayerSpriteX = (gameData.getDisplayWidth()/2);
+        float PlayerSpriteY = (gameData.getDisplayHeight()/2);
+        sprite.setPosition(PlayerSpriteX-47, PlayerSpriteY-47);
+       // sprite.setSize(60, 60);
+        float xInput = Gdx.input.getX();
+        float yInput = (Gdx.graphics.getHeight() - Gdx.input.getY());
+        float angle = MathUtils.radiansToDegrees * MathUtils.atan2(yInput - PlayerSpriteY, xInput - PlayerSpriteX);
+      
+
+        if(angle < 0){
+           angle += 360;
+          }
+        sprite.setRotation(angle);
+        
+        }else{
+          //If player is not in, it should remove the picture
+           img = new Texture("assets/images/Empty.png");
+           sprite = new Sprite(img);
+        }
+        sprite.draw(batch);
+        batch.end();
+        
 
         update();
         draw();
@@ -124,6 +175,44 @@ public class Game implements ApplicationListener {
         //System.out.println("draw 1");
         //for(Map<String, Entity> entityMap : world.getRooms()){
         //System.out.println("rooms: " + world.getHouseRooms().size());
+        
+        /*
+        for(Entity player : world.getEntities()){  
+        if(player.getClass().getSimpleName().equals("Player")){
+            
+            
+            
+           }      
+        }
+        */
+        
+        /*
+        //Code down below is for drawing the sprite, setting the position and rotation
+        if(!world.getPlayerID().equals(""))
+        {
+        batch.begin();
+        float PlayerSpriteX = (gameData.getDisplayWidth()/2);
+        float PlayerSpriteY = (gameData.getDisplayHeight()/2);
+        sprite.setPosition(PlayerSpriteX-47, PlayerSpriteY-47);
+       // sprite.setSize(60, 60);
+        float xInput = Gdx.input.getX();
+        float yInput = (Gdx.graphics.getHeight() - Gdx.input.getY());
+        float angle = MathUtils.radiansToDegrees * MathUtils.atan2(yInput - PlayerSpriteY, xInput - PlayerSpriteX);
+      
+
+        if(angle < 0){
+           angle += 360;
+          }
+        sprite.setRotation(angle);
+        
+        }else{
+          //If player is not in, it should remove the picture
+           img = new Texture("assets/images/Empty.png");
+           sprite = new Sprite(img);
+        }
+        sprite.draw(batch);
+        batch.end();
+        */
         
         //Following code has issues with dynamic load and unload
         int justOne = -1;
