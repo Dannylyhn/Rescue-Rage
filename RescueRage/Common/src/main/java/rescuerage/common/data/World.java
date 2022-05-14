@@ -18,6 +18,18 @@ import rescuerage.common.data.entityparts.TilePart;
  * @author jcs
  */
 public class World {
+    //Singleton logic
+    private static World single_world = null;
+    private World(){}
+    public static World getInstance()
+    {
+        if(single_world == null)
+        {
+            single_world = new World();
+        }
+        return single_world;
+    }
+    
     //Player set id
     private String playerID = "";
 
@@ -25,7 +37,11 @@ public class World {
         return playerID;
     }
     public PositionPart getPlayerPositionPart(){
-        return entityMap.get(playerID).getPart(PositionPart.class);
+        if(playerID != "")
+        {
+            return entityMap.get(playerID).getPart(PositionPart.class);
+        }
+        return null;
     }
     public void setPlayerID(String playerID) {
         this.playerID = playerID;

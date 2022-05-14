@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Collision">
+<<<<<<< HEAD
     <module_version install_time="1652442149845" last="true" origin="installer" specification_version="1.0">
         <file crc="661484228" name="config/Modules/rescuerage-Collision.xml"/>
         <file crc="4166648271" name="modules/rescuerage-Collision.jar"/>
+=======
+    <module_version install_time="1652449713938" last="true" origin="installer" specification_version="1.0">
+        <file crc="3416556474" name="config/Modules/rescuerage-Collision.xml"/>
+        <file crc="3573513384" name="modules/rescuerage-Collision.jar"/>
+>>>>>>> origin/main
     </module_version>
 </module>
