@@ -349,8 +349,22 @@ public class Game implements ApplicationListener {
                     }
                     else if(entity.getClass().getSimpleName().equals("Enemy")){
                         sr.setColor(1, 0, 0, 0);
+                        
+                        float angle = 0;
+                        if(positionPart != null){
+                            angle = MathUtils.radiansToDegrees * (float)Math.atan2( positionPart.getY() - tilePos.getY(), positionPart.getX() - tilePos.getX());
+                        }
+                        
+                        while(angle < 0){
+                           angle += 360;
+                        }
+                        
+                        Sprite eSprite = new Sprite(enemySprite);
+                        eSprite.setPosition(((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                        eSprite.setRotation((float)(angle+90));
+                        
                         batch.begin();
-                        batch.draw(enemySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                        eSprite.draw(batch);
                         batch.end();
                     }
                     else if(entity.getClass().getSimpleName().equals("Item")){
