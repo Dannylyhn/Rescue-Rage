@@ -72,6 +72,7 @@
         <module>Collision</module>
         <module>Enemy</module>
         <module>Item</module>
+        <module>SilentUpdate</module>
     </modules>
 
     <properties>

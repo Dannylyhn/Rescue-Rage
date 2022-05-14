@@ -47,7 +47,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
                 }
             }
             
-            if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()!=0)
+            if(gunPart.equipped == true && gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()!=0)
             {
                     int reloadedAmount = gunPart.getMagazineLength()-gunPart.getMagazine();
                     gunPart.minusAmmo(reloadedAmount);
@@ -79,9 +79,12 @@ public class WeaponControlSystem implements IEntityProcessingService {
         for(int i = 0 ; i < gunPart.bulletsPerShot ; i++)
         {
             radians = radians + gunPart.getSprayPattern()[i];
-            Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
-            //world.addEntity(bullet);
-            world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
+            if(Lookup.getDefault().lookup(BulletSPI.class) != null)
+            {
+                Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
+                world.addEntity(bullet);
+                world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
+            }
         }
     }
     

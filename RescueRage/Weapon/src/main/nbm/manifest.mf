@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
+OpenIDE-Module-Install: rescuerage/weapon/Installer.class
 OpenIDE-Module-Localizing-Bundle: rescuerage/weapon/Bundle.properties
 
