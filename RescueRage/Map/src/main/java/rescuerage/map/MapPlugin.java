@@ -198,9 +198,15 @@ public class MapPlugin implements  IGamePluginService{
                     //if(layout.get(l).get(k) == -1){
                     if( (l!=0 && l!=houseW)){
                         if(layout[rand][(j-tileSize/2)/tileSize][(i-tileSize/2)/tileSize] == -1){
-                        //if(layout[5][(j-tileSize/2)/tileSize][(i-tileSize/2)/tileSize] == -1){
+                        //if(layout[3][(j-tileSize/2)/tileSize][(i-tileSize/2)/tileSize] == -1){
                             createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), "wall", roomEntityMap);
                         }
+                        else{
+                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), "floor", roomEntityMap);
+                        }
+                    }
+                    else{
+                        createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), "floor", roomEntityMap);
                     }
                 }
             }

@@ -40,7 +40,16 @@ public class Game implements ApplicationListener {
     private ShapeRenderer sr;
     SpriteBatch batch;
     Sprite sprite;
-    Texture playerSprite; 
+    //SpriteBatch wSprite;
+    //SpriteBatch fSprite;
+    Texture playerSprite;
+    Texture boxSprite;
+    Texture wallSprite;
+    Texture floorSprite;
+    Texture enemySprite;
+    Texture keySprite;
+    Texture healthSprite;
+    Texture chestSprite;
     BitmapFont font;
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
@@ -50,6 +59,8 @@ public class Game implements ApplicationListener {
     private Entity player;
     private PositionPart positionPart = null;
     private float radians;
+    private float shiftX = 0;
+    private float shiftY = 0;
 
     @Override
     public void create() {
@@ -65,10 +76,19 @@ public class Game implements ApplicationListener {
         
         //---------------------------------------------
          playerSprite = new Texture("assets/images/PlayerSprite.png");
+         boxSprite = new Texture(Gdx.files.internal("assets/images/box.png"));
+         wallSprite = new Texture(Gdx.files.internal("assets/images/wall.png"));
+         floorSprite = new Texture(Gdx.files.internal("assets/images/floor.png"));
+         enemySprite = new Texture(Gdx.files.internal("assets/images/enemySprite.png"));
+         keySprite = new Texture(Gdx.files.internal("assets/images/key.png"));
+         healthSprite = new Texture(Gdx.files.internal("assets/images/health.png"));
+         chestSprite = new Texture(Gdx.files.internal("assets/images/chest.png"));
+         //new Texture(Gdx.files.internal("E:\\Mit drev\\software engineering\\Semester 4\\PRO\\PersonalTesting\\AsteroidsProTesting\\core\\assets\\player.png"));
         //For the pokemon guy
         // sprite = new Sprite(img, 64, 64);
         //For the soldier
          sprite = new Sprite(playerSprite);
+         //wSprite = new SpriteBatch(wallSprite);
          batch = new SpriteBatch();
          
          //---------------------------------------------
@@ -125,13 +145,16 @@ public class Game implements ApplicationListener {
             Vector3 playerPos = new Vector3(playerPosPart.getX(), playerPosPart.getY(), 0);
             radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
             playerPosPart.setRadians(radians);   
+            
+            shiftX = positionPart.getX()-(gameData.getDisplayWidth()/2);
+            shiftY = positionPart.getY()-(gameData.getDisplayHeight()/2);
         }
         
         
         //Code down below is for drawing the sprite, setting the position and rotation
         if(!world.getPlayerID().equals(""))
         {
-        batch.begin();
+        
        
         float PlayerSpriteX = (gameData.getDisplayWidth()/2);
         float PlayerSpriteY = (gameData.getDisplayHeight()/2);
@@ -152,12 +175,13 @@ public class Game implements ApplicationListener {
            playerSprite = new Texture("assets/images/Empty.png");
            sprite = new Sprite(playerSprite);
         }
-        sprite.draw(batch);
-        batch.end();
         
-
+        
         update();
         draw();
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
         //postUpdate();
     }
 
@@ -255,25 +279,67 @@ public class Game implements ApplicationListener {
             }
             
             if(!skip){
+                //for (Entity entity : world.getLevel().get(ii).values().g)
+                ArrayList<Entity> sorted = new ArrayList<>();
                 for (Entity entity : world.getLevel().get(ii).values()) {
+                    if(entity.getClass().getSimpleName().equals("Map")){
+                        TilePart tile = entity.getPart(TilePart.class);
+                        if(tile.getType().equals("floor")){
+                            sorted.add(0, entity);
+                        }
+                        else{
+                            sorted.add(entity);
+                        }
+                    }
+                    else{
+                        sorted.add(entity);
+                    }
+                }
+                //for (Entity entity : world.getLevel().get(ii).values()) {
+                for (Entity entity : sorted) {
                     //System.out.println("ii: " + ii);
                     //System.out.println("draw 3");
+                    PositionPart tilePos = entity.getPart(PositionPart.class);
                     if(entity.getClass().getSimpleName().equals("Map")){
                         //System.out.println("draw 4");
                         TilePart tile = entity.getPart(TilePart.class);
+                        //PositionPart tilePos = entity.getPart(PositionPart.class);
                         if(tile.getType().equals("door")){
                             //System.out.println("draw door");
                             //System.out.println("Colliding with door");
                             if(tile.locked){
                                 sr.setColor(1, 0, 0, 0);
+                                batch.begin();
+                                batch.draw(wallSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                batch.end();
                             }
                             else{
                                 //System.out.println("draw wall");
                                 sr.setColor(0, 1, 0, 0);
+                                batch.begin();
+                                batch.draw(floorSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                batch.end();
                             }
                         }
                         else if(tile.getType().equals("floor")){
                             sr.setColor(1, 1, 1, 1);
+                            batch.begin();
+                            batch.draw(floorSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            batch.end();
+                        }
+                        else if(tile.getType().equals("wall")){
+                            sr.setColor(0, 0, 1, 0);
+                            
+                            batch.begin();
+                            batch.draw(wallSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            batch.end();
+                        }
+                        else if(tile.getType().equals("box")){
+                            sr.setColor(0, 0, 1, 0);
+                            
+                            batch.begin();
+                            batch.draw(boxSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            batch.end();
                         }
                         else{
                             sr.setColor(0, 0, 1, 0);
@@ -281,14 +347,30 @@ public class Game implements ApplicationListener {
                     }
                     else if(entity.getClass().getSimpleName().equals("Enemy")){
                         sr.setColor(1, 0, 0, 0);
+                        batch.begin();
+                            batch.draw(enemySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            batch.end();
                     }
                     else if(entity.getClass().getSimpleName().equals("Item")){
                         ItemPart ip = entity.getPart(ItemPart.class);
                         if(ip.getType().equals("chest")){
                             sr.setColor(1, 1, 0, 0);
+                            
+                            batch.begin();
+                            batch.draw(chestSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            batch.end();
                         }
                         else if(ip.getType().equals("key")){
                             sr.setColor(1, 0, 1, 0);
+                            batch.begin();
+                            batch.draw(keySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            batch.end();
+                        }
+                        else if(ip.getType().equals("healthInc")){
+                            sr.setColor(1, 0, 1, 0);
+                            batch.begin();
+                            batch.draw(healthSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            batch.end();
                         }
                         else
                             sr.setColor(0, 1, 1, 0);
@@ -307,7 +389,7 @@ public class Game implements ApplicationListener {
                             j = i++) {
                         //System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[i] +" "+ shapey[i] +" "+ shapex[j] +" "+ shapey[j]);
 
-                        sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+                        //sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
                     }
 
                     sr.end();
@@ -383,7 +465,7 @@ public class Game implements ApplicationListener {
                         i < shapex.length;
                         j = i++) {
 
-                    sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+                    //sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
                 }
 
                 sr.end();

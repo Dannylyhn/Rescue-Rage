@@ -327,9 +327,18 @@ public class World {
             updateShape(entity);
             
             for(Entity e : room.values()){
-                boolean ret = isCollision(e, entity);
-                if(ret)
-                    collides = ret;
+                if(e.getClass().getSimpleName().equals("Map")){
+                    TilePart tp = e.getPart(TilePart.class);
+                    if(tp.type.equals("floor")){
+                        
+                    }
+                    else{
+                        boolean ret = isCollision(e, entity);
+                        if(ret)
+                            collides = ret;
+                    }
+                }
+                
             }
         }
     }
