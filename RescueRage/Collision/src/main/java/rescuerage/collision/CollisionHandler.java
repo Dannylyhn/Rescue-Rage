@@ -110,6 +110,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             case "box":
                                 unWalkable(e2,e1);
                                 break;
+                            case "floor":
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
                                 break;
@@ -144,6 +145,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             case "box":
                                 unWalkable(e1,e2);
                                 break;
+                            case "floor":
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
                                 if(temp.equals("Player")){
@@ -204,7 +206,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                 //world.
                             }
                         }
-                        else if(tp.type.equals("roomInfo")){
+                        else if(tp.type.equals("roomInfo") || tp.type.equals("floor")){
                             return;
                         }
                         world.removeEntity(e1);

@@ -19,18 +19,23 @@
     </properties>
 
     <dependencies>
-<!--        <dependency>
+        
+        
+       <!--<dependency>
             <groupId>org.netbeans.cluster</groupId>
             <artifactId>platform</artifactId>
             <version>${netbeans.version}</version>
             <type>pom</type>
         </dependency>-->
+       
+       
+        
         <dependency>
             <groupId>org.netbeans.modules</groupId>
             <artifactId>org-netbeans-core-startup</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
-<!--        <dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>RescueRage-branding</artifactId>
             <version>${project.version}</version>
@@ -103,12 +108,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>Item</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
-        <dependency>
+        </dependency>
+        <!--<dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>SilentUpdate</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
