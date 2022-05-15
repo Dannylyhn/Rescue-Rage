@@ -129,7 +129,7 @@ public class Game implements ApplicationListener {
         gameData.getKeys().update();
         
         
-        if(positionPart != null)
+        if(world.getPlayerPositionPart() != null)
         {
             //playerSprite = new Texture("assets/images/PlayerSprite.png");
             PositionPart playerPosPart = world.getPlayerPositionPart();
@@ -146,8 +146,8 @@ public class Game implements ApplicationListener {
             radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
             playerPosPart.setRadians(radians);   
             
-            shiftX = positionPart.getX()-(gameData.getDisplayWidth()/2);
-            shiftY = positionPart.getY()-(gameData.getDisplayHeight()/2);
+            shiftX = playerPosPart.getX()-(gameData.getDisplayWidth()/2);
+            shiftY = playerPosPart.getY()-(gameData.getDisplayHeight()/2);
         }
         
         
