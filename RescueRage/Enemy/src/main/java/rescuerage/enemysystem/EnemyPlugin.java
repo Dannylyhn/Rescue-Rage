@@ -124,6 +124,7 @@ public class EnemyPlugin implements IGamePluginService {
         setShape(enemy);
         
         world.addEntity(enemy);
+        enemies.add(enemy);
         //addEntity(map, roomEntityMap);
         return enemy;
     }

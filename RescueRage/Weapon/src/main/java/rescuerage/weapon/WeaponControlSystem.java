@@ -29,7 +29,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
         if(level!=world.level){
-            System.out.println("method call");
+            //System.out.println("method call");
             Lookup.getDefault().lookup(WeaponPlugin.class).createWeaponsInLevel();
             level = world.level;
             //moveCount = world.tileSize * world.getEntities(Enemy.class).size();

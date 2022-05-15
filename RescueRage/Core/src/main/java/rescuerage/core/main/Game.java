@@ -131,7 +131,7 @@ public class Game implements ApplicationListener {
         
         if(positionPart != null)
         {
-            playerSprite = new Texture("assets/images/PlayerSprite.png");
+            //playerSprite = new Texture("assets/images/PlayerSprite.png");
             PositionPart playerPosPart = world.getPlayerPositionPart();
             //Sets camera position center to player
             cam.position.x = playerPosPart.getX();
@@ -170,11 +170,11 @@ public class Game implements ApplicationListener {
           }
         sprite.setRotation(angle);
         
-        }else{
+        }/*else{
           //If player is not in, it should remove the picture
            playerSprite = new Texture("assets/images/Empty.png");
            sprite = new Sprite(playerSprite);
-        }
+        }*/
         
         
         update();
@@ -386,10 +386,10 @@ public class Game implements ApplicationListener {
                                 String nameOfWeapon = "Current: ";
                                 String ammo = "Ammo: ";
                                 String magazine = "          |  Magazine: ";
+                                GunPart gunPart = entity.getPart(GunPart.class);
                                 if(entity.getClass().getSimpleName().equals("Weapon")){
-                                    GunPart gunPart = entity.getPart(GunPart.class);
                                     PositionPart gunPos = entity.getPart(PositionPart.class);
-                                    if(gunPart.isEquipped())
+                                    if(gunPart.isEquipped())//gunPart.setPickedUp(true);
                                     {
                                         ammo = ammo + gunPart.getAmmo();
                                         int magazineAmount = gunPart.getMagazine();
@@ -398,7 +398,8 @@ public class Game implements ApplicationListener {
                                         font.draw(batch, nameOfWeapon, 550, 150);
                                     }
                                     else{
-                                        batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                                        if(!gunPart.pickedUp)
+                                            batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
                                     }
                                     //batch.begin();
                                     //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
@@ -529,9 +530,12 @@ public class Game implements ApplicationListener {
         font.draw(batch, ("Health: " + lifeAmount), 100, 40);
         batch.end();
         */
-        batch.begin();
-        sprite.draw(batch);
-        batch.end();
+        if(!world.getPlayerID().equals(""))
+        {
+            batch.begin();
+            sprite.draw(batch);
+            batch.end();
+        }
     }
 
     @Override

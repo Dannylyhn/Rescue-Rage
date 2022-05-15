@@ -79,20 +79,22 @@ public class WeaponPlugin implements IGamePluginService {
     }
     public void createWeaponsInLevel(){
         //Random random = new Random();
-        for (int i = 0; i < world.getHouseRooms().size(); i++){
+        /*for (int i = 0; i < world.getHouseRooms().size(); i++){
             int r = random.nextInt(5+level);
             //while(r<5+level){
             for(int j = 0; j < r+level; j++){
             //for(int j = 0; j < 1; j++){
                 createWeaponInRoomIndex(i);
             }
-        }
+        }*/
+        createWeaponInRoomIndex(0,0);
+        createWeaponInRoomIndex(0,1);
     }
-    private void createWeaponInRoomIndex(int index){
-        world.addEntityInRoom(createWeapon(), index);
+    private void createWeaponInRoomIndex(int index, int i){
+        world.addEntityInRoom(createWeapon(i), index);
     }
     
-    private Entity createWeapon()
+    private Entity createWeapon(int i)
     { 
         Entity weapon = new Weapon();
         float x = gameData.getDisplayWidth() / 2;
@@ -103,7 +105,7 @@ public class WeaponPlugin implements IGamePluginService {
         weapon.setSizeY(24);
         int rand = random.nextInt(gunList.length);
         GunPart gunPart = null;
-        switch(rand){
+        switch(i){
             case 0:
                 gunPart = new GunPart("Shotgun",3,10000, 10, new float[]{-6,6,6});
                 break;
@@ -113,8 +115,8 @@ public class WeaponPlugin implements IGamePluginService {
         }
         //GunPart gunPart = gunList[rand];
         weapon.add(gunPart);
-        weapon.add(new PositionPart(x,y,radians));
-        //weapon.add(new PositionPart(0,0,0));
+        //weapon.add(new PositionPart(x,y,radians));
+        weapon.add(new PositionPart(0,0,0));
         setShape(weapon);
         GunCooldownPart gcd = new GunCooldownPart(20,5);
         weapon.add(gcd);
