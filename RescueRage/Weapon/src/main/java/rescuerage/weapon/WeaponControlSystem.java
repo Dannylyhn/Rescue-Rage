@@ -26,14 +26,16 @@ import static rescuerage.core.main.Sounds.reloadSound;
  */
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
-public class WeaponControlSystem implements IEntityProcessingService{
-   
-    
+public class WeaponControlSystem implements IEntityProcessingService {
+    private int level = 0;
     @Override
     public void process(GameData gameData, World world) {
-      
-         
-       //Sound shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/soundtrack.mp3"));
+        if(level!=world.level){
+            //System.out.println("method call");
+            Lookup.getDefault().lookup(WeaponPlugin.class).createWeaponsInLevel();
+            level = world.level;
+            //moveCount = world.tileSize * world.getEntities(Enemy.class).size();
+        }
         
         
         
@@ -90,11 +92,16 @@ public class WeaponControlSystem implements IEntityProcessingService{
         for(int i = 0 ; i < gunPart.bulletsPerShot ; i++)
         {
             radians = radians + gunPart.getSprayPattern()[i];
-            Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
-            //world.addEntity(bullet);
-            //shootSound is a method from Core
             shootSound();
+            Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
+            world.addEntity(bullet);
             world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
+//            if(Lookup.getDefault().lookup(BulletSPI.class) != null)
+//            {
+//                Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
+//                world.addEntity(bullet);
+//                world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
+//            }
         }
     }
     

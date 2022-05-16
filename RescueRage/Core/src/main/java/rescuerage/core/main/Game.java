@@ -6,9 +6,12 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 import rescuerage.common.data.Entity;
@@ -38,17 +41,31 @@ public class Game implements ApplicationListener {
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
     SpriteBatch batch;
+    Sprite sprite;
+    //SpriteBatch wSprite;
+    //SpriteBatch fSprite;
+    Texture playerSprite;
+    Texture boxSprite;
+    Texture wallSprite;
+    Texture floorSprite;
+    Texture enemySprite;
+    Texture keySprite;
+    Texture healthSprite;
+    Texture chestSprite;
+    Texture bulletSprite;
+    Texture gunSprite;
     BitmapFont font;
     Music soundtrack; 
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
-    private World world = new World();
+    private World world = World.getInstance();
     private List<IGamePluginService> gamePlugins = new CopyOnWriteArrayList<>();
     private Lookup.Result<IGamePluginService> result;
-    //Sound shootingSound; 
     private Entity player;
     private PositionPart positionPart = null;
     private float radians;
+    private float shiftX = 0;
+    private float shiftY = 0;
 
     
     @Override
@@ -67,8 +84,28 @@ public class Game implements ApplicationListener {
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
         
-        //shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shooting.wav"));
-       // shootingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/shootingAlt.mp3"));
+        
+        //---------------------------------------------
+         playerSprite = new Texture("assets/images/PlayerSprite.png");
+         boxSprite = new Texture(Gdx.files.internal("assets/images/box.png"));
+         wallSprite = new Texture(Gdx.files.internal("assets/images/wall.png"));
+         floorSprite = new Texture(Gdx.files.internal("assets/images/floor.png"));
+         enemySprite = new Texture(Gdx.files.internal("assets/images/enemySprite.png"));
+         keySprite = new Texture(Gdx.files.internal("assets/images/key.png"));
+         healthSprite = new Texture(Gdx.files.internal("assets/images/health.png"));
+         chestSprite = new Texture(Gdx.files.internal("assets/images/chest.png"));
+         bulletSprite = new Texture(Gdx.files.internal("assets/images/bullet2.png"));
+         gunSprite = new Texture(Gdx.files.internal("assets/images/gun.png"));
+         //new Texture(Gdx.files.internal("E:\\Mit drev\\software engineering\\Semester 4\\PRO\\PersonalTesting\\AsteroidsProTesting\\core\\assets\\player.png"));
+        //For the pokemon guy
+        // sprite = new Sprite(img, 64, 64);
+        //For the soldier
+         sprite = new Sprite(playerSprite);
+         //wSprite = new SpriteBatch(wallSprite);
+         batch = new SpriteBatch();
+         
+         //---------------------------------------------
+
         sr = new ShapeRenderer();
 
         Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
@@ -81,13 +118,14 @@ public class Game implements ApplicationListener {
             plugin.start(gameData, world);
             gamePlugins.add(plugin);
         }
-
+        
         //We need the player entity 
         if(!world.getPlayerID().equals(""))
         {
             player = world.getEntity(world.getPlayerID());
             positionPart = player.getPart(PositionPart.class);
         }
+
     }
 
     @Override
@@ -101,24 +139,60 @@ public class Game implements ApplicationListener {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
         
-        if(positionPart != null)
+        
+        if(world.getPlayerPositionPart() != null)
         {
+            //playerSprite = new Texture("assets/images/PlayerSprite.png");
+            PositionPart playerPosPart = world.getPlayerPositionPart();
             //Sets camera position center to player
-            cam.position.x = positionPart.getX();
-            cam.position.y = positionPart.getY();
+            cam.position.x = playerPosPart.getX();
+            cam.position.y = playerPosPart.getY();
             cam.update();
             //System.out.println("CamX: " + cam.position.x + " CamY:" + cam.position.y);
             //System.out.println(cam.position);
 
             //Rotates player to the cursor
             Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            Vector3 playerPos = new Vector3(positionPart.getX(), positionPart.getY(), 0);
+            Vector3 playerPos = new Vector3(playerPosPart.getX(), playerPosPart.getY(), 0);
             radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
-            positionPart.setRadians(radians);   
+            playerPosPart.setRadians(radians);   
+            
+            shiftX = playerPosPart.getX()-(gameData.getDisplayWidth()/2);
+            shiftY = playerPosPart.getY()-(gameData.getDisplayHeight()/2);
         }
+        
+        
+        //Code down below is for drawing the sprite, setting the position and rotation
+        if(!world.getPlayerID().equals(""))
+        {
+        
+       
+        float PlayerSpriteX = (gameData.getDisplayWidth()/2);
+        float PlayerSpriteY = (gameData.getDisplayHeight()/2);
+        sprite.setPosition(PlayerSpriteX-47, PlayerSpriteY-47);
+       // sprite.setSize(60, 60);
+        float xInput = Gdx.input.getX();
+        float yInput = (Gdx.graphics.getHeight() - Gdx.input.getY());
+        float angle = MathUtils.radiansToDegrees * MathUtils.atan2(yInput - PlayerSpriteY, xInput - PlayerSpriteX);
+      
 
+        if(angle < 0){
+           angle += 360;
+          }
+        sprite.setRotation(angle);
+        
+        }/*else{
+          //If player is not in, it should remove the picture
+           playerSprite = new Texture("assets/images/Empty.png");
+           sprite = new Sprite(playerSprite);
+        }*/
+        
+        
         update();
         draw();
+        /*batch.begin();
+        sprite.draw(batch);
+        batch.end();*/
         //postUpdate();
     }
 
@@ -146,17 +220,59 @@ public class Game implements ApplicationListener {
         //for(Map<String, Entity> entityMap : world.getRooms()){
         //System.out.println("rooms: " + world.getHouseRooms().size());
         
+        /*
+        for(Entity player : world.getEntities()){  
+        if(player.getClass().getSimpleName().equals("Player")){
+            
+            
+            
+           }      
+        }
+        */
+        
+        /*
+        //Code down below is for drawing the sprite, setting the position and rotation
+        if(!world.getPlayerID().equals(""))
+        {
+        batch.begin();
+        float PlayerSpriteX = (gameData.getDisplayWidth()/2);
+        float PlayerSpriteY = (gameData.getDisplayHeight()/2);
+        sprite.setPosition(PlayerSpriteX-47, PlayerSpriteY-47);
+       // sprite.setSize(60, 60);
+        float xInput = Gdx.input.getX();
+        float yInput = (Gdx.graphics.getHeight() - Gdx.input.getY());
+        float angle = MathUtils.radiansToDegrees * MathUtils.atan2(yInput - PlayerSpriteY, xInput - PlayerSpriteX);
+      
+
+        if(angle < 0){
+           angle += 360;
+          }
+        sprite.setRotation(angle);
+        
+        }else{
+          //If player is not in, it should remove the picture
+           img = new Texture("assets/images/Empty.png");
+           sprite = new Sprite(img);
+        }
+        sprite.draw(batch);
+        batch.end();
+        */
+        
         //Following code has issues with dynamic load and unload
         int justOne = -1;
-        for(Entity e : world.getLevel().get(world.currentRoom).values()){
-            if(e.getClass().getSimpleName().equals("Map")){
-                    TilePart tile = e.getPart(TilePart.class);
-                    if(tile.getType().equals("roomInfo")){
-                        if(tile.getState().equals("unexplored"))
-                            justOne = world.currentRoom;
+        if(world.currentRoom != 0)
+        {
+            for(Entity e : world.getLevel().get(world.currentRoom).values()){
+                if(e.getClass().getSimpleName().equals("Map")){
+                        TilePart tile = e.getPart(TilePart.class);
+                        if(tile.getType().equals("roomInfo")){
+                            if(tile.getState().equals("unexplored"))
+                                justOne = world.currentRoom;
+                        }
                     }
-                }
+            }       
         }
+
         for(int ii = 0; ii < world.getLevel().size(); ii++){
             boolean skip = false;
             for (Entity entity : world.getLevel().get(ii).values()) {
@@ -174,46 +290,148 @@ public class Game implements ApplicationListener {
             }
             
             if(!skip){
+                //for (Entity entity : world.getLevel().get(ii).values().g)
+                ArrayList<Entity> sorted = new ArrayList<>();
                 for (Entity entity : world.getLevel().get(ii).values()) {
-                    //System.out.println("ii: " + ii);
-                    //System.out.println("draw 3");
                     if(entity.getClass().getSimpleName().equals("Map")){
-                        //System.out.println("draw 4");
                         TilePart tile = entity.getPart(TilePart.class);
-                        if(tile.getType().equals("door")){
-                            //System.out.println("draw door");
-                            //System.out.println("Colliding with door");
-                            if(tile.locked){
-                                sr.setColor(1, 0, 0, 0);
-                            }
-                            else{
-                                //System.out.println("draw wall");
-                                sr.setColor(0, 1, 0, 0);
-                            }
-                        }
-                        else if(tile.getType().equals("floor")){
-                            sr.setColor(1, 1, 1, 1);
+                        if(tile.getType().equals("floor")){
+                            sorted.add(0, entity);
                         }
                         else{
-                            sr.setColor(0, 0, 1, 0);
+                            sorted.add(entity);
                         }
-                    }
-                    else if(entity.getClass().getSimpleName().equals("Enemy")){
-                        sr.setColor(1, 0, 0, 0);
-                    }
-                    else if(entity.getClass().getSimpleName().equals("Item")){
-                        ItemPart ip = entity.getPart(ItemPart.class);
-                        if(ip.getType().equals("chest")){
-                            sr.setColor(1, 1, 0, 0);
-                        }
-                        else if(ip.getType().equals("key")){
-                            sr.setColor(1, 0, 1, 0);
-                        }
-                        else
-                            sr.setColor(0, 1, 1, 0);
                     }
                     else{
-                        sr.setColor(1, 1, 1, 1);
+                        sorted.add(entity);
+                    }
+                }
+                for (Entity entity : sorted) {
+                    PositionPart tilePos = entity.getPart(PositionPart.class);
+                    switch (entity.getClass().getSimpleName()) {
+                        case "Map":
+                            TilePart tile = entity.getPart(TilePart.class);
+                            switch (tile.getType()) {
+                                case "door":
+                                    if(tile.locked){
+                                        //sr.setColor(1, 0, 0, 0);
+                                        batch.begin();
+                                        batch.draw(wallSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                        batch.end();
+                                    }
+                                    else{
+                                        sr.setColor(0, 1, 0, 0);
+                                        batch.begin();
+                                        batch.draw(floorSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                        batch.end();
+                                    }   break;
+                                case "floor":
+                                    sr.setColor(1, 1, 1, 1);
+                                    batch.begin();
+                                    batch.draw(floorSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "wall":
+                                    sr.setColor(0, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(wallSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "box":
+                                    sr.setColor(0, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(boxSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                default:
+                                    sr.setColor(0, 0, 1, 0);
+                                    break;
+                            }   break;
+                        case "Enemy":
+                            sr.setColor(1, 0, 0, 0);
+                            float angle = 0;
+                            if(positionPart != null){
+                                angle = MathUtils.radiansToDegrees * (float)Math.atan2( positionPart.getY() - tilePos.getY(), positionPart.getX() - tilePos.getX());
+                            }   while(angle < 0){
+                                angle += 360;
+                            }   Sprite eSprite = new Sprite(enemySprite);
+                            eSprite.setPosition(((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                            eSprite.setRotation((float)(angle+90));
+                            batch.begin();
+                            eSprite.draw(batch);
+                            batch.end();
+                            break;
+                        case "Item":
+                            ItemPart ip = entity.getPart(ItemPart.class);
+                            switch (ip.getType()) {
+                                case "chest":
+                                    sr.setColor(1, 1, 0, 0);
+                                    batch.begin();
+                                    batch.draw(chestSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "key":
+                                    sr.setColor(1, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(keySprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "healthInc":
+                                    sr.setColor(1, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(healthSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                default:
+                                    sr.setColor(0, 1, 1, 0);
+                                    break;
+                            }
+                            break;
+                        case "Weapon":
+                            //System.out.println("drawing weapon");
+                            sr.setColor(1, 1, 1, 1);
+                            GunPart gp = entity.getPart(GunPart.class);
+                            //if(!gp.pickedUp){
+                                batch.begin();
+                                
+                                String nameOfWeapon = "Current: ";
+                                String ammo = "Ammo: ";
+                                String magazine = "          |  Magazine: ";
+                                GunPart gunPart = entity.getPart(GunPart.class);
+                                if(entity.getClass().getSimpleName().equals("Weapon")){
+                                    PositionPart gunPos = entity.getPart(PositionPart.class);
+                                    if(gunPart.isEquipped())//gunPart.setPickedUp(true);
+                                    {
+                                        ammo = ammo + gunPart.getAmmo();
+                                        int magazineAmount = gunPart.getMagazine();
+                                        font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
+                                        nameOfWeapon = nameOfWeapon + gunPart.getName();
+                                        font.draw(batch, nameOfWeapon, 550, 150);
+                                    }
+                                    else{
+                                        if(!gunPart.pickedUp)
+                                            batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                                    }
+                                    //batch.begin();
+                                    //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
+                                    //batch.end();
+                                }
+
+
+                                font.draw(batch, ammo, 550, 100);
+                                //batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                                batch.end();
+                            //}
+                            break;
+                        case "Bullet":
+                            sr.setColor(1, 1, 1, 1);
+                            batch.begin();
+                            batch.draw(bulletSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                            batch.end();
+                            break;
+                        default:
+                            sr.setColor(1, 1, 1, 1);
+                            break;
                     }
 
                     sr.begin(ShapeRenderer.ShapeType.Line);
@@ -226,7 +444,7 @@ public class Game implements ApplicationListener {
                             j = i++) {
                         //System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[i] +" "+ shapey[i] +" "+ shapex[j] +" "+ shapey[j]);
 
-                        sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+                        //sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
                     }
 
                     sr.end();
@@ -246,6 +464,7 @@ public class Game implements ApplicationListener {
             String magazine = "          |  Magazine: ";
             if(entity.getClass().getSimpleName().equals("Weapon")){
                 GunPart gunPart = entity.getPart(GunPart.class);
+                PositionPart gunPos = entity.getPart(PositionPart.class);
                 if(gunPart.isEquipped())
                 {
                     ammo = ammo + gunPart.getAmmo();
@@ -255,6 +474,9 @@ public class Game implements ApplicationListener {
                     font.draw(batch, nameOfWeapon, 550, 150);
                 
                 }
+                //batch.begin();
+                //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
+                //batch.end();
             }
 
 
@@ -304,7 +526,7 @@ public class Game implements ApplicationListener {
                         i < shapex.length;
                         j = i++) {
 
-                    sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+                    //sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
                 }
 
                 sr.end();
@@ -321,6 +543,12 @@ public class Game implements ApplicationListener {
         font.draw(batch, ("Health: " + lifeAmount), 100, 40);
         batch.end();
         */
+        if(!world.getPlayerID().equals(""))
+        {
+            batch.begin();
+            sprite.draw(batch);
+            batch.end();
+        }
     }
 
     @Override

@@ -34,7 +34,7 @@ public class PlayerPlugin implements IGamePluginService {
         LoadoutPart lp = player.getPart(LoadoutPart.class);
         
         // Add default weapon
-        if(!world.getDefaultWeapon().equals(""))
+        if(!world.getDefaultWeapon().equals("") && lp.weapons.size() == 0)
         {
             Entity defaultWeapon = world.getEntity(world.getDefaultWeapon());
             lp.addWeapon(defaultWeapon);
@@ -77,6 +77,7 @@ public class PlayerPlugin implements IGamePluginService {
     @Override
     public void stop(GameData gameData, World world) {
         // Remove entities
+        world.setPlayerID("");
         world.removeEntity(player);
     }
 

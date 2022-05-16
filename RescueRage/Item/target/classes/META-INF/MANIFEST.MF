@@ -3,6 +3,7 @@ OpenIDE-Module-Localizing-Bundle: rescuerage/commonbullet/Bundle.prope
  rties
 OpenIDE-Module-Specification-Version: 1.0
 <<<<<<< HEAD
+<<<<<<< HEAD
 OpenIDE-Module-Implementation-Version: 1.0-20220513
 OpenIDE-Module-Build-Version: 202205131050
 =======
@@ -24,6 +25,10 @@ OpenIDE-Module-Build-Version: 202205051218
 >>>>>>> 2e750a60cb40fa468cd4ffe8ffe2e96cf59ea820
 >>>>>>> origin/main
 >>>>>>> main
+=======
+OpenIDE-Module-Implementation-Version: 1.0-20220515
+OpenIDE-Module-Build-Version: 202205151012
+>>>>>>> temp
 OpenIDE-Module: rescuerage.Item
 OpenIDE-Module-Public-Packages: -
 OpenIDE-Module-Requires: org.openide.modules.ModuleFormat1

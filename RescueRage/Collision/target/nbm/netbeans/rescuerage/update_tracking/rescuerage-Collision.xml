@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Collision">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <module_version install_time="1652438999807" last="true" origin="installer" specification_version="1.0">
         <file crc="661484228" name="config/Modules/rescuerage-Collision.xml"/>
         <file crc="2492935371" name="modules/rescuerage-Collision.jar"/>
@@ -14,5 +15,10 @@
         <file crc="2630284659" name="modules/rescuerage-Collision.jar"/>
 >>>>>>> origin/main
 >>>>>>> main
+=======
+    <module_version install_time="1652609569376" last="true" origin="installer" specification_version="1.0">
+        <file crc="3416556474" name="config/Modules/rescuerage-Collision.xml"/>
+        <file crc="2049645495" name="modules/rescuerage-Collision.jar"/>
+>>>>>>> temp
     </module_version>
 </module>

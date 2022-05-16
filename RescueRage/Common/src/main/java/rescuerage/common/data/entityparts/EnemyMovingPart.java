@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -41,6 +42,7 @@ public class EnemyMovingPart implements EntityPart {
     public boolean newTile = false;
     private boolean enter = false;
     private int tileSize = 48;
+    private Map<String, Entity> roomMap = new ConcurrentHashMap<>();
     
     private boolean changed = false;
     public ArrayList<String> path = new ArrayList();
@@ -57,10 +59,11 @@ public class EnemyMovingPart implements EntityPart {
         }
     }
 
-    public EnemyMovingPart(float maxSpeed, int roomNR) {
+    public EnemyMovingPart(float maxSpeed, int roomNR, Map<String, Entity> room) {
        
         this.maxSpeed = maxSpeed;
         this.roomNR = roomNR;
+        this.roomMap = room;
        initMap();
     }
 
@@ -121,24 +124,32 @@ public class EnemyMovingPart implements EntityPart {
     public void setDownRight(boolean downRight){
         this.downRight = downRight;
     }
-
+    private int counter = 0;
     @Override
     public void process(GameData gameData, Entity entity) {
         if(enter){
+            if(counter>0){
+                counter = counter -1;
+                return;
+            }
             PositionPart positionPart = entity.getPart(PositionPart.class);
             float x = positionPart.getX();
             float y = positionPart.getY();
+            float size = entity.getSizeX();
             if(changed){
-                System.out.println("In new tile: " + playerTile);
+                //System.out.println("In new tile: " + playerTile);
                 changed = false;
                 //ArrayList<String> path = new ArrayList();
-                Node astar = aStar((int)x, (int)y, (int)playerX, (int)playerY);
+                Node astar = aStar((int)x, (int)y, (int)playerX, (int)playerY, (int)size);
                 path.clear();
                 for(Node n : astar.path()){
                     if(n!=null){
                         path.add(n.action);
                     }
                 }
+                Collections.reverse(path);
+                path.remove(null);
+                //System.out.println("Path: " + path);
             }
             float radians = positionPart.getRadians();
             float dt = gameData.getDelta();
@@ -148,7 +159,7 @@ public class EnemyMovingPart implements EntityPart {
             if(tile != tempTile){
                 newTile = true;
                 tile = tempTile;
-                System.out.println(tile);
+                //System.out.println(tile);
                 // update new movement
             }
 
@@ -224,25 +235,28 @@ public class EnemyMovingPart implements EntityPart {
         }
     }
     
-    private Node aStar(int startX, int startY, int goalX, int goalY){
+    private Node aStar(int startX, int startY, int goalX, int goalY, int size){
         ArrayList<Node> fringe = new ArrayList();
-        Node initNode = new Node(startX, startY, goalX, goalY);
+        Node initNode = new Node(startX, startY, goalX, goalY, size);
         fringe.add(initNode);
         while(!fringe.isEmpty()){
             //System.out.println("while 225");
-            System.out.print("List: ");
-            for(Node n : fringe){
+            //System.out.print("List: ");
+            /*for(Node n : fringe){
                 System.out.print((n.heuristic()) + ", ");
             }
-            System.out.println("");
+            System.out.println("");*/
             Node node = fringe.get(0);
             fringe.remove(0);
             int temp = node.heuristic();
-            System.out.println("heuristic + path: " + temp );
+            //System.out.println("heuristic + path: " + temp );
             
             //if(node.heuristic()<tileSize){
-            if(node.heuristic()<tileSize){
+            if(node.heuristic()<=tileSize){
                 //return node.path();
+                return node;
+            }
+            if(fringe.size() > 30){
                 return node;
             }
             ArrayList<Node> children = expand(node);
@@ -275,7 +289,7 @@ public class EnemyMovingPart implements EntityPart {
                             }
                         }
                         */
-                        if(fringe.get(j).heuristic()+fringe.get(j).depth > fringe.get(j+1).heuristic()+fringe.get(j+1).depth){
+                        if(fringe.get(j).heuristic()*5+fringe.get(j).depth > fringe.get(j+1).heuristic()*5+fringe.get(j+1).depth){
                         //if(fringe.get(j).heuristic() > fringe.get(j+1).heuristic()){
                             /*
                             Node temp1 = fringe.get(i);
@@ -300,13 +314,47 @@ public class EnemyMovingPart implements EntityPart {
         Node parentNode;
         int depth = 0;
         String action;
-        Node(int x, int y, int goalX, int goalY){
+        float[] shapeX = new float[4];
+        float[] shapeY = new float[4];
+        float sizeX;
+        float sizeY;
+        Node(int x, int y, int goalX, int goalY, int size){
             this.x = x;
             this.y = y;
             this.depth = 0;
             this.parentNode = null;
             this.goalX = goalX;
             this.goalY = goalY;
+            this.sizeX = tileSize/2;
+            this.sizeY = tileSize/2;
+            setShape();
+        }
+        private void setShape() {
+        
+            float[] shapex = new float[4];
+            float[] shapey = new float[4];
+            //PositionPart positionPart = entity.getPart(PositionPart.class);
+            //float x = positionPart.getX();
+            //float y = positionPart.getY();
+            //float radius = entity.getRadius();
+            //float sizeX = this.sizeX;
+            //float sizeY = this.sizeY;
+
+            shapex[0] = x + sizeX;
+            shapey[0] = y + sizeY;
+
+            shapex[1] = x + sizeX;
+            shapey[1] = y - sizeY;
+
+            shapex[2] = x - sizeX;
+            shapey[2] = y - sizeY;
+
+            shapex[3] = x - sizeX;
+            shapey[3] = y + sizeY;
+
+            this.shapeX = shapex;
+            this.shapeY = shapey;
+
         }
         public ArrayList<Node> path(){
             Node current = this;
@@ -384,8 +432,35 @@ public class EnemyMovingPart implements EntityPart {
                 default:
                     break;
             }
+            
+            setShape();
+            for(Entity e : roomMap.values()){
+                if(e.getClass().getSimpleName().equals("Map")){
+                    TilePart tp = e.getPart(TilePart.class);
+                    if(tp.type.equals("wall")){
+                        boolean ret = isCollision(e);
+                        if(ret){
+                            this.x = x + 10000;
+                            this.y = y + 10000;
+                            this.depth = depth + 1000;
+                            break;
+                        }
+                    }
+                }
+            }
+            //setShape();
             //this.x = x + nx;
             //this.y = y + ny;
+        }
+        private boolean isCollision(Entity entity) {
+            float[] sx = shapeX;
+            float[] sy = shapeY;
+            for(int i = 0; i < sx.length; i++){
+                if(entity.contains(sx[i], sy[i])){
+                    return true;
+                }
+            }
+            return false;
         }
     }
     private ArrayList<Node> expand(Node node){
@@ -393,10 +468,10 @@ public class EnemyMovingPart implements EntityPart {
         ArrayList<Integer> children = successor_fn(node.getX(), node.getY());
         //
         for(int child : children){
-            Node n = new Node(node.getX(), node.getY(), node.goalX, node.goalY);
+            Node n = new Node(node.getX(), node.getY(), node.goalX, node.goalY, (int)node.sizeX);
             n.actuators(child);
             n.action = moves.get(child);
-            System.out.println("move: " + moves.get(child));
+            //System.out.println("move: " + moves.get(child));
             n.parentNode = node;
             n.depth = node.depth + 1;
             successors.add(n);

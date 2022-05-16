@@ -18,6 +18,18 @@ import rescuerage.common.data.entityparts.TilePart;
  * @author jcs
  */
 public class World {
+    //Singleton logic
+    private static World single_world = null;
+    private World(){}
+    public static World getInstance()
+    {
+        if(single_world == null)
+        {
+            single_world = new World();
+        }
+        return single_world;
+    }
+    
     //Player set id
     private String playerID = "";
 
@@ -25,7 +37,11 @@ public class World {
         return playerID;
     }
     public PositionPart getPlayerPositionPart(){
-        return entityMap.get(playerID).getPart(PositionPart.class);
+        if(playerID != "")
+        {
+            return entityMap.get(playerID).getPart(PositionPart.class);
+        }
+        return null;
     }
     public void setPlayerID(String playerID) {
         this.playerID = playerID;
@@ -311,9 +327,18 @@ public class World {
             updateShape(entity);
             
             for(Entity e : room.values()){
-                boolean ret = isCollision(e, entity);
-                if(ret)
-                    collides = ret;
+                if(e.getClass().getSimpleName().equals("Map")){
+                    TilePart tp = e.getPart(TilePart.class);
+                    if(tp.type.equals("floor")){
+                        
+                    }
+                    else{
+                        boolean ret = isCollision(e, entity);
+                        if(ret)
+                            collides = ret;
+                    }
+                }
+                
             }
         }
     }

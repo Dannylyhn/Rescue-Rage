@@ -198,9 +198,15 @@ public class MapPlugin implements  IGamePluginService{
                     //if(layout.get(l).get(k) == -1){
                     if( (l!=0 && l!=houseW)){
                         if(layout[rand][(j-tileSize/2)/tileSize][(i-tileSize/2)/tileSize] == -1){
-                            //System.out.println("l: " + l + " | k: " + k + " | layout[l][k]: " + layout[l][k]);
+                        //if(layout[3][(j-tileSize/2)/tileSize][(i-tileSize/2)/tileSize] == -1){
                             createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), "wall", roomEntityMap);
                         }
+                        else{
+                            createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), "floor", roomEntityMap);
+                        }
+                    }
+                    else{
+                        createTile(i+(l*roomW*tileSize), j+(k*roomH*tileSize), "floor", roomEntityMap);
                     }
                 }
             }
@@ -356,7 +362,7 @@ public class MapPlugin implements  IGamePluginService{
             {-1,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,-1}, // 17
             {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1} // 18
         },
-        { // 3
+        /*{ // 3
             {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1}, //  0
             {-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, 11,-1,13,14,15,16,17,18,19,20,21,-1}, //  1
             {-1,1,2,3,4,5,6,7,8,9,-1,11,-1,13,14,15,16,17,18,19,20,21,-1}, //  2
@@ -376,7 +382,7 @@ public class MapPlugin implements  IGamePluginService{
             {-1,1,2,3,4,5,6,7,8,9,-1,11,-1,13,14,15,16,17,18,19,20,21,-1}, // 16
             {-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, 11,-1,13,14,15,16,17,18,19,20,21,-1}, // 17
             {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1} // 18
-        },
+        },*/
         { // 4
             {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1}, //  0
             {-1,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,-1}, //  1
