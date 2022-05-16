@@ -1,20 +1,5 @@
-rescuerage/item/Item.class
-rescuerage/item/ItemPlugin.class
-META-INF/services/rescuerage.common.services.IEntityProcessingService
-rescuerage/item/ItemProcessor.class
-META-INF/services/rescuerage.common.services.IGamePluginService
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 2e750a60cb40fa468cd4ffe8ffe2e96cf59ea820
 rescuerage\item\Item.class
 META-INF\services\rescuerage.common.services.IEntityProcessingService
 rescuerage\item\ItemProcessor.class
 rescuerage\item\ItemPlugin.class
 META-INF\services\rescuerage.common.services.IGamePluginService
-<<<<<<< HEAD
->>>>>>> 2e750a60cb40fa468cd4ffe8ffe2e96cf59ea820
-=======
->>>>>>> 2e750a60cb40fa468cd4ffe8ffe2e96cf59ea820
-=======
->>>>>>> temp
