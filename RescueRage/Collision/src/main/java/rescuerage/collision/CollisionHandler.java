@@ -40,13 +40,13 @@ public class CollisionHandler implements IPostEntityProcessingService {
                 TilePart tile = roomIdentifier.getPart(TilePart.class);
 
                 world.currentRoom = tile.getRoom();
-                System.out.println("current room: " + world.currentRoom);
+                //System.out.println("current room: " + world.currentRoom);
                 if(tile.getState().equals("unexplored")){
                     world.lockDoors();
                 }
             }
         }
-        System.out.println("world.currentRoom: " + world.currentRoom);
+        //System.out.println("world.currentRoom: " + world.currentRoom);
         //for(Entity e : world.getLevel().get(world.currentRoom).values()){
         world.getLevel().get(world.currentRoom).put(world.getPlayerID(), player);
         world.getLevel().get(world.currentRoom).values().forEach(e1 -> world.getLevel().get(world.currentRoom).values().forEach(e2 -> {
@@ -90,13 +90,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         }
                     }
                 }
-
-                if(e1.getClass().getSimpleName().equals("Map")){
-                    TilePart tile = e1.getPart(TilePart.class);
-                    if(tile.getType().equals("door")){
-                        System.out.println("Colliding with door");
-                    }
-                }
+                
                 /*System.out.println("Collision detected");
                 System.out.println("Entity 1: " + e1.getID() + " (" + e1.getClass().getSimpleName() + ")");
                 System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");*/
@@ -110,6 +104,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             case "box":
                                 unWalkable(e2,e1);
                                 break;
+                            case "floor":
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
                                 break;
@@ -144,6 +139,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             case "box":
                                 unWalkable(e1,e2);
                                 break;
+                            case "floor":
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
                                 if(temp.equals("Player")){
@@ -204,7 +200,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                 //world.
                             }
                         }
-                        else if(tp.type.equals("roomInfo")){
+                        else if(tp.type.equals("roomInfo") || tp.type.equals("floor")){
                             return;
                         }
                         world.removeEntity(e1);
@@ -219,7 +215,6 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             InventoryPart ip = p.getPart(InventoryPart.class);
                             ip.incMoney(100);
                             world.removeEntity(e2);
-                            //world.
                         }
                         world.removeEntity(e1);
                     }
@@ -310,19 +305,6 @@ public class CollisionHandler implements IPostEntityProcessingService {
     }
 
     private boolean isCollision(Entity entity, Entity entity2) {
-        /*
-        if (entity.getID().equals(entity2.getID())) {
-            return false;
-        }
-
-        PositionPart entMov = entity.getPart(PositionPart.class);
-        PositionPart entMov2 = entity2.getPart(PositionPart.class);
-        float dx = (float) entMov.getX() - (float) entMov2.getX();
-        float dy = (float) entMov.getY() - (float) entMov2.getY();
-        float distance = (float) Math.sqrt(dx * dx + dy * dy);
-
-        return distance < (entity.getRadius() + entity2.getRadius());
-*/
         float[] sx = entity.getShapeX();
         float[] sy = entity.getShapeY();
         for(int i = 0; i < sx.length; i++){

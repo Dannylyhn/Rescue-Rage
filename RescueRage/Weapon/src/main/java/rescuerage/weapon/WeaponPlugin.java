@@ -34,13 +34,19 @@ public class WeaponPlugin implements IGamePluginService {
         
         weapon = createWeapon(gameData, new GunPart("Shotgun",3,10000, 10, new float[]{-6,6,6}));
         weapon.add(gcd);
-        world.addEntityInRoom(weapon, 0);
-        world.addEntity(weapon);
+        if(world.getLevel().size() > 0)
+        {
+            world.addEntityInRoom(weapon, 0);
+            world.addEntity(weapon);   
+        }
         
         weapon = createWeapon(gameData, new GunPart("Boomerang",6,10000, 10, new float[]{-9,9,9,9,9,9}));
         weapon.add(gcd);
-        world.addEntityInRoom(weapon, 0);
-        world.addEntity(weapon);
+        if(world.getLevel().size() > 0)
+        {
+            world.addEntityInRoom(weapon, 0);
+            world.addEntity(weapon);   
+        }
     }
     
     private Entity createWeapon(GameData gameData, GunPart gunPart)

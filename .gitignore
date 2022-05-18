@@ -13,3 +13,8 @@
 /RescueRage/Map/src/main/java/rescuerage/map/target/
 /RescueRage/Enemy/target/
 /RescueRage/Item/target/
+<<<<<<< HEAD
+/RescueRage/SilentUpdate/target/
+=======
+/RescueRage/Collision/target/
+>>>>>>> origin/danny/PlayerSpriteV2

@@ -80,6 +80,7 @@ public class EnemyPlugin implements IGamePluginService {
             int r = random.nextInt(5+level);
             //while(r<5+level){
             for(int j = 0; j < r+level; j++){
+            //for(int j = 0; j < 1; j++){
                 createEneymyInRoomIndex(i);
             }
         }
@@ -115,15 +116,43 @@ public class EnemyPlugin implements IGamePluginService {
         
         float maxSpeed = world.tileSize;
         enemy.setRadius(tileSize/2);
-        enemy.add(new EnemyMovingPart(maxSpeed, roomNR));
+        enemy.add(new EnemyMovingPart(maxSpeed, roomNR, world.getLevel().get(roomNR)));
         //System.out.println("x: " + x);
         //System.out.println("y: " + y);
         enemy.add(new PositionPart(0,0,0));
         enemy.add(new LifePart(3));
+        setShape(enemy);
         
         world.addEntity(enemy);
         //addEntity(map, roomEntityMap);
         return enemy;
+    }
+    private void setShape(Entity entity) {
+        
+        float[] shapex = new float[4];
+        float[] shapey = new float[4];
+        PositionPart positionPart = entity.getPart(PositionPart.class);
+        float x = positionPart.getX();
+        float y = positionPart.getY();
+        //float radius = entity.getRadius();
+        float sizeX = entity.getSizeX();
+        float sizeY = entity.getSizeY();
+        
+        shapex[0] = x + sizeX;
+        shapey[0] = y + sizeY;
+        
+        shapex[1] = x + sizeX;
+        shapey[1] = y - sizeY;
+        
+        shapex[2] = x - sizeX;
+        shapey[2] = y - sizeY;
+        
+        shapex[3] = x - sizeX;
+        shapey[3] = y + sizeY;
+        
+        entity.setShapeX(shapex);
+        entity.setShapeY(shapey);
+        
     }
     /*
     private Entity createEnemyShip(GameData gameData) {
