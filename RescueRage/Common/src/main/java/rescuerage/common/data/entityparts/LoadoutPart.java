@@ -60,7 +60,10 @@ public class LoadoutPart implements EntityPart{
     
     @Override
     public void process(GameData gameData, Entity entity) {
-        
+        for(Entity e : weapons)
+        {
+            System.out.println(e);
+        }
         
         int indexOfCurrentWeapon = getWeapons().indexOf(currentWeapon);
         int loadoutLength = getWeapons().size();
@@ -70,12 +73,13 @@ public class LoadoutPart implements EntityPart{
         if(currentWeapon!=null)
         {
              gunPart = currentWeapon.getPart(GunPart.class);
+             
         }
         
         if(this.currentSwapCD<0)
         {
             //Changes weapon to previous
-            if(Q && weapons.size()>2)
+            if(Q && weapons.size()>=2)
             {
                 //Set current weapon equip to false. Now it cannot shoot
                 gunPart.setEquipped(false);
@@ -93,7 +97,7 @@ public class LoadoutPart implements EntityPart{
                 this.currentSwapCD = this.swapCD;
             }
             //Changes weapon to next
-            if(E && weapons.size()>2)
+            if(E && weapons.size()>=2)
             {
                 gunPart.setEquipped(false);
                 //Loop back in the array if we press Q for the last weapon.
@@ -108,7 +112,5 @@ public class LoadoutPart implements EntityPart{
         {
             this.currentSwapCD--;
         }
-
-
     }
 }

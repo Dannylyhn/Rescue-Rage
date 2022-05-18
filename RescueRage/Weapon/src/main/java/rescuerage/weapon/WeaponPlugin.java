@@ -41,21 +41,18 @@ public class WeaponPlugin implements IGamePluginService {
         this.world = world;
         this.gameData = gameData;
         this.level = 1;
+        //Create weapon. 
         //Gunpart = Bulletspershot, ammo, spraypattern
         GunPart gp = new GunPart("Pistol",1,10000, 10, new float[]{0});
-        gp.setEquipped(true);
         weapon = createBaseWeapon(gp);
-
-        //GunCooldownPart gcd = new GunCooldownPart(20,5);
-        //weapon.add(gcd);
-        if(world.getPlayerID() != "")
-        {
-            world.setDefaultWeapon(weapon.getID());
-            Entity player = world.getEntity(world.getPlayerID());
-            LoadoutPart lp = player.getPart(LoadoutPart.class);
-            lp.addWeapon(weapon);
-            lp.setCurrentWeapon(weapon);
-        }
+        GunCooldownPart gcd = new GunCooldownPart(20,5);
+        weapon.add(gcd);
+        
+        world.setDefaultWeapon(weapon.getID());
+//        Entity player = world.getEntity(world.getPlayerID());
+//        LoadoutPart lp = player.getPart(LoadoutPart.class);
+//        lp.addWeapon(weapon);
+//        lp.setCurrentWeapon(weapon);
         world.addEntity(weapon);
         /*
         //weapon = createWeapon(gameData, new GunPart("Shotgun",3,10000, 10, new float[]{-6,6,6}));
@@ -103,6 +100,9 @@ public class WeaponPlugin implements IGamePluginService {
             }
         }*/
         createWeaponInRoomIndex(0,0);
+        createWeaponInRoomIndex(0,1);
+        createWeaponInRoomIndex(0,1);
+        createWeaponInRoomIndex(0,1);
         createWeaponInRoomIndex(0,1);
     }
     private void createWeaponInRoomIndex(int index, int i){
@@ -181,6 +181,5 @@ public class WeaponPlugin implements IGamePluginService {
             LoadoutPart lp = player.getPart(LoadoutPart.class);
             lp.getWeapons().clear();
         }
-        
     }
 }

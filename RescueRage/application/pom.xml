@@ -109,13 +109,13 @@
             <artifactId>Item</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--    
-        <dependency>
+            
+<!--        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>SilentUpdate</artifactId>
             <version>${project.version}</version>
-        </dependency>
-    -->
+        </dependency>-->
+    
     </dependencies>
 
     <build>

@@ -33,7 +33,7 @@ public class PlayerPlugin implements IGamePluginService {
         
         LoadoutPart lp = player.getPart(LoadoutPart.class);
         
-        // Add default weapon
+//         Add default weapon
         if(!world.getDefaultWeapon().equals("") && lp.weapons.size() == 0)
         {
             Entity defaultWeapon = world.getEntity(world.getDefaultWeapon());
@@ -42,7 +42,7 @@ public class PlayerPlugin implements IGamePluginService {
             //Set defualt weapon to the currently equipped weapon. 
             lp.setCurrentWeapon(defaultWeapon);
             GunPart gunPart = defaultWeapon.getPart(GunPart.class);
-            gunPart.setEquipped(true);   
+            gunPart.setEquipped(true);  
         }
 
         
