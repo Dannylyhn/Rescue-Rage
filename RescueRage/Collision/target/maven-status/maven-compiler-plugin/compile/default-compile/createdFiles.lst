@@ -1,2 +1,2 @@
-META-INF\services\rescuerage.common.services.IPostEntityProcessingService
-rescuerage\collision\CollisionHandler.class
+rescuerage/collision/CollisionHandler.class
+META-INF/services/rescuerage.common.services.IPostEntityProcessingService

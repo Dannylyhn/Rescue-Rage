@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Item">
-    <module_version install_time="1652698254344" last="true" origin="installer" specification_version="1.0">
-        <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
-        <file crc="114043444" name="modules/rescuerage-Item.jar"/>
+    <module_version install_time="1652866877443" last="true" origin="installer" specification_version="1.0">
+        <file crc="1901740693" name="config/Modules/rescuerage-Item.xml"/>
+        <file crc="56000472" name="modules/rescuerage-Item.jar"/>
     </module_version>
 </module>
