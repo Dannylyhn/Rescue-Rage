@@ -2,6 +2,8 @@ package rescuerage.core.main;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -53,6 +55,7 @@ public class Game implements ApplicationListener {
     Texture bulletSprite;
     Texture gunSprite;
     BitmapFont font;
+    Music soundtrack; 
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = World.getInstance();
@@ -64,6 +67,7 @@ public class Game implements ApplicationListener {
     private float shiftX = 0;
     private float shiftY = 0;
 
+    
     @Override
     public void create() {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
@@ -72,6 +76,11 @@ public class Game implements ApplicationListener {
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         batch = new SpriteBatch();
         font = new BitmapFont();
+        
+        soundtrack = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/soundtrack.mp3"));
+        soundtrack.setLooping(true);
+        
+                
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
         
@@ -124,6 +133,8 @@ public class Game implements ApplicationListener {
         // clear screen to black
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        soundtrack.setVolume(0.1f);
+        soundtrack.play();
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
@@ -461,6 +472,7 @@ public class Game implements ApplicationListener {
                     font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
                     nameOfWeapon = nameOfWeapon + gunPart.getName();
                     font.draw(batch, nameOfWeapon, 550, 150);
+                
                 }
                 //batch.begin();
                 //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
@@ -469,6 +481,7 @@ public class Game implements ApplicationListener {
 
 
             font.draw(batch, ammo, 550, 100);
+            
             batch.end();
             sr.setColor(1, 1, 1, 1);
             if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy") && !entity.getClass().getSimpleName().equals("Weapon") &&  !entity.getClass().getSimpleName().equals("Item")){
