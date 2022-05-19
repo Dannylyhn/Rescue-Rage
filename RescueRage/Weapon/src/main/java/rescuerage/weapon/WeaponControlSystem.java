@@ -59,12 +59,12 @@ public class WeaponControlSystem implements IEntityProcessingService {
                 }
             }
             
-            if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()!=0 && gunPart.getMagazine()<10)
+            if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()>0 && gunPart.getMagazine()<10)
             {   
                     int reloadedAmount = gunPart.getMagazineLength()-gunPart.getMagazine();
                     gunPart.minusAmmo(reloadedAmount);
                     reloadSound();
-                    gunPart.setMagazine(gunPart.getMagazineLength());
+                    gunPart.setMagazine(reloadedAmount);
             }
             
             positionPart.process(gameData, weapon);
@@ -87,6 +87,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
 
         float x = positionPart.getX();
         float y = positionPart.getY();
+        System.out.println("Weapon pos X:" + x + ", Y:" + y);
         float radians = positionPart.getRadians();
         float radius = weapon.getRadius();
         
@@ -95,6 +96,9 @@ public class WeaponControlSystem implements IEntityProcessingService {
             radians = radians + gunPart.getSprayPattern()[i];
             shootSound();
             Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
+            PositionPart bulletPos = bullet.getPart(PositionPart.class);
+            System.out.println("Bullet pos X:" + bulletPos.getX() + ", Y:" + bulletPos.getY());
+
             if(bullet != null)
             {
                 System.out.println("Bullet created!");

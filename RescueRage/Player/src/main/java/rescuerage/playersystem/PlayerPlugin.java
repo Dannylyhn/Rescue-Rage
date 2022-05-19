@@ -34,7 +34,7 @@ public class PlayerPlugin implements IGamePluginService {
         LoadoutPart lp = player.getPart(LoadoutPart.class);
         
 //         Add default weapon
-        if(!world.getDefaultWeapon().equals("") && lp.weapons.size() == 0)
+        if(!world.getDefaultWeapon().equals(""))
         {
             Entity defaultWeapon = world.getEntity(world.getDefaultWeapon());
             lp.addWeapon(defaultWeapon);
@@ -51,7 +51,7 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayerShip(GameData gameData) {
 
-        float maxSpeed = 100;
+        float maxSpeed = 300;
         float rotationSpeed = 5;
         float x = gameData.getDisplayWidth() / 2;
         float y = gameData.getDisplayHeight() / 2;
@@ -76,6 +76,10 @@ public class PlayerPlugin implements IGamePluginService {
 
     @Override
     public void stop(GameData gameData, World world) {
+        LoadoutPart lp = player.getPart(LoadoutPart.class);
+        Entity currentWeapon = lp.getCurrentWeapon();
+        GunPart gunPart = currentWeapon.getPart(GunPart.class);
+        gunPart.setEquipped(false);
         // Remove entities
         world.setPlayerID("");
         world.removeEntity(player);

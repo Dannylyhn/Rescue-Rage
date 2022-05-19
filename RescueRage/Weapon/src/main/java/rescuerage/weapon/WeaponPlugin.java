@@ -49,6 +49,15 @@ public class WeaponPlugin implements IGamePluginService {
         weapon.add(gcd);
         
         world.setDefaultWeapon(weapon.getID());
+        
+        if(world.getPlayerID() != "")
+        {
+            gp.setEquipped(true);
+            Entity player = world.getEntity(world.getPlayerID());
+            LoadoutPart lp = player.getPart(LoadoutPart.class);
+            lp.addWeapon(weapon);
+            
+        }
 //        Entity player = world.getEntity(world.getPlayerID());
 //        LoadoutPart lp = player.getPart(LoadoutPart.class);
 //        lp.addWeapon(weapon);
@@ -74,6 +83,9 @@ public class WeaponPlugin implements IGamePluginService {
     }
     private Entity createBaseWeapon(GunPart gp){
         Entity weapon = new Weapon();
+        weapon.setRadius(24);
+        weapon.setSizeX(24);
+        weapon.setSizeY(24);
         /*weapon.setRadius(24);
         weapon.setSizeX(24);
         weapon.setSizeY(24);*/
@@ -119,18 +131,23 @@ public class WeaponPlugin implements IGamePluginService {
         weapon.setSizeY(24);
         int rand = random.nextInt(gunList.length);
         GunPart gunPart = null;
+        GunCooldownPart gcd = null;
         switch(i){
             case 0:
-                gunPart = new GunPart("Shotgun",3,10000, 10, new float[]{-6,6,6});
+                gunPart = new GunPart("Shotgun",3,50, 10, new float[]{-6,6,6});
+                gcd = new GunCooldownPart(20,5);
                 break;
             case 1:
-                gunPart = new GunPart("Boomerang",6,10000, 10, new float[]{-9,9,9,9,9,9});
+                gunPart = new GunPart("Akimbo",2,100, 10, new float[]{-6,6});
+                gcd = new GunCooldownPart(20,5);
                 break;
             case 2:
-                gunPart = new GunPart("Rifle",6,10000, 10, new float[]{-9,9,9,9,9,9});
+                gunPart = new GunPart("Rifle",1,60, 10, new float[]{0});
+                gcd = new GunCooldownPart(10,5);
                 break;
-            case 3:
-                gunPart = new GunPart("LNG",6,10000, 10, new float[]{-9,9,9,9,9,9});
+            case 3: 
+                gunPart = new GunPart("SMG",1,30, 10, new float[]{0});
+                gcd = new GunCooldownPart(5,5);
                 break;
         }
         //GunPart gunPart = gunList[rand];
@@ -138,7 +155,6 @@ public class WeaponPlugin implements IGamePluginService {
         //weapon.add(new PositionPart(x,y,radians));
         weapon.add(new PositionPart(0,0,0));
         setShape(weapon);
-        GunCooldownPart gcd = new GunCooldownPart(20,5);
         weapon.add(gcd);
         weapons.add(weapon);
         world.addEntity(weapon);  
