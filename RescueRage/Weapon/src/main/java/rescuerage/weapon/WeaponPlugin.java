@@ -101,9 +101,8 @@ public class WeaponPlugin implements IGamePluginService {
         }*/
         createWeaponInRoomIndex(0,0);
         createWeaponInRoomIndex(0,1);
-        createWeaponInRoomIndex(0,1);
-        createWeaponInRoomIndex(0,1);
-        createWeaponInRoomIndex(0,1);
+        createWeaponInRoomIndex(1,2);
+        createWeaponInRoomIndex(1,3);
     }
     private void createWeaponInRoomIndex(int index, int i){
         world.addEntityInRoom(createWeapon(i), index);
@@ -126,6 +125,12 @@ public class WeaponPlugin implements IGamePluginService {
                 break;
             case 1:
                 gunPart = new GunPart("Boomerang",6,10000, 10, new float[]{-9,9,9,9,9,9});
+                break;
+            case 2:
+                gunPart = new GunPart("Rifle",6,10000, 10, new float[]{-9,9,9,9,9,9});
+                break;
+            case 3:
+                gunPart = new GunPart("LNG",6,10000, 10, new float[]{-9,9,9,9,9,9});
                 break;
         }
         //GunPart gunPart = gunList[rand];

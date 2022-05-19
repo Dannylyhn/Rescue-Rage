@@ -118,6 +118,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     //return;
                 }
                 
+                //Weapon pick up when colliding with player
                 if(e1.getClass().getSimpleName().equals("Weapon")){
                     if(e2.getClass().getSimpleName().equals("Player"))
                     {
@@ -126,8 +127,8 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         {
                             lp.addWeapon(e1);
                             GunPart gunPart = e1.getPart(GunPart.class);
+                            //Picked up boolean t
                             gunPart.setPickedUp(true);
-                            //world.removeEntity(e1);
                         }
                     }
                 }

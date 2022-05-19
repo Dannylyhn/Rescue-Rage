@@ -80,6 +80,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
     //The spray pattern thats called for each left click event
     private void shoot(Entity weapon, GameData gameData, World world)
     {
+        System.out.println("Bullet shot!");
         //Game gameobj = new Game();
         GunPart gunPart = weapon.getPart(GunPart.class);
         PositionPart positionPart = weapon.getPart(PositionPart.class);
@@ -94,6 +95,10 @@ public class WeaponControlSystem implements IEntityProcessingService {
             radians = radians + gunPart.getSprayPattern()[i];
             shootSound();
             Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
+            if(bullet != null)
+            {
+                System.out.println("Bullet created!");
+            }
             world.addEntity(bullet);
             world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
 //            if(Lookup.getDefault().lookup(BulletSPI.class) != null)

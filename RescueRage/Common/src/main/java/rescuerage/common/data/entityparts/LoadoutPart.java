@@ -18,7 +18,7 @@ public class LoadoutPart implements EntityPart{
     
     private boolean Q,E;
     
-    private float swapCD = 50;
+    private float swapCD = 30;
     private float currentSwapCD = swapCD;
 
     public void setQ(boolean Q) {
@@ -62,20 +62,27 @@ public class LoadoutPart implements EntityPart{
     public void process(GameData gameData, Entity entity) {
         for(Entity e : weapons)
         {
-            System.out.println(e);
+            GunPart gunpart = e.getPart(GunPart.class);
+            if(gunpart.equipped)
+            {
+                System.out.print("true: ");
+            }
+            System.out.print(e + "\n");
         }
+        System.out.println("------------");
         
         int indexOfCurrentWeapon = getWeapons().indexOf(currentWeapon);
         int loadoutLength = getWeapons().size();
         GunPart gunPart = null;
         
         //Get the gunPart of the current weapon. 
+        //If there is no current weapon we cant get a gunpart
         if(currentWeapon!=null)
         {
              gunPart = currentWeapon.getPart(GunPart.class);
-             
         }
         
+        //If the cooldown is over we can swap. Meaning if its 0 or below.
         if(this.currentSwapCD<0)
         {
             //Changes weapon to previous
@@ -94,6 +101,7 @@ public class LoadoutPart implements EntityPart{
                 gunPart = currentWeapon.getPart(GunPart.class);
                 gunPart.setEquipped(true);
                 
+                //Swapped weapons set cooldown back
                 this.currentSwapCD = this.swapCD;
             }
             //Changes weapon to next
@@ -105,6 +113,7 @@ public class LoadoutPart implements EntityPart{
                 gunPart = currentWeapon.getPart(GunPart.class);
                 gunPart.setEquipped(true);
                 
+                //We have swapped weapons set cooldown back
                 this.currentSwapCD = this.swapCD;
             }
         }
