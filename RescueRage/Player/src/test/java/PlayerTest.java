@@ -30,7 +30,7 @@ public class PlayerTest{
     int life;
     float playerX;
     float playerY;
-    Entity defaultWeapon;
+
     
     @BeforeEach
     public void setUp(){
@@ -55,7 +55,6 @@ public class PlayerTest{
             //If Player is found
            // System.out.println("Checking the player object after check: " + testPlayer);
             testPlayer = player;
-
             // System.out.println(testPlayer);
            }      
         }
@@ -92,7 +91,7 @@ public class PlayerTest{
     }
     
     @Test
-    @DisplayName("")
+    @DisplayName("Tests that the Player spawns at the right position")
     public void positionTest(){
         playerplugin.start(gamedata, world);
         for(Entity player : world.getEntities()){
@@ -106,15 +105,5 @@ public class PlayerTest{
         assertEquals(0, playerX,"Player x start-position is wrong");
         assertEquals(0, playerY,"Player y start-position is wrong");
     }
-    
-    
-    @Test
-    @DisplayName("Testing that Player has a default weapons")
-    public void defaultWeaponTest(){
-        
-    }
-    
-  
-
    
 }
