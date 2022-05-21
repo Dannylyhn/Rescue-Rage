@@ -21,20 +21,21 @@ import rescuerage.common.services.IEntityProcessingService;
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class MapProcessor implements IEntityProcessingService {
     private int level = 1;
+    private int levelChanger = 1;
     @Override
     public void process(GameData gameData, World world) {
         //MapPlugin.start(gameData, world);
         //int level = 1;
-        if(level!=world.level){
+        if(levelChanger!=world.levelChanger){
             //MapPlugin.createLevel();
             //world.clearRoomMap();
             Lookup.getDefault().lookup(MapPlugin.class).createLevel();
             //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
-            if(world.level == 0){
+            /*if(world.level == 0){
                 //world.level = 1;
-            }
+            }*/
             level = world.level;
-            
+            levelChanger = world.levelChanger;
         }
         for(java.util.Map<String, Entity> entityMap : world.getLevel()){
             //System.out.println("draw 2");

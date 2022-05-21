@@ -14,6 +14,7 @@ import org.openide.util.lookup.ServiceProvider;
 public class EnemyControlSystem implements IEntityProcessingService {
 
     private int level = 1;
+    private int levelChanger = 1;
     //private int enemyCount = 0;
     //private int moveCount = 0;
     private boolean up = true;
@@ -22,9 +23,10 @@ public class EnemyControlSystem implements IEntityProcessingService {
     
     @Override
     public void process(GameData gameData, World world) {
-        if(level!=world.level){
+        if(levelChanger!=world.levelChanger){
             Lookup.getDefault().lookup(EnemyPlugin.class).createEnemiesInLevel();
             level = world.level;
+            levelChanger = world.levelChanger;
             //moveCount = world.tileSize * world.getEntities(Enemy.class).size();
         }
         

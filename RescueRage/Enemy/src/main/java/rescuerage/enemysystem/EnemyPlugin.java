@@ -78,7 +78,7 @@ public class EnemyPlugin implements IGamePluginService {
         initLevel();
         Random random = new Random();
         for (int i = 0; i < world.getHouseRooms().size(); i++){
-            int r = random.nextInt(5+level);
+            int r = random.nextInt(4+level) + 1;
             //while(r<5+level){
             for(int j = 0; j < r+level; j++){
             //for(int j = 0; j < 1; j++){
