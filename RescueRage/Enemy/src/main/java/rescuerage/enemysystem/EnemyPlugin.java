@@ -61,7 +61,8 @@ public class EnemyPlugin implements IGamePluginService {
     }
     
     private void initLevel(){
-        this.world = world;
+        //this.world = world;
+        this.level = world.level;
         this.houseH = world.houseH;
         this.houseW = world.houseW + 1;
         this.roomH = world.roomH;
@@ -120,7 +121,7 @@ public class EnemyPlugin implements IGamePluginService {
         //System.out.println("x: " + x);
         //System.out.println("y: " + y);
         enemy.add(new PositionPart(0,0,0));
-        enemy.add(new LifePart(3));
+        enemy.add(new LifePart(2+level));
         setShape(enemy);
         
         world.addEntity(enemy);
