@@ -56,6 +56,10 @@ public class Game implements ApplicationListener {
     Texture chestSprite;
     Texture bulletSprite;
     Texture gunSprite;
+    Texture uiHeartFullSprite;
+    Texture uiHeartEmptySprite;
+    Texture uiKeySprite;
+    Texture uiMoneySprite;
     BitmapFont font;
     Music soundtrack; 
     private final Lookup lookup = Lookup.getDefault();
@@ -100,6 +104,10 @@ public class Game implements ApplicationListener {
          chestSprite = new Texture(Gdx.files.internal("assets/images/chest.png"));
          bulletSprite = new Texture(Gdx.files.internal("assets/images/bullet2.png"));
          gunSprite = new Texture(Gdx.files.internal("assets/images/gun.png"));
+         uiHeartFullSprite = new Texture(Gdx.files.internal("assets/images/uiHeart.png"));
+         uiHeartEmptySprite = new Texture(Gdx.files.internal("assets/images/uiHeart2.png"));
+         uiKeySprite = new Texture(Gdx.files.internal("assets/images/uiKey.png"));
+         uiMoneySprite = new Texture(Gdx.files.internal("assets/images/uiMoney.png"));
          //new Texture(Gdx.files.internal("E:\\Mit drev\\software engineering\\Semester 4\\PRO\\PersonalTesting\\AsteroidsProTesting\\core\\assets\\player.png"));
         //For the pokemon guy
         // sprite = new Sprite(img, 64, 64);
@@ -516,6 +524,11 @@ public class Game implements ApplicationListener {
                     sr.setColor(0, 0, 1, 0);
                 }*/
                 // from top sr = new ShapeRenderer();
+                /*batch.begin();
+                for(int i : )
+                batch.draw(uiHeartFullSprite, (10), (10));
+                batch.end();*/
+                
                 batch.begin();
                 String s = "Level: ";
                 int l = world.level;
@@ -523,14 +536,30 @@ public class Game implements ApplicationListener {
                 if(entity.getClass().getSimpleName().equals("Player")){
                     LifePart lifepart = entity.getPart(LifePart.class);
                     int life = lifepart.getLife();
-                    s = s + life;
-                    s = s + " | Money: ";
+                    int shift = 0;
+                    for(int i = 0; i < lifepart.getMax(); i++){
+                        if(i<life){
+                            batch.draw(uiHeartFullSprite, (10+shift), (540));
+                        }
+                        else{
+                            batch.draw(uiHeartEmptySprite, (10+shift), (540));
+                        }
+                        shift = shift + 30;
+                    }
+                    
+                    //s = s + life;
+                    //s = s + " | Money: ";
                     InventoryPart ip = entity.getPart(InventoryPart.class);
-                    s = s + ip.money;
+                    /*s = s + ip.money;
                     s = s + " | Keys: ";
-                    s = s + ip.keys;
+                    s = s + ip.keys;*/
+                    batch.draw(uiKeySprite, (10), (540));
+                    font.draw(batch, ""+ip.keys, 40, 555);
+                    batch.draw(uiMoneySprite, (30), (540));
+                    font.draw(batch, ""+ip.money, 90, 555);
                 }
-                font.draw(batch, s, 100, 100);
+                font.draw(batch, "Level: " + world.level, 10, 530);
+                //font.draw(batch, s, 100, 100);
                 batch.end();
                 sr.setColor(1, 1, 1, 1);
 
