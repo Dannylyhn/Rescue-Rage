@@ -65,9 +65,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         ItemPart i = e1.getPart(ItemPart.class);
                         String type = i.getType();
                         InventoryPart ip = e2.getPart(InventoryPart.class);
+                        LifePart lp = e2.getPart(LifePart.class);
                         switch (type) {
                             case "healthInc":
-                                LifePart lp = e2.getPart(LifePart.class);
                                 if(lp.getLife()<lp.getMax()){
                                     lp.incLife(i.getValue());
                                     world.removeEntity(e1);
@@ -85,6 +85,16 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                     }
                                     //world.removeEntity(e1);
                                 }
+                                break;
+                            case "maxHealthInc":
+                                lp.incMax(1);
+                                world.removeEntity(e1);
+                                break;
+                            case "fullAmmo":
+                                LoadoutPart loadp = e2.getPart(LoadoutPart.class);
+                                GunPart gp = loadp.currentWeapon.getPart(GunPart.class);
+                                gp.ammo = gp.maxAmmo;
+                                world.removeEntity(e1);
                                 break;
                             default:
                                 break;

@@ -35,7 +35,7 @@
             <artifactId>org-netbeans-core-startup</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
-<!--       <dependency>
+       <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>RescueRage-branding</artifactId>
             <version>${project.version}</version>
@@ -108,14 +108,14 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>Item</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
-            
+        </dependency>
+       <!--     
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>SilentUpdate</artifactId>
             <version>${project.version}</version>
         </dependency>
-    
+    -->
     </dependencies>
 
     <build>

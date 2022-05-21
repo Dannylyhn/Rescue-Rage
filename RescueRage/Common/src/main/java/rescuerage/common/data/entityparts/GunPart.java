@@ -16,6 +16,7 @@ public class GunPart implements EntityPart{
     public boolean pickedUp = false;
     public boolean equipped = false;
     public int bulletsPerShot;
+    public int maxAmmo;
     public int ammo;
     public int magazineLength;
     public int magazine;
@@ -25,6 +26,7 @@ public class GunPart implements EntityPart{
         this.name = name;
         this.bulletsPerShot = bulletsPerShot;
         this.ammo = ammo;
+        this.maxAmmo = ammo;
         this.magazineLength = magazineLength;
         this.magazine = magazineLength;
         this.sprayPattern = sprayPattern;

@@ -51,6 +51,8 @@ public class Game implements ApplicationListener {
     Texture enemySprite;
     Texture keySprite;
     Texture healthSprite;
+    Texture maxHealthSprite;
+    Texture fullAmmoSprite;
     Texture chestSprite;
     Texture bulletSprite;
     Texture gunSprite;
@@ -93,6 +95,8 @@ public class Game implements ApplicationListener {
          enemySprite = new Texture(Gdx.files.internal("assets/images/enemySprite.png"));
          keySprite = new Texture(Gdx.files.internal("assets/images/key.png"));
          healthSprite = new Texture(Gdx.files.internal("assets/images/health.png"));
+         maxHealthSprite = new Texture(Gdx.files.internal("assets/images/maxHealth.png"));
+         fullAmmoSprite = new Texture(Gdx.files.internal("assets/images/ammo.png"));
          chestSprite = new Texture(Gdx.files.internal("assets/images/chest.png"));
          bulletSprite = new Texture(Gdx.files.internal("assets/images/bullet2.png"));
          gunSprite = new Texture(Gdx.files.internal("assets/images/gun.png"));
@@ -295,7 +299,8 @@ public class Game implements ApplicationListener {
                 for (Entity entity : world.getLevel().get(ii).values()) {
                     if(entity.getClass().getSimpleName().equals("Map")){
                         TilePart tile = entity.getPart(TilePart.class);
-                        if(tile.getType().equals("floor")){
+                        String type = tile.getType();
+                        if(type.equals("floor") || type.equals("wall")){
                             sorted.add(0, entity);
                         }
                         else{
@@ -380,6 +385,18 @@ public class Game implements ApplicationListener {
                                     sr.setColor(1, 0, 1, 0);
                                     batch.begin();
                                     batch.draw(healthSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "maxHealthInc":
+                                    sr.setColor(1, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(maxHealthSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "fullAmmo":
+                                    sr.setColor(1, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(fullAmmoSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
                                     batch.end();
                                     break;
                                 default:
