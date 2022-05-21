@@ -10,11 +10,8 @@ import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.TilePart;
 import rescuerage.common.services.IPostEntityProcessingService;
 import org.openide.util.lookup.ServiceProvider;
-//import rescuerage.map
-/**
- *
- * @author ander
- */
+import static rescuerage.core.main.Sounds.deathSound;
+
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,21 +31,25 @@ public class CollisionHandler implements IPostEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
-        Entity player = world.getEntity(world.getPlayerID());
-        for(Entity roomIdentifier : world.roomIdentifiers){
-            if (isCollision(player, roomIdentifier)) {
-                TilePart tile = roomIdentifier.getPart(TilePart.class);
+        if(world.getPlayerPositionPart() != null)
+        {
+            Entity player = world.getEntity(world.getPlayerID());
+            for(Entity roomIdentifier : world.roomIdentifiers){
+                if (isCollision(player, roomIdentifier)) {
+                    TilePart tile = roomIdentifier.getPart(TilePart.class);
 
-                world.currentRoom = tile.getRoom();
-                //System.out.println("current room: " + world.currentRoom);
-                if(tile.getState().equals("unexplored")){
-                    world.lockDoors();
+                    world.currentRoom = tile.getRoom();
+                    //System.out.println("current room: " + world.currentRoom);
+                    if(tile.getState().equals("unexplored")){
+                        world.lockDoors();
+                    }
                 }
             }
+            //System.out.println("world.currentRoom: " + world.currentRoom);
+            //for(Entity e : world.getLevel().get(world.currentRoom).values()){
+            world.getLevel().get(world.currentRoom).put(world.getPlayerID(), player);
         }
-        //System.out.println("world.currentRoom: " + world.currentRoom);
-        //for(Entity e : world.getLevel().get(world.currentRoom).values()){
-        world.getLevel().get(world.currentRoom).put(world.getPlayerID(), player);
+
         world.getLevel().get(world.currentRoom).values().forEach(e1 -> world.getLevel().get(world.currentRoom).values().forEach(e2 -> {
         //world.getCollisionEntities().forEach(e1 -> world.getCollisionEntities().forEach(e2 -> {
             if(ignoreWalkableTiles(e1,e2)){
@@ -117,6 +118,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     //return;
                 }
                 
+                //Weapon pick up when colliding with player
                 if(e1.getClass().getSimpleName().equals("Weapon")){
                     if(e2.getClass().getSimpleName().equals("Player"))
                     {
@@ -125,8 +127,8 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         {
                             lp.addWeapon(e1);
                             GunPart gunPart = e1.getPart(GunPart.class);
+                            //Picked up boolean t
                             gunPart.setPickedUp(true);
-                            //world.removeEntity(e1);
                         }
                     }
                 }
@@ -215,6 +217,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             Entity p = world.getEntity(world.getPlayerID());
                             InventoryPart ip = p.getPart(InventoryPart.class);
                             ip.incMoney(100);
+                            deathSound();
                             world.removeEntity(e2);
                         }
                         world.removeEntity(e1);

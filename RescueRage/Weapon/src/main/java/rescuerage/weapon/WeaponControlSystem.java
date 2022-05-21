@@ -4,6 +4,7 @@
  */
 package rescuerage.weapon;
 
+
 import rescuerage.commonbullet.BulletSPI;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
@@ -12,11 +13,12 @@ import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.services.IEntityProcessingService;
 import rescuerage.common.data.GameKeys;
-
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import rescuerage.common.data.entityparts.GunCooldownPart;
+import static rescuerage.core.main.Sounds.shootSound;
+import static rescuerage.core.main.Sounds.reloadSound;
 
 /**
  *
@@ -35,8 +37,11 @@ public class WeaponControlSystem implements IEntityProcessingService {
             //moveCount = world.tileSize * world.getEntities(Enemy.class).size();
         }
         
+        
+        
         for(Entity weapon : world.getEntities(Weapon.class))
         {
+            
             PositionPart positionPart = weapon.getPart(PositionPart.class);
             GunPart gunPart = weapon.getPart(GunPart.class);
             GunCooldownPart gunCD = weapon.getPart(GunCooldownPart.class);
@@ -54,12 +59,12 @@ public class WeaponControlSystem implements IEntityProcessingService {
                 }
             }
             
-            if(gunPart.equipped == true && gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()!=0)
-            {
+            if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()>0 && gunPart.getMagazine()<10)
+            {   
                     int reloadedAmount = gunPart.getMagazineLength()-gunPart.getMagazine();
                     gunPart.minusAmmo(reloadedAmount);
-
-                    gunPart.setMagazine(gunPart.getMagazineLength());
+                    reloadSound();
+                    gunPart.setMagazine(reloadedAmount);
             }
             
             positionPart.process(gameData, weapon);
@@ -75,27 +80,42 @@ public class WeaponControlSystem implements IEntityProcessingService {
     //The spray pattern thats called for each left click event
     private void shoot(Entity weapon, GameData gameData, World world)
     {
+        System.out.println("Bullet shot!");
+        //Game gameobj = new Game();
         GunPart gunPart = weapon.getPart(GunPart.class);
         PositionPart positionPart = weapon.getPart(PositionPart.class);
 
         float x = positionPart.getX();
         float y = positionPart.getY();
+        System.out.println("Weapon pos X:" + x + ", Y:" + y);
         float radians = positionPart.getRadians();
         float radius = weapon.getRadius();
         
         for(int i = 0 ; i < gunPart.bulletsPerShot ; i++)
         {
             radians = radians + gunPart.getSprayPattern()[i];
-            if(Lookup.getDefault().lookup(BulletSPI.class) != null)
+            shootSound();
+            Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
+            PositionPart bulletPos = bullet.getPart(PositionPart.class);
+            System.out.println("Bullet pos X:" + bulletPos.getX() + ", Y:" + bulletPos.getY());
+
+            if(bullet != null)
             {
-                Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
-                world.addEntity(bullet);
-                world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
+                System.out.println("Bullet created!");
             }
+            world.addEntity(bullet);
+            world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
+//            if(Lookup.getDefault().lookup(BulletSPI.class) != null)
+//            {
+//                Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
+//                world.addEntity(bullet);
+//                world.getLevel().get(world.currentRoom).put(world.addEntity(bullet), bullet);
+//            }
         }
     }
     
     private void updateShape(Entity entity) {
+        
         float[] shapex = new float[4];
         float[] shapey = new float[4];
         PositionPart positionPart = entity.getPart(PositionPart.class);
