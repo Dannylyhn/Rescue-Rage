@@ -419,19 +419,19 @@ public class Game implements ApplicationListener {
                             //if(!gp.pickedUp){
                                 batch.begin();
                                 
-                                String nameOfWeapon = "Current: ";
+                                /*String nameOfWeapon = "Current: ";
                                 String ammo = "Ammo: ";
-                                String magazine = "          |  Magazine: ";
+                                String magazine = "          |  Magazine: ";*/
                                 GunPart gunPart = entity.getPart(GunPart.class);
-                                if(entity.getClass().getSimpleName().equals("Weapon")){
-                                    PositionPart gunPos = entity.getPart(PositionPart.class);
+                                //if(entity.getClass().getSimpleName().equals("Weapon")){
+                                    //PositionPart gunPos = entity.getPart(PositionPart.class);
                                     if(gunPart.isEquipped())//gunPart.setPickedUp(true);
                                     {
-                                        ammo = ammo + gunPart.getAmmo();
+                                        /*ammo = ammo + gunPart.getAmmo();
                                         int magazineAmount = gunPart.getMagazine();
                                         font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
                                         nameOfWeapon = nameOfWeapon + gunPart.getName();
-                                        font.draw(batch, nameOfWeapon, 550, 150);
+                                        font.draw(batch, nameOfWeapon, 550, 150);*/
                                     }
                                     else{
                                         if(!gunPart.pickedUp)
@@ -440,10 +440,10 @@ public class Game implements ApplicationListener {
                                     //batch.begin();
                                     //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
                                     //batch.end();
-                                }
+                                //}
 
 
-                                font.draw(batch, ammo, 550, 100);
+                                //font.draw(batch, ammo, 550, 100);
                                 //batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
                                 batch.end();
                             //}
@@ -484,19 +484,22 @@ public class Game implements ApplicationListener {
             //Draw magazine and ammo
             batch.begin();
 
-            String nameOfWeapon = "Current: ";
+            /*String nameOfWeapon = "Current: ";
             String ammo = "Ammo: ";
-            String magazine = "          |  Magazine: ";
+            String magazine = "          |  Magazine: ";*/
             if(entity.getClass().getSimpleName().equals("Weapon")){
                 GunPart gunPart = entity.getPart(GunPart.class);
-                PositionPart gunPos = entity.getPart(PositionPart.class);
+                //PositionPart gunPos = entity.getPart(PositionPart.class);
                 if(gunPart.isEquipped())
                 {
-                    ammo = ammo + gunPart.getAmmo();
+                    /*ammo = ammo + gunPart.getAmmo();
                     int magazineAmount = gunPart.getMagazine();
                     font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
                     nameOfWeapon = nameOfWeapon + gunPart.getName();
                     font.draw(batch, nameOfWeapon, 550, 150);
+                    */
+                    font.draw(batch, gunPart.getName(), 720, 40);
+                    font.draw(batch, gunPart.getMagazine()+" / "+gunPart.getAmmo(), 720, 20);
                 
                 }
                 //batch.begin();
@@ -505,7 +508,7 @@ public class Game implements ApplicationListener {
             }
 
 
-            font.draw(batch, ammo, 550, 100);
+            //font.draw(batch, ammo, 550, 100);
             
             batch.end();
             sr.setColor(1, 1, 1, 1);

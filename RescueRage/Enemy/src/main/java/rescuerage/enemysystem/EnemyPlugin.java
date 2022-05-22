@@ -30,6 +30,7 @@ public class EnemyPlugin implements IGamePluginService {
     private int HEIGHT = roomH * tileSize;
     private int level;
     private World world;
+    private Random random = new Random();
     @Override
     public void start(GameData gameData, World world) {
         this.world = world;
@@ -76,7 +77,7 @@ public class EnemyPlugin implements IGamePluginService {
         }*/
         //world.clearRoomMap();
         initLevel();
-        Random random = new Random();
+        //Random random = new Random();
         for (int i = 0; i < world.getHouseRooms().size(); i++){
             int r = random.nextInt(4+level) + 1;
             //while(r<5+level){
@@ -114,10 +115,10 @@ public class EnemyPlugin implements IGamePluginService {
         enemy.setRadius(tileSize/2);
         enemy.setSizeX(tileSize/2);
         enemy.setSizeY(tileSize/2);
-        
+        int r = random.nextInt(2) + 1;
         float maxSpeed = world.tileSize;
         enemy.setRadius(tileSize/2);
-        enemy.add(new EnemyMovingPart(maxSpeed, roomNR, world.getLevel().get(roomNR)));
+        enemy.add(new EnemyMovingPart(maxSpeed*r, roomNR, world.getLevel().get(roomNR)));
         //System.out.println("x: " + x);
         //System.out.println("y: " + y);
         enemy.add(new PositionPart(0,0,0));
