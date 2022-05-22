@@ -2,6 +2,8 @@ package rescuerage.core.main;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,9 +51,17 @@ public class Game implements ApplicationListener {
     Texture enemySprite;
     Texture keySprite;
     Texture healthSprite;
+    Texture maxHealthSprite;
+    Texture fullAmmoSprite;
     Texture chestSprite;
     Texture bulletSprite;
+    Texture gunSprite;
+    Texture uiHeartFullSprite;
+    Texture uiHeartEmptySprite;
+    Texture uiKeySprite;
+    Texture uiMoneySprite;
     BitmapFont font;
+    Music soundtrack; 
     private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
     private World world = World.getInstance();
@@ -63,6 +73,7 @@ public class Game implements ApplicationListener {
     private float shiftX = 0;
     private float shiftY = 0;
 
+    
     @Override
     public void create() {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
@@ -71,6 +82,11 @@ public class Game implements ApplicationListener {
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         batch = new SpriteBatch();
         font = new BitmapFont();
+        
+        soundtrack = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/soundtrack2.mp3"));
+        soundtrack.setLooping(true);
+        
+                
         //cam.translate(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.update();
         
@@ -83,8 +99,15 @@ public class Game implements ApplicationListener {
          enemySprite = new Texture(Gdx.files.internal("assets/images/enemySprite.png"));
          keySprite = new Texture(Gdx.files.internal("assets/images/key.png"));
          healthSprite = new Texture(Gdx.files.internal("assets/images/health.png"));
+         maxHealthSprite = new Texture(Gdx.files.internal("assets/images/maxHealth.png"));
+         fullAmmoSprite = new Texture(Gdx.files.internal("assets/images/ammo.png"));
          chestSprite = new Texture(Gdx.files.internal("assets/images/chest.png"));
          bulletSprite = new Texture(Gdx.files.internal("assets/images/bullet2.png"));
+         gunSprite = new Texture(Gdx.files.internal("assets/images/gun.png"));
+         uiHeartFullSprite = new Texture(Gdx.files.internal("assets/images/uiHeart.png"));
+         uiHeartEmptySprite = new Texture(Gdx.files.internal("assets/images/uiHeart2.png"));
+         uiKeySprite = new Texture(Gdx.files.internal("assets/images/uiKey.png"));
+         uiMoneySprite = new Texture(Gdx.files.internal("assets/images/uiMoney.png"));
          //new Texture(Gdx.files.internal("E:\\Mit drev\\software engineering\\Semester 4\\PRO\\PersonalTesting\\AsteroidsProTesting\\core\\assets\\player.png"));
         //For the pokemon guy
         // sprite = new Sprite(img, 64, 64);
@@ -122,13 +145,16 @@ public class Game implements ApplicationListener {
         // clear screen to black
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        soundtrack.setVolume(0.5f);
+        soundtrack.play();
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         gameData.getKeys().update();
         
         
-        if(positionPart != null)
+        if(world.getPlayerPositionPart() != null)
         {
+            //playerSprite = new Texture("assets/images/PlayerSprite.png");
             PositionPart playerPosPart = world.getPlayerPositionPart();
             //Sets camera position center to player
             cam.position.x = playerPosPart.getX();
@@ -143,8 +169,8 @@ public class Game implements ApplicationListener {
             radians = (float)Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
             playerPosPart.setRadians(radians);   
             
-            shiftX = positionPart.getX()-(gameData.getDisplayWidth()/2);
-            shiftY = positionPart.getY()-(gameData.getDisplayHeight()/2);
+            shiftX = playerPosPart.getX()-(gameData.getDisplayWidth()/2);
+            shiftY = playerPosPart.getY()-(gameData.getDisplayHeight()/2);
         }
         
         
@@ -167,18 +193,18 @@ public class Game implements ApplicationListener {
           }
         sprite.setRotation(angle);
         
-        }else{
+        }/*else{
           //If player is not in, it should remove the picture
            playerSprite = new Texture("assets/images/Empty.png");
            sprite = new Sprite(playerSprite);
-        }
+        }*/
         
         
         update();
         draw();
-        batch.begin();
+        /*batch.begin();
         sprite.draw(batch);
-        batch.end();
+        batch.end();*/
         //postUpdate();
     }
 
@@ -281,7 +307,8 @@ public class Game implements ApplicationListener {
                 for (Entity entity : world.getLevel().get(ii).values()) {
                     if(entity.getClass().getSimpleName().equals("Map")){
                         TilePart tile = entity.getPart(TilePart.class);
-                        if(tile.getType().equals("floor")){
+                        String type = tile.getType();
+                        if(type.equals("floor") || type.equals("wall")){
                             sorted.add(0, entity);
                         }
                         else{
@@ -368,12 +395,59 @@ public class Game implements ApplicationListener {
                                     batch.draw(healthSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
                                     batch.end();
                                     break;
+                                case "maxHealthInc":
+                                    sr.setColor(1, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(maxHealthSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
+                                case "fullAmmo":
+                                    sr.setColor(1, 0, 1, 0);
+                                    batch.begin();
+                                    batch.draw(fullAmmoSprite, ((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
+                                    batch.end();
+                                    break;
                                 default:
                                     sr.setColor(0, 1, 1, 0);
                                     break;
                             }
                             break;
+                        case "Weapon":
+                            //System.out.println("drawing weapon");
+                            sr.setColor(1, 1, 1, 1);
+                            GunPart gp = entity.getPart(GunPart.class);
+                            //if(!gp.pickedUp){
+                                batch.begin();
+                                
+                                /*String nameOfWeapon = "Current: ";
+                                String ammo = "Ammo: ";
+                                String magazine = "          |  Magazine: ";*/
+                                GunPart gunPart = entity.getPart(GunPart.class);
+                                //if(entity.getClass().getSimpleName().equals("Weapon")){
+                                    //PositionPart gunPos = entity.getPart(PositionPart.class);
+                                    if(gunPart.isEquipped())//gunPart.setPickedUp(true);
+                                    {
+                                        /*ammo = ammo + gunPart.getAmmo();
+                                        int magazineAmount = gunPart.getMagazine();
+                                        font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
+                                        nameOfWeapon = nameOfWeapon + gunPart.getName();
+                                        font.draw(batch, nameOfWeapon, 550, 150);*/
+                                    }
+                                    else{
+                                        if(!gunPart.pickedUp)
+                                            batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                                    }
+                                    //batch.begin();
+                                    //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
+                                    //batch.end();
+                                //}
 
+
+                                //font.draw(batch, ammo, 550, 100);
+                                //batch.draw(gunSprite, ((int)tilePos.getX()-shiftX), ((int)tilePos.getY()-shiftY));
+                                batch.end();
+                            //}
+                            break;
                         case "Bullet":
                             sr.setColor(1, 1, 1, 1);
                             batch.begin();
@@ -410,23 +484,32 @@ public class Game implements ApplicationListener {
             //Draw magazine and ammo
             batch.begin();
 
-            String nameOfWeapon = "Current: ";
+            /*String nameOfWeapon = "Current: ";
             String ammo = "Ammo: ";
-            String magazine = "          |  Magazine: ";
+            String magazine = "          |  Magazine: ";*/
             if(entity.getClass().getSimpleName().equals("Weapon")){
                 GunPart gunPart = entity.getPart(GunPart.class);
+                //PositionPart gunPos = entity.getPart(PositionPart.class);
                 if(gunPart.isEquipped())
                 {
-                    ammo = ammo + gunPart.getAmmo();
+                    /*ammo = ammo + gunPart.getAmmo();
                     int magazineAmount = gunPart.getMagazine();
                     font.draw(batch, magazine+String.valueOf(magazineAmount), 600, 100);
                     nameOfWeapon = nameOfWeapon + gunPart.getName();
                     font.draw(batch, nameOfWeapon, 550, 150);
+                    */
+                    font.draw(batch, gunPart.getName(), 720, 40);
+                    font.draw(batch, gunPart.getMagazine()+" / "+gunPart.getAmmo(), 720, 20);
+                
                 }
+                //batch.begin();
+                //batch.draw(gunSprite, ((int)gunPos.getX()-shiftX), ((int)gunPos.getY()-shiftY));
+                //batch.end();
             }
 
 
-            font.draw(batch, ammo, 550, 100);
+            //font.draw(batch, ammo, 550, 100);
+            
             batch.end();
             sr.setColor(1, 1, 1, 1);
             if(!entity.getClass().getSimpleName().equals("Map") && !entity.getClass().getSimpleName().equals("Enemy") && !entity.getClass().getSimpleName().equals("Weapon") &&  !entity.getClass().getSimpleName().equals("Item")){
@@ -444,6 +527,11 @@ public class Game implements ApplicationListener {
                     sr.setColor(0, 0, 1, 0);
                 }*/
                 // from top sr = new ShapeRenderer();
+                /*batch.begin();
+                for(int i : )
+                batch.draw(uiHeartFullSprite, (10), (10));
+                batch.end();*/
+                
                 batch.begin();
                 String s = "Level: ";
                 int l = world.level;
@@ -451,14 +539,30 @@ public class Game implements ApplicationListener {
                 if(entity.getClass().getSimpleName().equals("Player")){
                     LifePart lifepart = entity.getPart(LifePart.class);
                     int life = lifepart.getLife();
-                    s = s + life;
-                    s = s + " | Money: ";
+                    int shift = 0;
+                    for(int i = 0; i < lifepart.getMax(); i++){
+                        if(i<life){
+                            batch.draw(uiHeartFullSprite, (10+shift), (540));
+                        }
+                        else{
+                            batch.draw(uiHeartEmptySprite, (10+shift), (540));
+                        }
+                        shift = shift + 30;
+                    }
+                    
+                    //s = s + life;
+                    //s = s + " | Money: ";
                     InventoryPart ip = entity.getPart(InventoryPart.class);
-                    s = s + ip.money;
+                    /*s = s + ip.money;
                     s = s + " | Keys: ";
-                    s = s + ip.keys;
+                    s = s + ip.keys;*/
+                    batch.draw(uiKeySprite, (10), (540));
+                    font.draw(batch, ""+ip.keys, 40, 555);
+                    batch.draw(uiMoneySprite, (30), (540));
+                    font.draw(batch, ""+ip.money, 90, 555);
                 }
-                font.draw(batch, s, 100, 100);
+                font.draw(batch, "Level: " + world.level, 10, 530);
+                //font.draw(batch, s, 100, 100);
                 batch.end();
                 sr.setColor(1, 1, 1, 1);
 
@@ -488,6 +592,12 @@ public class Game implements ApplicationListener {
         font.draw(batch, ("Health: " + lifeAmount), 100, 40);
         batch.end();
         */
+        if(!world.getPlayerID().equals(""))
+        {
+            batch.begin();
+            sprite.draw(batch);
+            batch.end();
+        }
     }
 
     @Override

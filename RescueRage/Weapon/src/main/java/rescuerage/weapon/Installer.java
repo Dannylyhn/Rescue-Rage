@@ -5,12 +5,19 @@
 package rescuerage.weapon;
 
 import org.openide.modules.ModuleInstall;
+import rescuerage.common.data.World;
 
 public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
         
+    }
+    
+    @Override
+    public void uninstalled(){
+        World world = World.getInstance();
+        world.setDefaultWeapon("");
     }
     
     

@@ -16,6 +16,7 @@ public class GunPart implements EntityPart{
     public boolean pickedUp = false;
     public boolean equipped = false;
     public int bulletsPerShot;
+    public int maxAmmo;
     public int ammo;
     public int magazineLength;
     public int magazine;
@@ -25,6 +26,7 @@ public class GunPart implements EntityPart{
         this.name = name;
         this.bulletsPerShot = bulletsPerShot;
         this.ammo = ammo;
+        this.maxAmmo = ammo;
         this.magazineLength = magazineLength;
         this.magazine = magazineLength;
         this.sprayPattern = sprayPattern;
@@ -47,7 +49,16 @@ public class GunPart implements EntityPart{
     }
     
     public void minusAmmo(int amount){
-        this.ammo = ammo-amount;
+        if(ammo>0)
+        {
+            this.ammo = ammo-amount;
+            //When we minus our ammo and its below 0 just set it to 0.
+            if(ammo<0)
+            {
+                this.ammo = 0;
+            }
+        }
+        
     }
 
     public int getMagazineLength() {
@@ -58,8 +69,15 @@ public class GunPart implements EntityPart{
         return this.magazine;
     }
 
-    public void setMagazine(int magazine) {
-        this.magazine = magazine;
+    public void setMagazine(int reloadedAmount) {
+        if(this.ammo>0)
+        {
+            this.magazine = this.magazineLength;
+        }
+        else
+        {
+            this.magazine = reloadedAmount;
+        }
     }
     
     public void minusMagazine(){

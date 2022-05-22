@@ -27,19 +27,20 @@ import rescuerage.common.data.entityparts.PositionPart;
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class ItemProcessor implements IEntityProcessingService {
     private int level = 1;
+    private int levelChanger = 1;
 
     @Override
     public void process(GameData gameData, World world) {
-        if(level!=world.level){
+        if(levelChanger!=world.levelChanger){
             //MapPlugin.createLevel();
             //world.clearRoomMap();
             Lookup.getDefault().lookup(ItemPlugin.class).createItemsInLevel();
             //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
-            if(world.level == 0){
+            /*if(world.level == 0){
                 //world.level = 1;
-            }
+            }*/
             level = world.level;
-            
+            levelChanger = world.levelChanger;
         }
         //for(java.util.Map<String, Entity> entityMap : world.getLevel()){
         for (Entity item : world.getEntities(Item.class)) {

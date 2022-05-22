@@ -67,6 +67,7 @@ public class World {
     }
     
     public int level = 1;
+    public int levelChanger = 1;
     public int currentRoom = 0;
     
     public int houseH = 2;
@@ -97,6 +98,7 @@ public class World {
         houseH = houseH + 1;
         //roomMap.clear();
         level = level + 1;
+        levelChanger = levelChanger + 1;
         //Lookup.getDefault().lookup(MapSPI.class).createLevel();
         //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
         
@@ -121,12 +123,14 @@ public class World {
         houseH = 2;
         //roomMap.clear();
         //clearRoomMap();
-        if(level == 0){
+        /*if(level == 0){
             level = 1;
         }
         else{
             level = 0;
-        }
+        }*/
+        level = 1;
+        levelChanger = levelChanger +1 ;
         //Lookup.getDefault().lookup(MapSPI.class).createLevel();
         //Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);
     }
