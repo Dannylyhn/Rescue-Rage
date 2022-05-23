@@ -8,10 +8,7 @@ package rescuerage.common.data.entityparts;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 
-/**
- *
- * @author Alexander
- */
+
 public class TimerPart
         implements EntityPart {
     private float expiration;

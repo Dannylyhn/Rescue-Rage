@@ -3,10 +3,7 @@ package rescuerage.common.events;
 import rescuerage.common.data.Entity;
 import java.io.Serializable;
 
-/**
- *
- * @author Mads
- */
+
 public class Event implements Serializable {
 
     private final Entity source;
