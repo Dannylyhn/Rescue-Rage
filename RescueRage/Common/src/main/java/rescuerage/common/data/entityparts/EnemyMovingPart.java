@@ -38,10 +38,12 @@ public class EnemyMovingPart implements EntityPart {
     private int playerX = 0;
     private int playerY = 0;
     private int roomNR = 0;
-    private int tile = 0;
+    //private int tile = 0;
+    private int tileX = 0;
+    private int tileY = 0;
     public boolean newTile = false;
     private boolean enter = false;
-    private int tileSize = 48;
+    private int tileSize = 24;
     private Map<String, Entity> roomMap = new ConcurrentHashMap<>();
     
     private boolean changed = false;
@@ -155,10 +157,18 @@ public class EnemyMovingPart implements EntityPart {
             float dt = gameData.getDelta();
             /*tile = (int)x*tileSize;
             tile = tile * ((int)y/tileSize);*/
-            int tempTile = ((int)x/tileSize) * ((int)y/tileSize);
-            if(tile != tempTile){
+            //int tempTile = ((int)x/tileSize) * ((int)y/tileSize);
+            int tempTileX = ((int)x/tileSize);
+            int tempTileY = ((int)y/tileSize);
+            if(tileX != tempTileX){
                 newTile = true;
-                tile = tempTile;
+                tileX = tempTileX;
+                //System.out.println(tile);
+                // update new movement
+            }
+            if(tileY != tempTileY){
+                newTile = true;
+                tileY = tempTileY;
                 //System.out.println(tile);
                 // update new movement
             }
@@ -256,7 +266,8 @@ public class EnemyMovingPart implements EntityPart {
                 //return node.path();
                 return node;
             }
-            if(fringe.size() > 30){
+            //if(fringe.size() > 100){
+            if(fringe.size() > 300){
                 return node;
             }
             ArrayList<Node> children = expand(node);
@@ -325,8 +336,8 @@ public class EnemyMovingPart implements EntityPart {
             this.parentNode = null;
             this.goalX = goalX;
             this.goalY = goalY;
-            this.sizeX = tileSize/2;
-            this.sizeY = tileSize/2;
+            this.sizeX = 24+12;
+            this.sizeY = 24+12;
             setShape();
         }
         private void setShape() {
@@ -473,7 +484,7 @@ public class EnemyMovingPart implements EntityPart {
             n.action = moves.get(child);
             //System.out.println("move: " + moves.get(child));
             n.parentNode = node;
-            n.depth = node.depth + 1;
+            n.depth = node.depth + tileSize;
             successors.add(n);
         }
         return successors;

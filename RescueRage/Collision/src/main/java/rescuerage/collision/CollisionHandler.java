@@ -55,19 +55,20 @@ public class CollisionHandler implements IPostEntityProcessingService {
             if(ignoreWalkableTiles(e1,e2)){
                 return;
             }
-            if(!e1.getClass().getSimpleName().equals("Map") || !e2.getClass().getSimpleName().equals("Map")){
+            if(true){
+            //if(!e1.getClass().getSimpleName().equals("Map") || !e2.getClass().getSimpleName().equals("Map")){
                 if (isIgnoredEntity(e1,e2) || isSameEntityType(e1, e2) || !isCollision(e1, e2)) {
                     return;
                 }
                 
                 if(e1.getClass().getSimpleName().equals("Item")){
+                    ItemPart i = e1.getPart(ItemPart.class);
                     if(e2.getClass().getSimpleName().equals("Player")){
-                        ItemPart i = e1.getPart(ItemPart.class);
                         String type = i.getType();
                         InventoryPart ip = e2.getPart(InventoryPart.class);
+                        LifePart lp = e2.getPart(LifePart.class);
                         switch (type) {
                             case "healthInc":
-                                LifePart lp = e2.getPart(LifePart.class);
                                 if(lp.getLife()<lp.getMax()){
                                     lp.incLife(i.getValue());
                                     world.removeEntity(e1);
@@ -86,10 +87,37 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                     //world.removeEntity(e1);
                                 }
                                 break;
+                            case "maxHealthInc":
+                                lp.incMax(1);
+                                world.removeEntity(e1);
+                                break;
+                            case "fullAmmo":
+                                LoadoutPart loadp = e2.getPart(LoadoutPart.class);
+                                GunPart gp = loadp.currentWeapon.getPart(GunPart.class);
+                                gp.ammo = gp.maxAmmo;
+                                world.removeEntity(e1);
+                                break;
                             default:
                                 break;
                         }
                     }
+                    if(i.getType().equals("chest")){
+                        if(e2.getClass().getSimpleName().equals("Map")){
+                            TilePart tile = e2.getPart(TilePart.class);
+                            switch(tile.type){
+                                case "door":
+                                case "wall":
+                                    unWalkable(e2, e1);
+                                    break;
+                                case "box":
+                                    unWalkable(e1, e2);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    
                 }
                 
                 /*System.out.println("Collision detected");
@@ -98,9 +126,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
 
 
                 if (e1.getClass().getSimpleName().equals("Map")) {
+                    TilePart tile = e1.getPart(TilePart.class);
                     String temp = e2.getClass().getSimpleName();
                     if (temp.equals("Player") || temp.equals("Enemy")) {
-                        TilePart tile = e1.getPart(TilePart.class);
                         switch (tile.getType()) {
                             case "box":
                                 unWalkable(e2,e1);
@@ -114,8 +142,14 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                 break;
                         }
                     }
-                    //world.removeEntity(e1);
-                    //return;
+                    if(tile.type.equals("box")){
+                        if(temp.equals("Item")){
+                            ItemPart i = e2.getPart(ItemPart.class);
+                            if(i.getType().equals("chest")){
+                                unWalkable(e2, e1);
+                            }
+                        }
+                    }
                 }
                 
                 //Weapon pick up when colliding with player

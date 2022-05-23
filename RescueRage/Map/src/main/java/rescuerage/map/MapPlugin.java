@@ -35,6 +35,7 @@ public class MapPlugin implements  IGamePluginService{
     private int WIDTH = roomW * tileSize;
     private int HEIGHT = roomH * tileSize;
     private int level;
+    private int levelChanger;
     
     
 
@@ -43,6 +44,7 @@ public class MapPlugin implements  IGamePluginService{
     public void start(GameData gameData, World world) {
         this.world = world;
         this.level = 0;
+        this.levelChanger = 0;
         createLevel();
     }
     private void initLevel(){

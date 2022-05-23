@@ -28,12 +28,14 @@ import static rescuerage.core.main.Sounds.reloadSound;
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class WeaponControlSystem implements IEntityProcessingService {
     private int level = 0;
+    private int levelChanger = 0;
     @Override
     public void process(GameData gameData, World world) {
-        if(level!=world.level){
+        if(levelChanger!=world.levelChanger){
             //System.out.println("method call");
             Lookup.getDefault().lookup(WeaponPlugin.class).createWeaponsInLevel();
             level = world.level;
+            levelChanger = world.levelChanger;
             //moveCount = world.tileSize * world.getEntities(Enemy.class).size();
         }
         
