@@ -3,10 +3,7 @@ package rescuerage.common.data.entityparts;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 
-/**
- *
- * @author Someone
- */
+
 public class LifePart implements EntityPart {
 
     private boolean dead = false;
