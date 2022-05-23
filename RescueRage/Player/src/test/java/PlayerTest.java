@@ -11,7 +11,10 @@ import org.junit.jupiter.api.Test;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.World;
+import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.LifePart;
+import rescuerage.common.data.entityparts.LoadoutPart;
+import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.playersystem.PlayerPlugin;
 /**
  *
@@ -25,6 +28,9 @@ public class PlayerTest{
     World world;
     Entity testPlayer;
     int life;
+    float playerX;
+    float playerY;
+
     
     @BeforeEach
     public void setUp(){
@@ -33,11 +39,14 @@ public class PlayerTest{
     world = new World();
     testPlayer = null;
     life = 0;
+    //Random numbers for x and y
+    playerX = 1123123;
+    playerY = 3123123;
     }
     
     @Test
     @DisplayName("Ensure a player is created")
-    public void testPlayerCreation() {
+    public void PlayerCreatedTest() {
         playerplugin.start(gamedata, world);
         for(Entity player : world.getEntities()){
               
@@ -45,16 +54,15 @@ public class PlayerTest{
             //If Player is found
            // System.out.println("Checking the player object after check: " + testPlayer);
             testPlayer = player;
-
             // System.out.println(testPlayer);
            }      
         }
-        assertNotNull(testPlayer);
+        assertNotNull(testPlayer, "A Player was not created");
     }
     
     @Test
-    @DisplayName("Testing")
-    public void testPlayerNotCreated() {
+    @DisplayName("Testing that an entity of Player is not present without creating it")
+    public void PlayerNotCreatedTest(){
         for(Entity player : world.getEntities()){
         if(player.getClass().getSimpleName().equals("Player")){
             //If Player is found
@@ -64,12 +72,12 @@ public class PlayerTest{
            }      
         }
        // System.out.println("TestPlayer: "+testPlayer);
-        assertNull(testPlayer);
+        assertNull(testPlayer,"A Player is already created");
     }
     
     @Test
     @DisplayName("Checking players health is correct")
-    public void LifePart(){
+    public void LifePartTest(){
         playerplugin.start(gamedata, world);
         for(Entity player : world.getEntities()){
         if(player.getClass().getSimpleName().equals("Player")){
@@ -78,23 +86,23 @@ public class PlayerTest{
             //System.out.println("Life: " + life);
            }      
         }
-       assertEquals(5, life);
+       assertEquals(5, life, "Player's health is not 5");
     }
     
-    
-    /*
-    //@RepeatedTest(5)                                    
-    @DisplayName("")
-    void testingPlayerCreation() {
-        
+    @Test
+    @DisplayName("Tests that the Player spawns at the right position")
+    public void positionTest(){
+        playerplugin.start(gamedata, world);
         for(Entity player : world.getEntities()){
         if(player.getClass().getSimpleName().equals("Player")){
-            assertNotNull(player);
+            PositionPart pp = player.getPart(PositionPart.class);
+            playerX = pp.getX();
+            playerY = pp.getY();
            }      
         }
-
+        //System.out.println("PlayerX: " + playerX + "\n" + "PlayerY: " + playerY);
+        assertEquals(0, playerX,"Player x start-position is wrong");
+        assertEquals(0, playerY,"Player y start-position is wrong");
     }
-*/
-
    
 }

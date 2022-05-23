@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Item">
+<<<<<<< HEAD
     <module_version install_time="1653293082640" last="true" origin="installer" specification_version="1.0">
         <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
         <file crc="3712245424" name="modules/rescuerage-Item.jar"/>
+=======
+    <module_version install_time="1653052727795" last="true" origin="installer" specification_version="1.0">
+        <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
+        <file crc="1687218268" name="modules/rescuerage-Item.jar"/>
+>>>>>>> playerTest
     </module_version>
 </module>
