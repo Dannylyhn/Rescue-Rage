@@ -18,7 +18,7 @@ import rescuerage.playersystem.PlayerPlugin;
  * @author danny
  */
 
-//https://www.vogella.com/tutorials/JUnit/article.html
+
 public class PlayerTest{ 
     PlayerPlugin playerplugin;
     GameData gamedata;
@@ -39,7 +39,6 @@ public class PlayerTest{
     @DisplayName("Ensure a player is created")
     public void testPlayerCreation() {
         playerplugin.start(gamedata, world);
-       // System.out.println("Checking the player object: " + testPlayer);
         for(Entity player : world.getEntities()){
               
         if(player.getClass().getSimpleName().equals("Player")){
@@ -76,7 +75,7 @@ public class PlayerTest{
         if(player.getClass().getSimpleName().equals("Player")){
             LifePart lp = player.getPart(LifePart.class);
             life = lp.getLife();
-            System.out.println("Life: " + life);
+            //System.out.println("Life: " + life);
            }      
         }
        assertEquals(5, life);
