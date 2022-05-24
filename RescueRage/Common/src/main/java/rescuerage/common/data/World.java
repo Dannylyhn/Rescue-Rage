@@ -15,7 +15,7 @@ import rescuerage.common.data.entityparts.TilePart;
 
 /**
  *
- * @author jcs
+ * @author ander
  */
 public class World {
     //Singleton logic
