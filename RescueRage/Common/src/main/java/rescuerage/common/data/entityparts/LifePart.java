@@ -5,7 +5,7 @@ import rescuerage.common.data.GameData;
 
 /**
  *
- * @author Someone
+ * @author ander
  */
 public class LifePart implements EntityPart {
 

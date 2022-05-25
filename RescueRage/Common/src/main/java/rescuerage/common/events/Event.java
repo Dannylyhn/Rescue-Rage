@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Mads
+ * @author ander
  */
 public class Event implements Serializable {
 

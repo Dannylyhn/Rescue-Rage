@@ -13,7 +13,7 @@ import static java.lang.Math.sqrt;
 
 /**
  *
- * @author Alexander
+ * @author ander
  */
 public class MovingPart
         implements EntityPart {
