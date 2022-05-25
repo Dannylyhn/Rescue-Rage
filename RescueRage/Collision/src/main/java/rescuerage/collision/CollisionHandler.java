@@ -198,7 +198,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     if (e2.getClass().getSimpleName().equals("Enemy")) {
                         unWalkable(e1,e2);
                     }
-                    else if(e2.getClass().getSimpleName().equals("Palyer")){
+                    else if(e2.getClass().getSimpleName().equals("Player")){
                         LifePart l = e2.getPart(LifePart.class);
                         l.hit(1);
                         if(l.isDead()){

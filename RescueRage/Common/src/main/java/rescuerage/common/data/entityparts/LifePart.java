@@ -42,6 +42,7 @@ public class LifePart implements EntityPart {
     public boolean isHit() {
         return isHit;
     }
+  
     public void hit(int damage){
         if(cooldown == 0){
             life = life - damage;

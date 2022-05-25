@@ -75,6 +75,7 @@
         <!--
         <module>SilentUpdate</module>
         -->
+        <module>Testing</module>
     </modules>
 
     <properties>
