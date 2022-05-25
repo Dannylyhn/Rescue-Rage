@@ -50,8 +50,7 @@ public class PlayerTest{
     @DisplayName("Ensure a player is created")
     public void PlayerCreatedTest() {
         playerplugin.start(gamedata, world);
-        for(Entity player : world.getEntities()){
-              
+        for(Entity player : world.getEntities()){ 
         if(player.getClass().getSimpleName().equals("Player")){
             //If Player is found
            // System.out.println("Checking the player object after check: " + testPlayer);

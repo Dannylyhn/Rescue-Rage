@@ -48,5 +48,10 @@
             <artifactId>Common</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Collision</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
