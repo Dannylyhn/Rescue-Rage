@@ -342,7 +342,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
         return Objects.equals(entity.getClass().getSimpleName(), entity2.getClass().getSimpleName());
     }
 
-    private boolean isCollision(Entity entity, Entity entity2) {
+    public boolean isCollision(Entity entity, Entity entity2) {
         float[] sx = entity.getShapeX();
         float[] sy = entity.getShapeY();
         for(int i = 0; i < sx.length; i++){
