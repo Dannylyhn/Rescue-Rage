@@ -198,7 +198,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     if (e2.getClass().getSimpleName().equals("Enemy")) {
                         unWalkable(e1,e2);
                     }
-                    else if(e2.getClass().getSimpleName().equals("Palyer")){
+                    else if(e2.getClass().getSimpleName().equals("Player")){
                         LifePart l = e2.getPart(LifePart.class);
                         l.hit(1);
                         if(l.isDead()){
@@ -342,7 +342,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
         return Objects.equals(entity.getClass().getSimpleName(), entity2.getClass().getSimpleName());
     }
 
-    private boolean isCollision(Entity entity, Entity entity2) {
+    public boolean isCollision(Entity entity, Entity entity2) {
         float[] sx = entity.getShapeX();
         float[] sy = entity.getShapeY();
         for(int i = 0; i < sx.length; i++){
