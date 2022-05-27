@@ -36,14 +36,14 @@ public class PlayerTest{
     
     @BeforeEach
     public void setUp(){
-    playerplugin = new PlayerPlugin();
-    gamedata = new GameData();
-    world = new World();
-    testPlayer = null;
-    life = 0;
-    //Random numbers for x and y
-    playerX = 1123123;
-    playerY = 3123123;
+        playerplugin = new PlayerPlugin();
+        gamedata = new GameData();
+        world = new World();
+        testPlayer = null;
+        life = 0;
+        //Random numbers for x and y
+        playerX = 1123123;
+        playerY = 3123123;
     }
     
     @Test

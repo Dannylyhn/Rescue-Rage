@@ -109,7 +109,7 @@ public class EnemyPlugin implements IGamePluginService {
     private void createEnemyInRoomBossArea(){
         world.addEntityInBossArea(createEnemy(1));
     }
-    private Entity createEnemy(int roomNR){
+    public Entity createEnemy(int roomNR){
         Entity enemy = new Enemy();
         
         enemy.setRadius(tileSize/2);
