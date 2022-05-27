@@ -49,7 +49,7 @@ public class ItemPlugin implements IGamePluginService {
     private void createItemInRoomIndex(int index){
         world.addEntityInRoom(createItem(), index);
     }
-    private Entity createItem(){
+    public Entity createItem(){
         Entity item = new Item();
         item.setRadius(world.tileSize/2);
         item.setSizeX(world.tileSize/2);

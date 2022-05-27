@@ -100,7 +100,7 @@ public class EnemyTest {
                 life = lp.getLife();
            }      
         }
-       assertEquals(3, life, "Enemy's health is not 5");
+       assertEquals(3, life, "Enemy's health is not 3");
     }
     
     @Test
@@ -114,7 +114,7 @@ public class EnemyTest {
                 life = lp.getLife();
            }      
         }
-       assertEquals(4, life, "Enemy's health is not 5");
+       assertEquals(4, life, "Enemy's health is not 4");
     }
     
     @Test
@@ -145,6 +145,6 @@ public class EnemyTest {
                 dead = lp.isDead();
            }      
         }
-       assertTrue(dead, "Enemy's not dead");
+       assertTrue(dead, "Enemy is not dead");
     }
 }
