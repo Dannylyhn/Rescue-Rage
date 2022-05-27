@@ -12,12 +12,17 @@ import org.junit.jupiter.api.Test;
 
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
+import rescuerage.common.data.GameKeys;
 import rescuerage.common.data.World;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.LoadoutPart;
 import rescuerage.common.data.entityparts.PositionPart;
+import rescuerage.common.data.entityparts.PlayerMovingPart;
+import rescuerage.common.data.entityparts.MovingPart;
+import rescuerage.playersystem.Player;
 import rescuerage.playersystem.PlayerPlugin;
+import rescuerage.playersystem.PlayerControlSystem;
 /**
  *
  * @author danny
@@ -26,6 +31,7 @@ import rescuerage.playersystem.PlayerPlugin;
 
 public class PlayerTest{ 
     PlayerPlugin playerplugin;
+    PlayerControlSystem playercontrolsystem;
     GameData gamedata;
     World world;
     Entity testPlayer;
@@ -37,6 +43,7 @@ public class PlayerTest{
     @BeforeEach
     public void setUp(){
         playerplugin = new PlayerPlugin();
+        playercontrolsystem = new PlayerControlSystem();
         gamedata = new GameData();
         world = new World();
         testPlayer = null;
@@ -105,5 +112,5 @@ public class PlayerTest{
         assertEquals(0, playerX,"Player x start-position is wrong");
         assertEquals(0, playerY,"Player y start-position is wrong");
     }
-   
+       
 }
