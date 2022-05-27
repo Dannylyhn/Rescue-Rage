@@ -115,7 +115,7 @@ public class EnemyPlugin implements IGamePluginService {
         enemy.setRadius(tileSize/2);
         enemy.setSizeX(tileSize/2);
         enemy.setSizeY(tileSize/2);
-        int r = random.nextInt(2) + 1;
+        int r = random.nextInt(3) + 1;
         float maxSpeed = world.tileSize;
         enemy.setRadius(tileSize/2);
         enemy.add(new EnemyMovingPart(maxSpeed*r, roomNR, world.getLevel().get(roomNR)));

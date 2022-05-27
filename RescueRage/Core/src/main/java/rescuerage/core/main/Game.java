@@ -28,6 +28,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import rescuerage.common.data.entityparts.EnemyMovingPart;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.InventoryPart;
 import rescuerage.common.data.entityparts.ItemPart;
@@ -49,6 +50,8 @@ public class Game implements ApplicationListener {
     Texture wallSprite;
     Texture floorSprite;
     Texture enemySprite;
+    Texture fastEnemySprite;
+    Texture slowEnemySprite;
     Texture keySprite;
     Texture healthSprite;
     Texture maxHealthSprite;
@@ -97,6 +100,8 @@ public class Game implements ApplicationListener {
          wallSprite = new Texture(Gdx.files.internal("assets/images/wall.png"));
          floorSprite = new Texture(Gdx.files.internal("assets/images/floor.png"));
          enemySprite = new Texture(Gdx.files.internal("assets/images/enemySprite.png"));
+         fastEnemySprite = new Texture(Gdx.files.internal("assets/images/fastEnemySprite.png"));
+         slowEnemySprite = new Texture(Gdx.files.internal("assets/images/slowEnemySprite.png"));
          keySprite = new Texture(Gdx.files.internal("assets/images/key.png"));
          healthSprite = new Texture(Gdx.files.internal("assets/images/health.png"));
          maxHealthSprite = new Texture(Gdx.files.internal("assets/images/maxHealth.png"));
@@ -365,9 +370,24 @@ public class Game implements ApplicationListener {
                             float angle = 0;
                             if(positionPart != null){
                                 angle = MathUtils.radiansToDegrees * (float)Math.atan2( positionPart.getY() - tilePos.getY(), positionPart.getX() - tilePos.getX());
-                            }   while(angle < 0){
+                            }   
+                            while(angle < 0){
                                 angle += 360;
-                            }   Sprite eSprite = new Sprite(enemySprite);
+                            }
+                            EnemyMovingPart emp = entity.getPart(EnemyMovingPart.class);
+                            Sprite eSprite;
+                            int speed = (int)emp.getMaxSpeed();
+                            System.out.println("speed: " + speed);
+                            switch((int)emp.getMaxSpeed()){
+                                case 48:
+                                    eSprite = new Sprite(slowEnemySprite);
+                                    break;
+                                case 144:
+                                    eSprite = new Sprite(fastEnemySprite);
+                                    break;
+                                default:
+                                    eSprite = new Sprite(enemySprite);
+                            }
                             eSprite.setPosition(((int)tilePos.getX()-24-shiftX), ((int)tilePos.getY()-24-shiftY));
                             eSprite.setRotation((float)(angle+90));
                             batch.begin();

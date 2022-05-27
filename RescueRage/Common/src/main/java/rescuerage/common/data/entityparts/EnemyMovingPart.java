@@ -76,6 +76,10 @@ public class EnemyMovingPart implements EntityPart {
     public float getDy() {
         return dy;
     }
+    
+    public float getMaxSpeed(){
+        return maxSpeed;
+    }
 
     /*public void setDeceleration(float deceleration) {
         this.deceleration = deceleration;
