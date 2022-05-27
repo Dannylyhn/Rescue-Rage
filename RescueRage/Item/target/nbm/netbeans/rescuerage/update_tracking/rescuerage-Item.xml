@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Item">
+<<<<<<< HEAD
     <module_version install_time="1653671600556" last="true" origin="installer" specification_version="1.0">
         <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
         <file crc="3291039577" name="modules/rescuerage-Item.jar"/>
+=======
+<<<<<<< Updated upstream
+    <module_version install_time="1653655786208" last="true" origin="installer" specification_version="1.0">
+        <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
+        <file crc="530277869" name="modules/rescuerage-Item.jar"/>
+=======
+    <module_version install_time="1653654412063" last="true" origin="installer" specification_version="1.0">
+        <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
+        <file crc="3465660095" name="modules/rescuerage-Item.jar"/>
+>>>>>>> Stashed changes
+>>>>>>> origin/main
     </module_version>
 </module>
