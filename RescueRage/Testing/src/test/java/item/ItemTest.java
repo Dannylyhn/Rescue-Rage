@@ -45,18 +45,18 @@ public class ItemTest {
         itemY = 3123123;
     }
     @Test
-    @DisplayName("Testing that an entity of Enemy is not present without creating it")
+    @DisplayName("Testing that an entity of Item is not present without creating it")
     public void ItemNotCreatedTest(){
         for(Entity item : world.getEntities()){
             if(item.getClass().getSimpleName().equals("Item")){
                testItem = item;
            }      
         }
-       assertNull(testItem,"An enemy is already created");
+       assertNull(testItem,"An item is already created");
     }
     
     @Test
-    @DisplayName("Ensure a enemy is created")
+    @DisplayName("Ensure a item is created")
     public void ItemCreatedTest() {
         itemplugin.start(gamedata, world);
         
@@ -65,7 +65,7 @@ public class ItemTest {
                 testItem = item;
             }
         }
-        assertNotNull(testItem, "An enemy was not created");
+        assertNotNull(testItem, "An item was not created");
     }
     
 }
