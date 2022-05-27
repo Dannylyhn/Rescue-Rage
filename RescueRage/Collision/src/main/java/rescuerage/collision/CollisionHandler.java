@@ -48,7 +48,20 @@ public class CollisionHandler implements IPostEntityProcessingService {
             //System.out.println("world.currentRoom: " + world.currentRoom);
             //for(Entity e : world.getLevel().get(world.currentRoom).values()){
             world.getLevel().get(world.currentRoom).put(world.getPlayerID(), player);
+            for (Entity e : world.getBossArea().values()){
+                if(isCollision(e, player)){
+                    if(e.getClass().getSimpleName().equals("Map")){
+                        TilePart tile = e.getPart(TilePart.class);
+                        if(tile.type.equals("door")){
+                            if(tile.locked){
+                                unWalkable(e,player);
+                            }
+                        }
+                    }
+                }
+            }
         }
+        
 
         world.getLevel().get(world.currentRoom).values().forEach(e1 -> world.getLevel().get(world.currentRoom).values().forEach(e2 -> {
         //world.getCollisionEntities().forEach(e1 -> world.getCollisionEntities().forEach(e2 -> {

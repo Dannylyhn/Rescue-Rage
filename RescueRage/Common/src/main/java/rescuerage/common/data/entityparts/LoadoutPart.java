@@ -63,13 +63,13 @@ public class LoadoutPart implements EntityPart{
         for(Entity e : weapons)
         {
             GunPart gunpart = e.getPart(GunPart.class);
-            if(gunpart.equipped)
+            /*if(gunpart.equipped)
             {
                 System.out.print("true: ");
             }
-            System.out.print(e + "\n");
+            System.out.print(e + "\n");*/
         }
-        System.out.println("------------");
+        //System.out.println("------------");
         
         int indexOfCurrentWeapon = getWeapons().indexOf(currentWeapon);
         int loadoutLength = getWeapons().size();
