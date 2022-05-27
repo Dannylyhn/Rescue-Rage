@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Collision">
-<<<<<<< HEAD
-    <module_version install_time="1653654685554" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1653655762621" last="true" origin="installer" specification_version="1.0">
         <file crc="661484228" name="config/Modules/rescuerage-Collision.xml"/>
-        <file crc="3281534581" name="modules/rescuerage-Collision.jar"/>
-=======
-<<<<<<< HEAD
-    <module_version install_time="1653645116295" last="true" origin="installer" specification_version="1.0">
-        <file crc="661484228" name="config/Modules/rescuerage-Collision.xml"/>
-        <file crc="449196319" name="modules/rescuerage-Collision.jar"/>
-=======
-    <module_version install_time="1653651487379" last="true" origin="installer" specification_version="1.0">
-        <file crc="661484228" name="config/Modules/rescuerage-Collision.xml"/>
-        <file crc="3721492741" name="modules/rescuerage-Collision.jar"/>
->>>>>>> WeaponTest
->>>>>>> origin/main
+        <file crc="253683057" name="modules/rescuerage-Collision.jar"/>
     </module_version>
 </module>
