@@ -28,7 +28,7 @@ public class PlayerPlugin implements IGamePluginService {
     public void start(GameData gameData, World world) {
         this.world = world;
         // Add entity to the world
-        player = createPlayerShip(gameData);
+        player = createPlayer(gameData);
         world.setPlayerID(player.getID());
         
         LoadoutPart lp = player.getPart(LoadoutPart.class);
@@ -49,7 +49,7 @@ public class PlayerPlugin implements IGamePluginService {
         world.addEntity(player);
     }
 
-    private Entity createPlayerShip(GameData gameData) {
+    private Entity createPlayer(GameData gameData) {
 
         float maxSpeed = 100;
         float rotationSpeed = 5;
@@ -57,21 +57,21 @@ public class PlayerPlugin implements IGamePluginService {
         float y = gameData.getDisplayHeight() / 2;
         float radians = 3.1415f / 2;
 
-        Entity playerShip = new Player();
-        playerShip.setRadius(world.tileSize/2);
-        playerShip.setSizeX(world.tileSize/2);
-        playerShip.setSizeY(world.tileSize/2);
+        Entity player = new Player();
+        player.setRadius(world.tileSize/2);
+        player.setSizeX(world.tileSize/2);
+        player.setSizeY(world.tileSize/2);
         
-        playerShip.setRadius(world.tileSize/2);
-        playerShip.add(new PlayerMovingPart(maxSpeed));
-        playerShip.add(new PositionPart(x, y, radians));
+        player.setRadius(world.tileSize/2);
+        player.add(new PlayerMovingPart(maxSpeed));
+        player.add(new PositionPart(x, y, radians));
         LifePart lp = new LifePart(5);
         lp.setIsPlayer();
-        playerShip.add(lp);
-        playerShip.add(new LoadoutPart());
-        playerShip.add(new InventoryPart());
+        player.add(lp);
+        player.add(new LoadoutPart());
+        player.add(new InventoryPart());
         
-        return playerShip;
+        return player;
     }
 
     @Override

@@ -9,7 +9,7 @@ import rescuerage.common.data.Entity;
 
 /**
  *
- * @author Emil
+ * @author ander
  */
 public class Player extends Entity {
 

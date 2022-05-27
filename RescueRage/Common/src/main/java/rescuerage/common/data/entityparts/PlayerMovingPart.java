@@ -9,7 +9,7 @@ import rescuerage.common.data.GameKeys;
 
 /**
  *
- * @author Alexander
+ * @author ander
  */
 public class PlayerMovingPart
         implements EntityPart {

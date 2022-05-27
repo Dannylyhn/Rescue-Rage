@@ -10,7 +10,7 @@ import rescuerage.common.data.GameData;
 
 /**
  *
- * @author Alexander
+ * @author ander
  */
 public class GunCooldownPart
         implements EntityPart {

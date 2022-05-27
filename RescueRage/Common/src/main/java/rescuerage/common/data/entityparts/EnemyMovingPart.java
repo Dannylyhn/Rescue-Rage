@@ -250,65 +250,23 @@ public class EnemyMovingPart implements EntityPart {
         Node initNode = new Node(startX, startY, goalX, goalY, size);
         fringe.add(initNode);
         while(!fringe.isEmpty()){
-            //System.out.println("while 225");
-            //System.out.print("List: ");
-            /*for(Node n : fringe){
-                System.out.print((n.heuristic()) + ", ");
-            }
-            System.out.println("");*/
             Node node = fringe.get(0);
             fringe.remove(0);
             int temp = node.heuristic();
-            //System.out.println("heuristic + path: " + temp );
-            
-            //if(node.heuristic()<tileSize){
             if(node.heuristic()<=tileSize){
-                //return node.path();
                 return node;
             }
-            //if(fringe.size() > 100){
-            if(fringe.size() > 300){
+            if(fringe.size() > 100){
                 return node;
             }
             ArrayList<Node> children = expand(node);
             for(Node n : children){
-                //System.out.println("for 234");
-                //fringe.add(n);
                 fringe.add(0, n);
-                //System.out.println(n.heuristic());
             }
-            //System.out.println(fringe);
             for(int i = 0; i < fringe.size(); i++){
-                //System.out.println("for 238");
                 for(int j = 0; j < fringe.size(); j++){
-                    //System.out.println("for 240");
                     if(j+1<fringe.size()){
-                        /*
-                        int path1 = 0;
-                        for(Node n : fringe.get(j).path()){
-                            if(n!=null){
-                                //path1 = path1 + n.depth;
-                                path1 = path1 + tileSize;
-                            }
-                        }
-                        
-                        int path2 = 0;
-                        for(Node n : fringe.get(j+1).path()){
-                            if(n!=null){
-                                //path2 = path2 + n.depth;
-                                path2 = path2 + tileSize;
-                            }
-                        }
-                        */
                         if(fringe.get(j).heuristic()*5+fringe.get(j).depth > fringe.get(j+1).heuristic()*5+fringe.get(j+1).depth){
-                        //if(fringe.get(j).heuristic() > fringe.get(j+1).heuristic()){
-                            /*
-                            Node temp1 = fringe.get(i);
-                            Node temp2 = fringe.get(j+1);
-                            
-                            fringe.set(i, temp2);
-                            fringe.set(j+1, temp1);
-                            */
                             Collections.swap(fringe, j, j+1);
                         }
                     }
