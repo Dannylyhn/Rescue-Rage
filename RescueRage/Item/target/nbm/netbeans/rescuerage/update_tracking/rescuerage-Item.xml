@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="rescuerage.Item">
+<<<<<<< HEAD
     <module_version install_time="1653645140951" last="true" origin="installer" specification_version="1.0">
         <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
         <file crc="2651073331" name="modules/rescuerage-Item.jar"/>
+=======
+    <module_version install_time="1653651488188" last="true" origin="installer" specification_version="1.0">
+        <file crc="487811808" name="config/Modules/rescuerage-Item.xml"/>
+        <file crc="3523116369" name="modules/rescuerage-Item.jar"/>
+>>>>>>> WeaponTest
     </module_version>
 </module>
