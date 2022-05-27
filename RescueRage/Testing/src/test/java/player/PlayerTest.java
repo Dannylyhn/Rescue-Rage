@@ -47,7 +47,7 @@ public class PlayerTest{
     }
     
     @Test
-    @DisplayName("Ensure a player is created")
+    @DisplayName("Test: Player is created")
     public void PlayerCreatedTest() {
         playerplugin.start(gamedata, world);
         for(Entity player : world.getEntities()){ 
@@ -62,7 +62,7 @@ public class PlayerTest{
     }
     
     @Test
-    @DisplayName("Testing that an entity of Player is not present without creating it")
+    @DisplayName("Test: Player is not present before creation")
     public void PlayerNotCreatedTest(){
         for(Entity player : world.getEntities()){
         if(player.getClass().getSimpleName().equals("Player")){
@@ -77,7 +77,7 @@ public class PlayerTest{
     }
     
     @Test
-    @DisplayName("Checking players health is correct")
+    @DisplayName("Test: Player health is correct")
     public void LifePartTest(){
         playerplugin.start(gamedata, world);
         for(Entity player : world.getEntities()){
@@ -91,7 +91,7 @@ public class PlayerTest{
     }
     
     @Test
-    @DisplayName("Tests that the Player spawns at the right position")
+    @DisplayName("Test: Player spawns at the right position")
     public void positionTest(){
         playerplugin.start(gamedata, world);
         for(Entity player : world.getEntities()){
