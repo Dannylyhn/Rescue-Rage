@@ -81,7 +81,7 @@ public class WeaponPlugin implements IGamePluginService {
         }*/
         //world.addEntity(weapon);   
     }
-    private Entity createBaseWeapon(GunPart gp){
+    public Entity createBaseWeapon(GunPart gp){
         Entity weapon = new Weapon();
         weapon.setRadius(24);
         weapon.setSizeX(24);
