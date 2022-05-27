@@ -3,10 +3,7 @@ package rescuerage.common.data.entityparts;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 
-/**
- *
- * @author ander
- */
+
 public class LifePart implements EntityPart {
 
     private boolean dead = false;
@@ -45,6 +42,7 @@ public class LifePart implements EntityPart {
     public boolean isHit() {
         return isHit;
     }
+  
     public void hit(int damage){
         if(cooldown == 0){
             life = life - damage;

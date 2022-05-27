@@ -20,7 +20,7 @@ import rescuerage.common.data.entityparts.TilePart;
 public class World {
     //Singleton logic
     private static World single_world = null;
-    private World(){}
+    public World(){}
     public static World getInstance()
     {
         if(single_world == null)

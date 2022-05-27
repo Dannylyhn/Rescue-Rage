@@ -11,10 +11,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
-/**
- *
- * @author ander
- */
+
 public class MovingPart
         implements EntityPart {
 
