@@ -3,7 +3,15 @@ OpenIDE-Module-Localizing-Bundle: rescuerage/collision/Bundle.properti
  es
 OpenIDE-Module-Specification-Version: 1.0
 OpenIDE-Module-Implementation-Version: 1.0-20220527
+<<<<<<< HEAD
 OpenIDE-Module-Build-Version: 202205271231
+=======
+<<<<<<< HEAD
+OpenIDE-Module-Build-Version: 202205270951
+=======
+OpenIDE-Module-Build-Version: 202205271138
+>>>>>>> WeaponTest
+>>>>>>> origin/main
 OpenIDE-Module: rescuerage.Collision
 OpenIDE-Module-Public-Packages: -
 OpenIDE-Module-Requires: org.openide.modules.ModuleFormat1

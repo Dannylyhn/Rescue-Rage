@@ -47,7 +47,7 @@ public class CollisionTest {
     
     
     @Test
-    @DisplayName("Testing the IsCollision() method in CollisionHandler")
+    @DisplayName("Test: Collision detection between entities")
     public void CollisionTest() {
         playerplugin.start(gamedata, world);
         playerplugin.start(gamedata, world);

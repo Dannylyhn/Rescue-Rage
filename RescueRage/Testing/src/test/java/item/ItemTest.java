@@ -67,16 +67,5 @@ public class ItemTest {
         }
         assertNotNull(testItem, "An enemy was not created");
     }
-    @Test
-    @DisplayName("Ensure a enemy is able to be stopped")
-    public void ItemStoppedTest() {
-        itemplugin.start(gamedata, world);
-        itemplugin.stop(gamedata, world);
-        for(Entity item : world.getEntities()){
-            if(item.getClass().getSimpleName().equals("Item")){
-               testItem = item;
-           }      
-        }
-       assertNull(testItem,"An enemy is still in the game");
-    }
+    
 }
