@@ -104,6 +104,20 @@ public class EnemyTest {
     }
     
     @Test
+    @DisplayName("Checking enemys health is correct")
+    public void LifePartTestLevel2(){
+        world.level = 2;
+        enemyplugin.start(gamedata, world);
+        for(Entity enemy : world.getEntities()){
+            if(enemy.getClass().getSimpleName().equals("Enemy")){
+                LifePart lp = enemy.getPart(LifePart.class);
+                life = lp.getLife();
+           }      
+        }
+       assertEquals(4, life, "Enemy's health is not 5");
+    }
+    
+    @Test
     @DisplayName("Checking enemys health is decreased correctly")
     public void EnemyDamageTest(){
         enemyplugin.start(gamedata, world);
