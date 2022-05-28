@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import rescuerage.collision.CollisionHandler;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
+import rescuerage.common.data.GameKeys;
 import rescuerage.common.data.World;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.*;
@@ -154,6 +155,105 @@ public class CollisionTest {
         life = lp.getLife();
         assertEquals(6, life, "Player health is not 6");
         assertFalse(world.getEntities().contains(item), "Item was not removed from the world");
+    }
+    
+    @Test
+    @DisplayName("Test: Collision detection between player and key item")
+    public void PlayerKeyItemTest() {
+        mapplugin.start(gamedata, world);
+        playerplugin.start(gamedata, world);
+        itemplugin.start(gamedata, world);
+        Entity player = null;
+        for(Entity e : world.getEntities()){
+            if(e.getClass().getSimpleName().equals("Player")){
+                player = e;
+            }
+        }
+        InventoryPart ip = player.getPart(InventoryPart.class);
+        PositionPart ppp = player.getPart(PositionPart.class);
+        
+        Entity item = createItemOfType("key");
+        PositionPart ipp = item.getPart(PositionPart.class);
+        
+        ppp.setPosition(100, 100);
+        ipp.setPosition(100, 100);
+        
+        updateShape(player);
+        updateShape(item);
+        
+        boolean collisionDetect = collisionHandler.isCollision(player, item);
+        assertTrue(collisionDetect, "Player and item are not colliding");
+        
+        // Test that max health inc item does give the player 1 more max health, and fully heal them and remove the item from the map
+        int keyCount = ip.keys;
+        assertEquals(0, keyCount, "Player does not have 0");
+        collisionHandler.itemCollider(item, player, world);
+        keyCount = ip.keys;
+        assertEquals(1, keyCount, "Player does not have 1");
+        assertFalse(world.getEntities().contains(item), "Item was not removed from the world");
+    }
+    
+    @Test
+    @DisplayName("Test: Collision detection between player and key item")
+    public void PlayerChestItemTest() {
+        mapplugin.start(gamedata, world);
+        playerplugin.start(gamedata, world);
+        itemplugin.start(gamedata, world);
+        Entity player = null;
+        for(Entity e : world.getEntities()){
+            if(e.getClass().getSimpleName().equals("Player")){
+                player = e;
+            }
+        }
+        InventoryPart ip = player.getPart(InventoryPart.class);
+        PositionPart ppp = player.getPart(PositionPart.class);
+        
+        Entity item = createItemOfType("chest");
+        ItemPart itp = item.getPart(ItemPart.class);
+        PositionPart ipp = item.getPart(PositionPart.class);
+        
+        ppp.setPosition(100, 100);
+        ipp.setPosition(90, 90);
+        
+        updateShape(player);
+        updateShape(item);
+        
+        boolean collisionDetect = collisionHandler.isCollision(player, item);
+        assertTrue(collisionDetect, "Player and item are not colliding");
+        
+        int keyCount = ip.keys;
+        assertEquals(0, keyCount, "Player does not have 0");
+        collisionHandler.itemCollider(item, player, world);
+        
+        updateShape(player);
+        updateShape(item);
+        
+        // Test that the chest has moved away from the player while colliding
+        assertTrue(ipp.getX()!=90 || ipp.getY()!=90);
+        
+        // test that the player can not open a chest without keys
+        itp.setE(true);
+        collisionHandler.itemCollider(item, player, world);
+        assertTrue(itp.getType().equals("chest"), "Chest was opened even tho player has 0 keys");
+        
+        Entity key = createItemOfType("key");
+        PositionPart keypp = key.getPart(PositionPart.class);
+        
+        keypp.setPosition(100, 100);
+        updateShape(key);
+        
+        // give the player a key
+        collisionHandler.itemCollider(key, player, world);
+        keyCount = ip.keys;
+        assertEquals(1, keyCount, "Player did not collect 1 key from colliding with it");
+        
+        // Test that the player can open a chest with 1 key
+        collisionHandler.itemCollider(item, player, world);
+        assertFalse(itp.getType().equals("chest"), "Item still a chest even tho player has 1 keys");
+        assertTrue(itp.getType().equals("healthInc"), "Item is not a healthInc after opening the chest");
+        
+        keyCount = ip.keys;
+        assertEquals(0, keyCount, "Player did not have a key removed after opening a chest");
     }
     
     private Entity createItemOfType(String type){
