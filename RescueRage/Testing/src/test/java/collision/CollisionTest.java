@@ -261,15 +261,6 @@ public class CollisionTest {
     
     private Entity createItemOfType(String type){
         Entity item = itemplugin.createItem();
-        /*while(item==null){
-            System.out.println("hmm");
-            itemplugin.start(gamedata, world);
-            for(Entity e : world.getEntities()){
-                if(e.getClass().getSimpleName().equals("Item")){
-                    item = e;
-                }
-            }
-        }*/
         item.remove(ItemPart.class);
         item.add(new ItemPart(type,1,100));
         return item;
@@ -277,7 +268,7 @@ public class CollisionTest {
     
     @Test
     @DisplayName("Test: Collision detection between player and key item")
-    public void PlayerEnemyItemTest() {
+    public void PlayerEnemyDamageTest() {
         mapplugin.start(gamedata, world);
         playerplugin.start(gamedata, world);
         enemyplugin.start(gamedata, world);
@@ -291,6 +282,7 @@ public class CollisionTest {
                 player = e;
             }
         }
+        LifePart lp = player.getPart(LifePart.class);
         PositionPart ppp = player.getPart(PositionPart.class);
         PositionPart epp = enemy.getPart(PositionPart.class);
         
@@ -299,11 +291,14 @@ public class CollisionTest {
         
         updateShape(player);
         updateShape(enemy);
-        
+        int life = lp.getLife();
+        assertEquals(5, life, "Player health is not 5");
         boolean collisionDetect = collisionHandler.isCollision(player, enemy);
         assertTrue(collisionDetect, "Player and enemy are not colliding");
         
-        
+        collisionHandler.enemyCollider(enemy, player, world);
+        life = lp.getLife();
+        assertEquals(4, life, "Enemy did not damage the player");
     }
     
     public static void updateShape(Entity entity){
