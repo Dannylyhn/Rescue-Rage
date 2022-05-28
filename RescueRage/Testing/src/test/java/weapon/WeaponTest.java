@@ -171,20 +171,20 @@ public class WeaponTest {
     public void CreateSpecificWeaponTest() {
         weaponplugin.start(gamedata, world);
         playerplugin.start(gamedata, world);
-        ArrayList<String> weaponName = new ArrayList<>();
         
-        Entity shotgun = weaponplugin.createWeapon(0);
+        weaponplugin.createWeapon(0);
+        String shotgun = "";
   
         for(Entity weapon : world.getEntities()){
         if(weapon.getClass().getSimpleName().equals("Weapon")){
             gunpart = weapon.getPart(GunPart.class);
-            weaponName.add(gunpart.getName());
-            
+            if(gunpart.getName().equals("Shotgun")){
+                shotgun = gunpart.getName();
+            }   
            }      
         }
         
-
-        assertEquals("Shotgun", weaponName.get(0));
+        assertEquals("Shotgun", shotgun);
 
     }
     
