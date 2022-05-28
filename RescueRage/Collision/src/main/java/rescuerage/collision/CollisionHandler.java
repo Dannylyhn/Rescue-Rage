@@ -39,7 +39,6 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     TilePart tile = roomIdentifier.getPart(TilePart.class);
 
                     world.currentRoom = tile.getRoom();
-                    //System.out.println("current room: " + world.currentRoom);
                     if(tile.getState().equals("unexplored")){
                         world.lockDoors();
                     }
@@ -87,6 +86,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                 unWalkable(e2,e1);
                                 break;
                             case "floor":
+                                break;
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
                                 if(temp.equals("Player")){
@@ -136,6 +136,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                 unWalkable(e1,e2);
                                 break;
                             case "floor":
+                                break;
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
                                 if(temp.equals("Player")){
@@ -197,6 +198,27 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             world.restartGame();
                         }
                     }
+                    if (e2.getClass().getSimpleName().equals("Map")) {
+                        TilePart tile = e2.getPart(TilePart.class);
+                        switch (tile.getType()) {
+                            case "box":
+                                unWalkable(e1,e2);
+                                break;
+                            case "floor":
+                                break;
+                            case "roomInfo":
+                                world.currentRoom = tile.getRoom();
+                                if(tile.getState().equals("unexplored")){
+                                    world.lockDoors();
+                                }
+                                break;
+                            default:
+                                unWalkable(e2,e1);
+                                break;
+                        }
+                    }
+                    
+                    
                 }
 
                 if (e1.getClass().getSimpleName().equals("Bullet")) {
@@ -265,7 +287,10 @@ public class CollisionHandler implements IPostEntityProcessingService {
                 }   
                 break;
             case "Map":
-                unWalkable(enemy,other);
+                TilePart tp = other.getPart(TilePart.class);
+                if(tp.type.equals("wall")){
+                    unWalkable(enemy,other);
+                }
                 break;
             case "Bullet":
                 LifePart lp = enemy.getPart(LifePart.class);

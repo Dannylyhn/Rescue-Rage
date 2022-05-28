@@ -233,16 +233,7 @@ public class Game implements ApplicationListener {
 
     private void draw() {
         
-        /////////////
-        System.out.println("room:" + world.currentRoom);
-        int eCount = 0;
-        for (Entity e: world.getLevel().get(world.currentRoom).values()){
-            if(e.getClass().getSimpleName().equals("Enemy")){
-                eCount = eCount+1;
-            }
-        }
-        System.out.println("enemies: " + eCount);
-        /////////////
+        
         sr.setProjectionMatrix(cam.combined);
         //System.out.println("draw 1");
         //for(Map<String, Entity> entityMap : world.getRooms()){
@@ -497,7 +488,7 @@ public class Game implements ApplicationListener {
                             i < shapex.length;
                             j = i++) {
                         //System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[i] +" "+ shapey[i] +" "+ shapex[j] +" "+ shapey[j]);
-
+                        
                         //sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
                     }
 
