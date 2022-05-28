@@ -149,16 +149,38 @@ public class CollisionHandler implements IPostEntityProcessingService {
                 }
                 
                 if (e1.getClass().getSimpleName().equals("Enemy")) {
-                    if (e2.getClass().getSimpleName().equals("Enemy")) {
-                        unWalkable(e1,e2);
-                    }
-                    else if(e2.getClass().getSimpleName().equals("Player")){
-                        LifePart l = e2.getPart(LifePart.class);
-                        l.hit(1);
-                        if(l.isDead()){
-                            world.restartGame();
-                        }
-                    }
+                    enemyCollider(e1, e2, world);
+                    /*
+                    switch (e2.getClass().getSimpleName()) {
+                        case "Enemy":
+                            unWalkable(e1,e2);
+                            break;
+                        case "Player":
+                            LifePart l = e2.getPart(LifePart.class);
+                            l.hit(1);
+                            if(l.isDead()){
+                                world.restartGame();
+                            }   break;
+                        case "Map":
+                            unWalkable(e1,e2);
+                            break;
+                        case "Bullet":
+                            LifePart lp = e1.getPart(LifePart.class);
+                            //System.out.println("pre hit: life int: " + l.getLife() + " | dead: " + l.isDead());
+                            lp.hit(1);
+                            //System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
+                            if(lp.isDead()){
+                                Entity p = world.getEntity(world.getPlayerID());
+                                InventoryPart ip = p.getPart(InventoryPart.class);
+                                ip.incMoney(100);
+                                deathSound();
+                                world.removeEntity(e1);
+                            }
+                            world.removeEntity(e2);
+                            break;
+                        default:
+                            break;
+                    }*/
                 }
                 
                 if (e1.getClass().getSimpleName().equals("Player")) {
@@ -224,6 +246,38 @@ public class CollisionHandler implements IPostEntityProcessingService {
         world.getLevel().get(world.currentRoom).remove(world.getPlayerID());
     }
     
+    public void enemyCollider(Entity enemy, Entity other, World world){
+        switch (other.getClass().getSimpleName()) {
+            case "Enemy":
+                unWalkable(enemy,other);
+                break;
+            case "Player":
+                LifePart l = other.getPart(LifePart.class);
+                l.hit(1);
+                if(l.isDead()){
+                    world.restartGame();
+                }   break;
+            case "Map":
+                unWalkable(enemy,other);
+                break;
+            case "Bullet":
+                LifePart lp = enemy.getPart(LifePart.class);
+                //System.out.println("pre hit: life int: " + l.getLife() + " | dead: " + l.isDead());
+                lp.hit(1);
+                //System.out.println("life int: " + l.getLife() + " | dead: " + l.isDead());
+                if(lp.isDead()){
+                    Entity p = world.getEntity(world.getPlayerID());
+                    InventoryPart ip = p.getPart(InventoryPart.class);
+                    ip.incMoney(100);
+                    deathSound();
+                    world.removeEntity(enemy);
+                }
+                world.removeEntity(other);
+                break;
+            default:
+                break;
+        }
+    }
     public void itemCollider(Entity item, Entity other, World world){
         ItemPart i = item.getPart(ItemPart.class);
         if(other.getClass().getSimpleName().equals("Player")){

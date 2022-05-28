@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import rescuerage.collision.CollisionHandler;
 import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
+import rescuerage.common.data.GameKeys;
 import rescuerage.common.data.World;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.*;
@@ -20,6 +21,7 @@ import rescuerage.playersystem.PlayerControlSystem;
 import rescuerage.playersystem.PlayerPlugin;
 import rescuerage.item.ItemPlugin;
 import rescuerage.map.MapPlugin;
+import rescuerage.enemysystem.EnemyPlugin;
 
 /**
  *
@@ -29,6 +31,7 @@ public class CollisionTest {
 
     PlayerPlugin playerplugin;
     ItemPlugin itemplugin;
+    EnemyPlugin enemyplugin;
     MapPlugin mapplugin;
     GameData gamedata;
     World world;
@@ -44,6 +47,7 @@ public class CollisionTest {
         playerplugin = new PlayerPlugin();
         itemplugin = new ItemPlugin();
         mapplugin = new MapPlugin();
+        enemyplugin = new EnemyPlugin();
         world = new World();
         gamedata = new GameData();
         collisionHandler = new CollisionHandler();
@@ -156,20 +160,147 @@ public class CollisionTest {
         assertFalse(world.getEntities().contains(item), "Item was not removed from the world");
     }
     
+    @Test
+    @DisplayName("Test: Collision detection between player and key item")
+    public void PlayerKeyItemTest() {
+        mapplugin.start(gamedata, world);
+        playerplugin.start(gamedata, world);
+        itemplugin.start(gamedata, world);
+        Entity player = null;
+        for(Entity e : world.getEntities()){
+            if(e.getClass().getSimpleName().equals("Player")){
+                player = e;
+            }
+        }
+        InventoryPart ip = player.getPart(InventoryPart.class);
+        PositionPart ppp = player.getPart(PositionPart.class);
+        
+        Entity item = createItemOfType("key");
+        PositionPart ipp = item.getPart(PositionPart.class);
+        
+        ppp.setPosition(100, 100);
+        ipp.setPosition(100, 100);
+        
+        updateShape(player);
+        updateShape(item);
+        
+        boolean collisionDetect = collisionHandler.isCollision(player, item);
+        assertTrue(collisionDetect, "Player and item are not colliding");
+        
+        // Test that max health inc item does give the player 1 more max health, and fully heal them and remove the item from the map
+        int keyCount = ip.keys;
+        assertEquals(0, keyCount, "Player does not have 0");
+        collisionHandler.itemCollider(item, player, world);
+        keyCount = ip.keys;
+        assertEquals(1, keyCount, "Player does not have 1");
+        assertFalse(world.getEntities().contains(item), "Item was not removed from the world");
+    }
+    
+    @Test
+    @DisplayName("Test: Collision detection between player and key item")
+    public void PlayerChestItemTest() {
+        mapplugin.start(gamedata, world);
+        playerplugin.start(gamedata, world);
+        itemplugin.start(gamedata, world);
+        Entity player = null;
+        for(Entity e : world.getEntities()){
+            if(e.getClass().getSimpleName().equals("Player")){
+                player = e;
+            }
+        }
+        InventoryPart ip = player.getPart(InventoryPart.class);
+        PositionPart ppp = player.getPart(PositionPart.class);
+        
+        Entity item = createItemOfType("chest");
+        ItemPart itp = item.getPart(ItemPart.class);
+        PositionPart ipp = item.getPart(PositionPart.class);
+        
+        ppp.setPosition(100, 100);
+        ipp.setPosition(90, 90);
+        
+        updateShape(player);
+        updateShape(item);
+        
+        boolean collisionDetect = collisionHandler.isCollision(player, item);
+        assertTrue(collisionDetect, "Player and item are not colliding");
+        
+        int keyCount = ip.keys;
+        assertEquals(0, keyCount, "Player does not have 0");
+        collisionHandler.itemCollider(item, player, world);
+        
+        updateShape(player);
+        updateShape(item);
+        
+        // Test that the chest has moved away from the player while colliding
+        assertTrue(ipp.getX()!=90 || ipp.getY()!=90);
+        
+        // test that the player can not open a chest without keys
+        itp.setE(true);
+        collisionHandler.itemCollider(item, player, world);
+        assertTrue(itp.getType().equals("chest"), "Chest was opened even tho player has 0 keys");
+        
+        Entity key = createItemOfType("key");
+        PositionPart keypp = key.getPart(PositionPart.class);
+        
+        keypp.setPosition(100, 100);
+        updateShape(key);
+        
+        // give the player a key
+        collisionHandler.itemCollider(key, player, world);
+        keyCount = ip.keys;
+        assertEquals(1, keyCount, "Player did not collect 1 key from colliding with it");
+        
+        // Test that the player can open a chest with 1 key
+        collisionHandler.itemCollider(item, player, world);
+        assertFalse(itp.getType().equals("chest"), "Item still a chest even tho player has 1 keys");
+        assertTrue(itp.getType().equals("healthInc"), "Item is not a healthInc after opening the chest");
+        
+        keyCount = ip.keys;
+        assertEquals(0, keyCount, "Player did not have a key removed after opening a chest");
+    }
+    
     private Entity createItemOfType(String type){
         Entity item = itemplugin.createItem();
-        /*while(item==null){
-            System.out.println("hmm");
-            itemplugin.start(gamedata, world);
-            for(Entity e : world.getEntities()){
-                if(e.getClass().getSimpleName().equals("Item")){
-                    item = e;
-                }
-            }
-        }*/
         item.remove(ItemPart.class);
         item.add(new ItemPart(type,1,100));
         return item;
+    }
+    
+    @Test
+    @DisplayName("Test: Collision detection between player and enemy")
+    public void PlayerEnemyDamageTest() {
+        mapplugin.start(gamedata, world);
+        playerplugin.start(gamedata, world);
+        enemyplugin.start(gamedata, world);
+        Entity player = null;
+        Entity enemy = null;
+        for(Entity e : world.getEntities()){
+            if(e.getClass().getSimpleName().equals("Enemy")){
+                enemy = e;
+            }
+            else if(e.getClass().getSimpleName().equals("Player")){
+                player = e;
+            }
+        }
+        LifePart lp = player.getPart(LifePart.class);
+        PositionPart ppp = player.getPart(PositionPart.class);
+        PositionPart epp = enemy.getPart(PositionPart.class);
+        
+        ppp.setPosition(100, 100);
+        epp.setPosition(100, 100);
+        
+        updateShape(player);
+        updateShape(enemy);
+        int life = lp.getLife();
+        assertEquals(5, life, "Player health is not 5");
+        
+        boolean collisionDetect = collisionHandler.isCollision(player, enemy);
+        assertTrue(collisionDetect, "Player and enemy are not colliding");
+        
+        // Test that the enemy is damaging the player when colliding
+        collisionHandler.enemyCollider(enemy, player, world);
+        life = lp.getLife();
+        assertEquals(4, life, "Enemy did not damage the player");
     }
     
     public static void updateShape(Entity entity){

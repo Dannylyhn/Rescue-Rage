@@ -376,8 +376,6 @@ public class Game implements ApplicationListener {
                             }
                             EnemyMovingPart emp = entity.getPart(EnemyMovingPart.class);
                             Sprite eSprite;
-                            int speed = (int)emp.getMaxSpeed();
-                            System.out.println("speed: " + speed);
                             switch((int)emp.getMaxSpeed()){
                                 case 48:
                                     eSprite = new Sprite(slowEnemySprite);
