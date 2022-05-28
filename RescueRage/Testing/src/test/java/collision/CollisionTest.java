@@ -267,7 +267,7 @@ public class CollisionTest {
     }
     
     @Test
-    @DisplayName("Test: Collision detection between player and key item")
+    @DisplayName("Test: Collision detection between player and enemy")
     public void PlayerEnemyDamageTest() {
         mapplugin.start(gamedata, world);
         playerplugin.start(gamedata, world);
@@ -293,9 +293,11 @@ public class CollisionTest {
         updateShape(enemy);
         int life = lp.getLife();
         assertEquals(5, life, "Player health is not 5");
+        
         boolean collisionDetect = collisionHandler.isCollision(player, enemy);
         assertTrue(collisionDetect, "Player and enemy are not colliding");
         
+        // Test that the enemy is damaging the player when colliding
         collisionHandler.enemyCollider(enemy, player, world);
         life = lp.getLife();
         assertEquals(4, life, "Enemy did not damage the player");
