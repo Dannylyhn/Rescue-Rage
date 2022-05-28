@@ -87,7 +87,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
     
     
     //The spray pattern thats called for each left click event
-    private void shoot(Entity weapon, GameData gameData, World world)
+    public void shoot(Entity weapon, GameData gameData, World world)
     {
         //System.out.println("Bullet shot!");
         //Game gameobj = new Game();

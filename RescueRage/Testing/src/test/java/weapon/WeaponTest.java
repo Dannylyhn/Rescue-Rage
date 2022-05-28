@@ -141,10 +141,9 @@ public class WeaponTest {
    
         for(Entity weapon : world.getEntities()){
         if(weapon.getClass().getSimpleName().equals("Weapon")){
-            
+  
             weapons.add(weapon);
-            
-            
+
             //For getting the names (Not used)
             gunpart = weapon.getPart(GunPart.class);
             weaponsNames.add(gunpart.getName());
@@ -230,6 +229,8 @@ public class WeaponTest {
         assertEquals(gunpart.getMagazineLength(), gunpart.getMagazine(), "Magazine is not full (5)"); 
 
     }
+    
+    
  
     
     

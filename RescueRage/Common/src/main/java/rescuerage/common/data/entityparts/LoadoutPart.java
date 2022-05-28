@@ -60,17 +60,16 @@ public class LoadoutPart implements EntityPart{
     
     @Override
     public void process(GameData gameData, Entity entity) {
+        swapWeapon();
+    }
+    
+    public void swapWeapon(){
         for(Entity e : weapons)
         {
             GunPart gunpart = e.getPart(GunPart.class);
-            /*if(gunpart.equipped)
-            {
-                System.out.print("true: ");
-            }
-            System.out.print(e + "\n");*/
+       
         }
-        //System.out.println("------------");
-        
+
         int indexOfCurrentWeapon = getWeapons().indexOf(currentWeapon);
         int loadoutLength = getWeapons().size();
         GunPart gunPart = null;
