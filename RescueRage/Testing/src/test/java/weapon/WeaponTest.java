@@ -27,6 +27,7 @@ import rescuerage.map.MapPlugin;
 import rescuerage.playersystem.PlayerPlugin;
 import rescuerage.weapon.Weapon;
 import rescuerage.weapon.WeaponPlugin;
+import rescuerage.weapon.WeaponControlSystem;
 
 
 public class WeaponTest {
@@ -39,6 +40,8 @@ public class WeaponTest {
     Entity weapon;
     LoadoutPart lp;
     Entity player;
+    WeaponControlSystem wcs;
+    PositionPart positionpart;
     
     
     ArrayList<Entity> weapons;
@@ -50,6 +53,7 @@ public class WeaponTest {
         playerplugin = new PlayerPlugin();
         mapplugin = new MapPlugin();
         weaponplugin = new WeaponPlugin();
+        wcs = new WeaponControlSystem();
         world = new World();
         gamedata = new GameData();
         level = 0;
@@ -58,6 +62,8 @@ public class WeaponTest {
         weapons = null;
         lp = null;
         player = null;
+        positionpart = null;
+        
 
     }
     
@@ -183,44 +189,48 @@ public class WeaponTest {
 
     }
     
-    
-    /*
-    
-    @Test
-    @DisplayName("Test: Shoot weapon")
-    public void WeaponShootTest() {
-        weaponplugin.start(gamedata, world);
-        
-        for(Entity weapon : world.getEntities()){
-        if(weapon.getClass().getSimpleName().equals("Weapon")){
-            
-            this.weapon = weapon;
-            
-           }      
-        }
-
-        assertNotNull(weapon, "Weapon does not exist");
-
-    }
-    
     @Test
     @DisplayName("Test: Reload weapon")
     public void WeaponReloadTest() {
         weaponplugin.start(gamedata, world);
+        playerplugin.start(gamedata, world);
+       
         
-        for(Entity weapon : world.getEntities()){
+        
+        for(Entity weapon : world.getEntities(Weapon.class)){
         if(weapon.getClass().getSimpleName().equals("Weapon")){
             
             this.weapon = weapon;
             
            }      
         }
+        
+        positionpart = weapon.getPart(PositionPart.class);
+        
+        GunCooldownPart gunCD = weapon.getPart(GunCooldownPart.class);
+        
+        
+        gunpart = weapon.getPart(GunPart.class);
+     
+        int ammo = gunpart.getMagazine();
+        
+        
+        for(int i = 0; i<5; i++){
+            gunpart.minusMagazine();
+        }
+        
 
-        assertNotNull(weapon, "Weapon does not exist");
+        
+        //Checks that magazine is decreased to 5
+        assertEquals(5, gunpart.getMagazine(), "Magazine for pistol is not 5");  
+        
+        wcs.reload(gunpart);
+       
+        //Checks magazine is fully reloaded
+        assertEquals(gunpart.getMagazineLength(), gunpart.getMagazine(), "Magazine is not full (5)"); 
 
     }
-*/
-    
+ 
     
     
     

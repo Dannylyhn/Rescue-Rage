@@ -27,6 +27,7 @@ import static rescuerage.core.main.Sounds.reloadSound;
 @ServiceProviders(value = {
         @ServiceProvider(service = IEntityProcessingService.class)})
 public class WeaponControlSystem implements IEntityProcessingService {
+    
     private int level = 0;
     private int levelChanger = 0;
     @Override
@@ -63,10 +64,8 @@ public class WeaponControlSystem implements IEntityProcessingService {
             
             if(gameData.getKeys().isDown(GameKeys.R) && gunPart.getAmmo()>0 && gunPart.getMagazine()<10)
             {   
-                    int reloadedAmount = gunPart.getMagazineLength()-gunPart.getMagazine();
-                    gunPart.minusAmmo(reloadedAmount);
+                    reload(gunPart);
                     reloadSound();
-                    gunPart.setMagazine(reloadedAmount);
             }
             
             positionPart.process(gameData, weapon);
@@ -78,6 +77,14 @@ public class WeaponControlSystem implements IEntityProcessingService {
             updateShape(weapon);       
         }
     }
+    
+    
+    public void reload(GunPart gunPart){
+        int reloadedAmount = gunPart.getMagazineLength()-gunPart.getMagazine();
+        gunPart.minusAmmo(reloadedAmount);
+        gunPart.setMagazine(reloadedAmount);
+    }
+    
     
     //The spray pattern thats called for each left click event
     private void shoot(Entity weapon, GameData gameData, World world)
