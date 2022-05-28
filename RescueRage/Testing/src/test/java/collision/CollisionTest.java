@@ -21,6 +21,7 @@ import rescuerage.playersystem.PlayerControlSystem;
 import rescuerage.playersystem.PlayerPlugin;
 import rescuerage.item.ItemPlugin;
 import rescuerage.map.MapPlugin;
+import rescuerage.enemysystem.EnemyPlugin;
 
 /**
  *
@@ -30,6 +31,7 @@ public class CollisionTest {
 
     PlayerPlugin playerplugin;
     ItemPlugin itemplugin;
+    EnemyPlugin enemyplugin;
     MapPlugin mapplugin;
     GameData gamedata;
     World world;
@@ -45,6 +47,7 @@ public class CollisionTest {
         playerplugin = new PlayerPlugin();
         itemplugin = new ItemPlugin();
         mapplugin = new MapPlugin();
+        enemyplugin = new EnemyPlugin();
         world = new World();
         gamedata = new GameData();
         collisionHandler = new CollisionHandler();
@@ -270,6 +273,37 @@ public class CollisionTest {
         item.remove(ItemPart.class);
         item.add(new ItemPart(type,1,100));
         return item;
+    }
+    
+    @Test
+    @DisplayName("Test: Collision detection between player and key item")
+    public void PlayerEnemyItemTest() {
+        mapplugin.start(gamedata, world);
+        playerplugin.start(gamedata, world);
+        enemyplugin.start(gamedata, world);
+        Entity player = null;
+        Entity enemy = null;
+        for(Entity e : world.getEntities()){
+            if(e.getClass().getSimpleName().equals("Enemy")){
+                enemy = e;
+            }
+            else if(e.getClass().getSimpleName().equals("Player")){
+                player = e;
+            }
+        }
+        PositionPart ppp = player.getPart(PositionPart.class);
+        PositionPart epp = enemy.getPart(PositionPart.class);
+        
+        ppp.setPosition(100, 100);
+        epp.setPosition(100, 100);
+        
+        updateShape(player);
+        updateShape(enemy);
+        
+        boolean collisionDetect = collisionHandler.isCollision(player, enemy);
+        assertTrue(collisionDetect, "Player and enemy are not colliding");
+        
+        
     }
     
     public static void updateShape(Entity entity){
