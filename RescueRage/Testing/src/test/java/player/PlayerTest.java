@@ -1,6 +1,8 @@
 package player;
 
+import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,12 +17,14 @@ import rescuerage.common.data.Entity;
 import rescuerage.common.data.GameData;
 import rescuerage.common.data.GameKeys;
 import rescuerage.common.data.World;
+import rescuerage.common.data.entityparts.GunCooldownPart;
 import rescuerage.common.data.entityparts.GunPart;
 import rescuerage.common.data.entityparts.LifePart;
 import rescuerage.common.data.entityparts.LoadoutPart;
 import rescuerage.common.data.entityparts.PositionPart;
 import rescuerage.common.data.entityparts.PlayerMovingPart;
 import rescuerage.common.data.entityparts.MovingPart;
+import rescuerage.map.MapPlugin;
 import rescuerage.playersystem.Player;
 import rescuerage.playersystem.PlayerPlugin;
 import rescuerage.weapon.WeaponPlugin;
@@ -37,9 +41,9 @@ public class PlayerTest{
     WeaponPlugin weaponplugin;
     GameData gamedata;
     World world;
-    
+    GunCooldownPart gcd;
     Entity testPlayer;
-    Entity currentWeapon;
+    Entity weapon;
     GunPart gunPart;
     LoadoutPart lp;
         
@@ -59,7 +63,7 @@ public class PlayerTest{
         //Random numbers for x and y
         playerX = 1123123;
         playerY = 3123123;
-        currentWeapon = null;
+        weapon = null;
         gunPart = null;
         lp = null;
     }
@@ -156,43 +160,44 @@ public class PlayerTest{
        assertEquals(4, life, "Player's health is not 4");
     }
     
-    /*
+    
     @Test
     @DisplayName("Test: Player is removed")
     public void PlayerStoppedTest() {
-        playerplugin.start(gamedata, world);
-        
-        gunPart = new GunPart("Shotgun", 1, 100, 10, new float[]{-6,6,6});
-        System.out.println("Checking gunpart: " + gunPart);
-        
-        
-        weaponplugin.createBaseWeapon(gunPart);
-        
-        
+        MapPlugin mp = new MapPlugin();
+        mp.start(gamedata, world);
+        playerplugin.start(gamedata, world); 
+        weapon = new Entity();
+
         for(Entity player : world.getEntities()){
             if(player.getClass().getSimpleName().equals("Player")){
                 testPlayer = player;
-                System.out.println("Checking Player: "+ testPlayer);
                 lp = player.getPart(LoadoutPart.class);
-                System.out.println("Checking loadoutPart "+lp);
                 
            } 
         } 
+        gunPart = new GunPart("Pistol",1,10000, 10, new float[]{0});
+        gcd = new GunCooldownPart(20,5);
+        weapon.add(gunPart);
+        weapon.add(gcd);
+        weapon.add(new PositionPart(0,0,0));
+        world.setDefaultWeapon(weapon.getID());
+        lp.addWeapon(weapon);
+        lp.setCurrentWeapon(weapon);
+        gunPart = weapon.getPart(GunPart.class);
+        gunPart.setEquipped(true);
+        world.getWeapons();
+        world.addEntity(weapon);
        
-        currentWeapon.add(gunPart);
-        
-        currentWeapon = lp.getCurrentWeapon();
-        System.out.println("Current weapon: " + currentWeapon);
-        gunPart = currentWeapon.getPart(GunPart.class);
-        System.out.println("GunPart: " + gunPart);
-        gunPart.setEquipped(false);
+        assertTrue(world.getEntities().contains(testPlayer), "Player is not in the world");
         
         playerplugin.stop(gamedata, world);
         
-        System.out.println(testPlayer);
-       assertNull(testPlayer,"An enemy is still in the game");
+        assertFalse(world.getEntities().contains(testPlayer), "Player is in the world");
+       
+       
     }
-*/
+
    
    
 }

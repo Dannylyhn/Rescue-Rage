@@ -76,6 +76,7 @@ public class PlayerPlugin implements IGamePluginService {
 
     @Override
     public void stop(GameData gameData, World world) {
+        //Set the players current weapon to false. So it cannot shoot even if the player is unloaded
         LoadoutPart lp = player.getPart(LoadoutPart.class);
         Entity currentWeapon = lp.getCurrentWeapon();
         GunPart gunPart = currentWeapon.getPart(GunPart.class);
