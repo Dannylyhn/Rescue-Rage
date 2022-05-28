@@ -75,69 +75,9 @@ public class CollisionHandler implements IPostEntityProcessingService {
                 }
                 
                 if(e1.getClass().getSimpleName().equals("Item")){
-                    ItemPart i = e1.getPart(ItemPart.class);
-                    if(e2.getClass().getSimpleName().equals("Player")){
-                        String type = i.getType();
-                        InventoryPart ip = e2.getPart(InventoryPart.class);
-                        LifePart lp = e2.getPart(LifePart.class);
-                        switch (type) {
-                            case "healthInc":
-                                if(lp.getLife()<lp.getMax()){
-                                    lp.incLife(i.getValue());
-                                    world.removeEntity(e1);
-                                }   break;
-                            case "key":
-                                ip.takeKey();
-                                world.removeEntity(e1);
-                                break;
-                            case "chest":
-                                unWalkable(e2, e1);
-                                if(ip.keys>0){
-                                    if(i.E){
-                                        ip.useKey();
-                                        i.open();
-                                    }
-                                    //world.removeEntity(e1);
-                                }
-                                break;
-                            case "maxHealthInc":
-                                lp.incMax(1);
-                                world.removeEntity(e1);
-                                break;
-                            case "fullAmmo":
-                                LoadoutPart loadp = e2.getPart(LoadoutPart.class);
-                                GunPart gp = loadp.currentWeapon.getPart(GunPart.class);
-                                gp.ammo = gp.maxAmmo;
-                                world.removeEntity(e1);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    if(i.getType().equals("chest")){
-                        if(e2.getClass().getSimpleName().equals("Map")){
-                            TilePart tile = e2.getPart(TilePart.class);
-                            switch(tile.type){
-                                case "door":
-                                case "wall":
-                                    unWalkable(e2, e1);
-                                    break;
-                                case "box":
-                                    unWalkable(e1, e2);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    
+                    itemCollider(e1, e2, world);
                 }
                 
-                /*System.out.println("Collision detected");
-                System.out.println("Entity 1: " + e1.getID() + " (" + e1.getClass().getSimpleName() + ")");
-                System.out.println("Entity 2: " + e2.getID() + " (" + e2.getClass().getSimpleName() + ")");*/
-
-
                 if (e1.getClass().getSimpleName().equals("Map")) {
                     TilePart tile = e1.getPart(TilePart.class);
                     String temp = e2.getClass().getSimpleName();
@@ -207,6 +147,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                     //world.removeEntity(e1);
                     //return;
                 }
+                
                 if (e1.getClass().getSimpleName().equals("Enemy")) {
                     if (e2.getClass().getSimpleName().equals("Enemy")) {
                         unWalkable(e1,e2);
@@ -219,6 +160,7 @@ public class CollisionHandler implements IPostEntityProcessingService {
                         }
                     }
                 }
+                
                 if (e1.getClass().getSimpleName().equals("Player")) {
                     if (e2.getClass().getSimpleName().equals("Enemy")) {
                         LifePart l = e1.getPart(LifePart.class);
@@ -280,6 +222,65 @@ public class CollisionHandler implements IPostEntityProcessingService {
             
         }));
         world.getLevel().get(world.currentRoom).remove(world.getPlayerID());
+    }
+    
+    public void itemCollider(Entity item, Entity other, World world){
+        ItemPart i = item.getPart(ItemPart.class);
+        if(other.getClass().getSimpleName().equals("Player")){
+            String type = i.getType();
+            InventoryPart ip = other.getPart(InventoryPart.class);
+            LifePart lp = other.getPart(LifePart.class);
+            switch (type) {
+                case "healthInc":
+                    if(lp.getLife()<lp.getMax()){
+                        lp.incLife(i.getValue());
+                        world.removeEntity(item);
+                    }   break;
+                case "key":
+                    ip.takeKey();
+                    world.removeEntity(item);
+                    break;
+                case "chest":
+                    unWalkable(other, item);
+                    if(ip.keys>0){
+                        if(i.E){
+                            ip.useKey();
+                            i.open();
+                        }
+                        //world.removeEntity(e1);
+                    }
+                    break;
+                case "maxHealthInc":
+                    lp.incMax(1);
+                    world.removeEntity(item);
+                    break;
+                case "fullAmmo":
+                    LoadoutPart loadp = other.getPart(LoadoutPart.class);
+                    GunPart gp = loadp.currentWeapon.getPart(GunPart.class);
+                    gp.ammo = gp.maxAmmo;
+                    world.removeEntity(item);
+                    break;
+                default:
+                    break;
+            }
+        }
+        if(i.getType().equals("chest")){
+            if(other.getClass().getSimpleName().equals("Map")){
+                TilePart tile = other.getPart(TilePart.class);
+                switch(tile.type){
+                    case "door":
+                    case "wall":
+                        unWalkable(other, item);
+                        break;
+                    case "box":
+                        unWalkable(item, other);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+                    
     }
     
     private void unWalkable(Entity wall1, Entity player1){
