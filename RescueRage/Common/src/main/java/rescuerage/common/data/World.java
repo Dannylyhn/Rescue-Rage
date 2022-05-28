@@ -243,12 +243,13 @@ public class World {
                 }*/
             }
         }
-        //System.out.println("\n\n\n\n c: " + counter + "\n\n\n\n\n");
+        System.out.println("c: " + counter );
         if(counter==0){
             unlockDoors();
         }
     }
     public void unlockDoors(){
+        System.out.println("call unlock");
         if(currentRoom==1){
             nextLevel();
             return;

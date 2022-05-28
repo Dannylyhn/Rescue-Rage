@@ -89,6 +89,12 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             case "floor":
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
+                                if(temp.equals("Player")){
+                                    world.currentRoom = tile.getRoom();
+                                    if(tile.getState().equals("unexplored")){
+                                        world.lockDoors();
+                                    }
+                                }
                                 break;
                             default:
                                 unWalkable(e1,e2);
@@ -256,7 +262,8 @@ public class CollisionHandler implements IPostEntityProcessingService {
                 l.hit(1);
                 if(l.isDead()){
                     world.restartGame();
-                }   break;
+                }   
+                break;
             case "Map":
                 unWalkable(enemy,other);
                 break;
