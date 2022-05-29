@@ -260,7 +260,7 @@ public class EnemyMovingPart implements EntityPart {
             if(node.heuristic()<=tileSize){
                 return node;
             }
-            if(fringe.size() > 700){
+            if(fringe.size() > 500){
                 return node;
             }
             ArrayList<Node> children = expand(node);
