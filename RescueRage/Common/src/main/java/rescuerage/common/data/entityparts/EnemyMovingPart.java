@@ -260,15 +260,42 @@ public class EnemyMovingPart implements EntityPart {
             if(node.heuristic()<=tileSize){
                 return node;
             }
-            if(fringe.size() > 100){
+            if(fringe.size() > 700){
                 return node;
             }
             ArrayList<Node> children = expand(node);
             for(Node n : children){
                 fringe.add(0, n);
             }
-            for(int i = 0; i < fringe.size(); i++){
-                for(int j = 0; j < fringe.size(); j++){
+            //for(int i = 0; i < fringe.size(); i++){
+            int bound = 0;
+            if(fringe.size()>200){
+                bound = 100;
+            }
+            else{
+                bound = fringe.size();
+            }
+            for(int i = 0; i < 4; i++){
+                //for(int j = 0; j < fringe.size(); j++){
+                for(int j = 0; j < bound; j++){
+                    /*if(fringe.size()>100){
+                        if(fringe.get(j).heuristic()*5+fringe.get(j).depth > fringe.get(fringe.size()/2).heuristic()*5+fringe.get(fringe.size()/2).depth){
+                            Node swap = fringe.remove(j);
+                            fringe.add(swap);
+                            //Collections.swap(fringe, j, j+1);
+                            j = fringe.size();
+                        }
+                    }*/
+                    /*if(j<fringe.size()/2){
+                        if(fringe.get(j).heuristic()*5+fringe.get(j).depth > fringe.get((int) (fringe.size()/1.5)).heuristic()*5+fringe.get((int) (fringe.size()/1.5)).depth){
+                            j = (int) (fringe.size()/1.5)-1;
+                        }
+                    }
+                    else if(j<fringe.size()/2){
+                        if(fringe.get(j).heuristic()*5+fringe.get(j).depth > fringe.get(fringe.size()/2).heuristic()*5+fringe.get(fringe.size()/2).depth){
+                            j = (fringe.size()/2)-1;
+                        }
+                    }*/
                     if(j+1<fringe.size()){
                         if(fringe.get(j).heuristic()*5+fringe.get(j).depth > fringe.get(j+1).heuristic()*5+fringe.get(j+1).depth){
                             Collections.swap(fringe, j, j+1);
