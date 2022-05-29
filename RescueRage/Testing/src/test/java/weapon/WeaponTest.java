@@ -125,9 +125,7 @@ public class WeaponTest {
         weapons = new ArrayList<>();
         weaponplugin.start(gamedata, world);
         playerplugin.start(gamedata, world);
-        
-        ArrayList<String> weaponsNames = new ArrayList<>();
-        
+   
         for(Entity player : world.getEntities()){
         if(player.getClass().getSimpleName().equals("Player")){
             
@@ -137,32 +135,34 @@ public class WeaponTest {
         }
         
         //Creates a new weapon
-        weaponplugin.createWeapon(0);
-   
+        Entity weapon1 = weaponplugin.createWeapon(0);
+        Entity weapon2 = weaponplugin.createWeapon(0);
+        
+
         for(Entity weapon : world.getEntities()){
         if(weapon.getClass().getSimpleName().equals("Weapon")){
   
             weapons.add(weapon);
 
-            //For getting the names (Not used)
-            gunpart = weapon.getPart(GunPart.class);
-            weaponsNames.add(gunpart.getName());
-            
            }      
         }
         
         lp = player.getPart(LoadoutPart.class);
+        lp.weapons.add(weapon1);
+        lp.weapons.add(weapon2);
         
-        //Sets the current weapon to the first one
-        lp.setCurrentWeapon(weapons.get(0));
-        Entity currentWeapon = lp.getCurrentWeapon();
+        Entity firstCurrentWeapon = lp.getCurrentWeapon();
         
+        for(int i = 0 ; i < 30 ; i++)
+        {
+            lp.swapWeapon();
+        }
         
-        //Sets the current weapon to a new one
-        lp.setCurrentWeapon(weapons.get(1));
+        lp.setQ(true);
+        lp.swapWeapon();
         
-        assertNotSame(currentWeapon, lp.getCurrentWeapon());
-        
+       
+        assertNotSame(firstCurrentWeapon, lp.getCurrentWeapon());      
 
     }
     
@@ -217,8 +217,6 @@ public class WeaponTest {
         for(int i = 0; i<5; i++){
             gunpart.minusMagazine();
         }
-        
-
         
         //Checks that magazine is decreased to 5
         assertEquals(5, gunpart.getMagazine(), "Magazine for pistol is not 5");  
