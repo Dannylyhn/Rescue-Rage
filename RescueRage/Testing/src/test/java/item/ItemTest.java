@@ -59,6 +59,9 @@ public class ItemTest {
     @DisplayName("Ensure a item is created")
     public void ItemCreatedTest() {
         itemplugin.start(gamedata, world);
+        // given the randomness of start, we may or may not create a item when calling start
+        Entity item1 = itemplugin.createItem();
+        world.addEntity(item1);
         
         for(Entity item : world.getEntities()){ 
             if(item.getClass().getSimpleName().equals("Item")){

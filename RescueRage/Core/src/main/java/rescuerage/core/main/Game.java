@@ -232,6 +232,8 @@ public class Game implements ApplicationListener {
     }
 
     private void draw() {
+        
+        
         sr.setProjectionMatrix(cam.combined);
         //System.out.println("draw 1");
         //for(Map<String, Entity> entityMap : world.getRooms()){
@@ -376,8 +378,6 @@ public class Game implements ApplicationListener {
                             }
                             EnemyMovingPart emp = entity.getPart(EnemyMovingPart.class);
                             Sprite eSprite;
-                            int speed = (int)emp.getMaxSpeed();
-                            System.out.println("speed: " + speed);
                             switch((int)emp.getMaxSpeed()){
                                 case 48:
                                     eSprite = new Sprite(slowEnemySprite);
@@ -488,7 +488,7 @@ public class Game implements ApplicationListener {
                             i < shapex.length;
                             j = i++) {
                         //System.out.println("Entitny type: " + entity.getClass().getSimpleName() + " shapes xi yi xj yj: " + shapex[i] +" "+ shapey[i] +" "+ shapex[j] +" "+ shapey[j]);
-
+                        
                         //sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
                     }
 

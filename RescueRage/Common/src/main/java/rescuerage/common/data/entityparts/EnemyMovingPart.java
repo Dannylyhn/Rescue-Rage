@@ -260,14 +260,14 @@ public class EnemyMovingPart implements EntityPart {
             if(node.heuristic()<=tileSize){
                 return node;
             }
-            if(fringe.size() > 100){
+            if(fringe.size() > 300){
                 return node;
             }
             ArrayList<Node> children = expand(node);
             for(Node n : children){
                 fringe.add(0, n);
             }
-            for(int i = 0; i < fringe.size(); i++){
+            for(int i = 0; i < 4; i++){
                 for(int j = 0; j < fringe.size(); j++){
                     if(j+1<fringe.size()){
                         if(fringe.get(j).heuristic()*5+fringe.get(j).depth > fringe.get(j+1).heuristic()*5+fringe.get(j+1).depth){
