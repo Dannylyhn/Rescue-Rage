@@ -257,7 +257,7 @@ public class EnemyMovingPart implements EntityPart {
             Node node = fringe.get(0);
             fringe.remove(0);
             int temp = node.heuristic();
-            if(node.heuristic()<=tileSize){
+            if(node.heuristic()<=tileSize/2){
                 return node;
             }
             if(fringe.size() > 300){
@@ -279,6 +279,7 @@ public class EnemyMovingPart implements EntityPart {
         }
         return null;
     }
+    
     private class Node{
         int x;
         int y;
