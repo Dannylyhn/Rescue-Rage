@@ -260,7 +260,7 @@ public class EnemyMovingPart implements EntityPart {
             if(node.heuristic()<=tileSize){
                 return node;
             }
-            if(fringe.size() > 500){
+            if(fringe.size() > 300){
                 return node;
             }
             ArrayList<Node> children = expand(node);
@@ -268,16 +268,16 @@ public class EnemyMovingPart implements EntityPart {
                 fringe.add(0, n);
             }
             //for(int i = 0; i < fringe.size(); i++){
-            int bound = 0;
+            /*int bound = 0;
             if(fringe.size()>200){
                 bound = 100;
             }
             else{
                 bound = fringe.size();
-            }
+            }*/
             for(int i = 0; i < 4; i++){
-                //for(int j = 0; j < fringe.size(); j++){
-                for(int j = 0; j < bound; j++){
+                for(int j = 0; j < fringe.size(); j++){
+                //for(int j = 0; j < bound; j++){
                     /*if(fringe.size()>100){
                         if(fringe.get(j).heuristic()*5+fringe.get(j).depth > fringe.get(fringe.size()/2).heuristic()*5+fringe.get(fringe.size()/2).depth){
                             Node swap = fringe.remove(j);
