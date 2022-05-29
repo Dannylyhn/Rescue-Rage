@@ -120,7 +120,7 @@ public class WeaponPlugin implements IGamePluginService {
         world.addEntityInRoom(createWeapon(i), index);
     }
     
-    private Entity createWeapon(int i)
+    public Entity createWeapon(int i)
     { 
         Entity weapon = new Weapon();
         float x = gameData.getDisplayWidth() / 2;
@@ -160,7 +160,7 @@ public class WeaponPlugin implements IGamePluginService {
         world.addEntity(weapon);  
         return weapon;
     }
-    private void setShape(Entity entity) {
+    public void setShape(Entity entity) {
         
         float[] shapex = new float[4];
         float[] shapey = new float[4];
