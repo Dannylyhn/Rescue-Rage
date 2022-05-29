@@ -33,6 +33,8 @@ public class CollisionHandler implements IPostEntityProcessingService {
     public void process(GameData gameData, World world) {
         if(world.getPlayerPositionPart() != null)
         {
+            /*System.out.println("Player X: " + world.getPlayerPositionPart().getX());
+            System.out.println("Player Y: " + world.getPlayerPositionPart().getY());*/
             Entity player = world.getEntity(world.getPlayerID());
             for(Entity roomIdentifier : world.roomIdentifiers){
                 if (isCollision(player, roomIdentifier)) {
@@ -89,12 +91,12 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                 break;
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
-                                if(temp.equals("Player")){
+                                /*if(temp.equals("Player")){
                                     world.currentRoom = tile.getRoom();
                                     if(tile.getState().equals("unexplored")){
                                         world.lockDoors();
                                     }
-                                }
+                                }*/
                                 break;
                             default:
                                 unWalkable(e1,e2);
@@ -139,12 +141,12 @@ public class CollisionHandler implements IPostEntityProcessingService {
                                 break;
                             case "roomInfo":
                                 //System.out.println("in room: " + tile.getRoom());
-                                if(temp.equals("Player")){
+                                /*if(temp.equals("Player")){
                                     world.currentRoom = tile.getRoom();
                                     if(tile.getState().equals("unexplored")){
                                         world.lockDoors();
                                     }
-                                }
+                                }*/
                                 break;
                             default:
                                 unWalkable(e2,e1);
@@ -207,10 +209,10 @@ public class CollisionHandler implements IPostEntityProcessingService {
                             case "floor":
                                 break;
                             case "roomInfo":
-                                world.currentRoom = tile.getRoom();
+                                /*world.currentRoom = tile.getRoom();
                                 if(tile.getState().equals("unexplored")){
                                     world.lockDoors();
-                                }
+                                }*/
                                 break;
                             default:
                                 unWalkable(e2,e1);
