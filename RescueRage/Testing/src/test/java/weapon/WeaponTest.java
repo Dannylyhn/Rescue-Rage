@@ -28,9 +28,15 @@ import rescuerage.playersystem.PlayerPlugin;
 import rescuerage.weapon.Weapon;
 import rescuerage.weapon.WeaponPlugin;
 import rescuerage.weapon.WeaponControlSystem;
+import org.openide.util.Lookup;
+import rescuerage.bullet.BulletPlugin;
+import rescuerage.commonbullet.BulletSPI;
+
+
 
 
 public class WeaponTest {
+    BulletPlugin bulletplugin;
     PlayerPlugin playerplugin;
     World world;
     GameData gamedata;
@@ -41,8 +47,7 @@ public class WeaponTest {
     LoadoutPart lp;
     Entity player;
     WeaponControlSystem wcs;
-    PositionPart positionpart;
-    
+    PositionPart positionpart;    
     
     ArrayList<Entity> weapons;
     int level;
@@ -50,6 +55,7 @@ public class WeaponTest {
     
     @BeforeEach 
     public void setUp(){
+        bulletplugin = new BulletPlugin();
         playerplugin = new PlayerPlugin();
         mapplugin = new MapPlugin();
         weaponplugin = new WeaponPlugin();
@@ -228,6 +234,38 @@ public class WeaponTest {
 
     }
     
+    @Test
+    @DisplayName("Test: shooting weapon")
+    public void WeaponShootingTest()
+    {
+        mapplugin.start(gamedata, world);
+        weaponplugin.start(gamedata, world);
+        
+        for(Entity weapon : world.getEntities(Weapon.class)){
+        if(weapon.getClass().getSimpleName().equals("Weapon")){
+            
+            this.weapon = weapon;
+           }      
+        }
+        
+        
+        wcs.shoot(weapon, gamedata, world);
+        
+        for(Entity bullet : world.getEntities())
+        {
+            System.out.println(bullet);
+            if(bullet.getClass().getSimpleName().equals("Bullet"))
+            {
+                assertNotNull(bullet);
+            }
+        }
+    }
+    
+
+
+    
+    
+    
     
  
     
@@ -237,3 +275,6 @@ public class WeaponTest {
     
 
 }
+
+
+

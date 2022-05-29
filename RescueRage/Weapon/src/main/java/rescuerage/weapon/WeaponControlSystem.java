@@ -55,6 +55,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
             {
                 if(gunCD.getCurrentShootingCD()<=0)
                 {
+                    shootSound();
                     shoot(weapon, gameData, world);
                     gunPart.minusMagazine();
                     gunCD.setCurrentShootingCD(gunCD.getShootingCD());
@@ -103,7 +104,6 @@ public class WeaponControlSystem implements IEntityProcessingService {
         for(int i = 0 ; i < gunPart.bulletsPerShot ; i++)
         {
             radians = radians + gunPart.getSprayPattern()[i];
-            shootSound();
             Entity bullet = Lookup.getDefault().lookup(BulletSPI.class).createBullet(x, y, radians, radius, gameData);      
             PositionPart bulletPos = bullet.getPart(PositionPart.class);
             //System.out.println("Bullet pos X:" + bulletPos.getX() + ", Y:" + bulletPos.getY());
