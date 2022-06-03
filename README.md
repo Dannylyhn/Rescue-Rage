@@ -9,5 +9,6 @@ How to play our game?
 - Reload with R
 - Switch weapons with Q and E
 - Open chest with SPACE, if you have a key
+- the door at the far right bottom room will unlock when all other rooms are cleared
 
 Kill zombies and increase your money score!
