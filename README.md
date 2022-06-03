@@ -4,7 +4,10 @@ How to run our game?
 - Run the application module
 
 How to play our game?
-- Move with W, A, S, D
-- Aim with mouse and shoot with right-click
+- Move with W, A, S and D
+- Aim with mouse and shoot with left-click
 - Reload with R
 - Switch weapons with Q and E
+- Open chest with SPACE, if you have a key
+
+Kill zombies and increase your money score!
